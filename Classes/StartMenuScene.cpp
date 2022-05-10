@@ -31,6 +31,7 @@ USING_NS_CC;
 Scene* StartMenuScene::createScene()
 {  
     auto layer = BrawlStarsMenu::createLayer();
+    layer->setName("bsmenuLayer");
     auto scene= StartMenuScene::create();
     scene->addChild(layer);
     return scene;
@@ -42,6 +43,35 @@ static void problemLoading(const char* filename)
     printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
 }
 
+void StartMenuScene::initMenuButton()
+{
+    Size visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
+    Point origin = cocos2d::Director::getInstance()->getVisibleOrigin();
+
+    auto menuBtnPic = cocos2d::MenuItemImage::create("Normal_menuButton.png",
+        "Pressed_menuButton.png",
+        CC_CALLBACK_1(StartMenuScene::menuCallback, this));
+    if (menuBtnPic == nullptr ||
+        menuBtnPic->getContentSize().width <= 0 ||
+        menuBtnPic->getContentSize().height <= 0)
+    {
+        //problemLoading("'CloseNormal.png' and 'CloseSelected.png'");
+
+    }
+    else
+    {
+        float x = origin.x + visibleSize.width / 3;
+        float y = origin.y + visibleSize.height / 3;
+        menuBtnPic->setAnchorPoint(cocos2d::Vec2::ZERO);
+        menuBtnPic->setPosition(cocos2d::Vec2(x, y));
+    }
+
+    this->menuButton = Menu::create(menuBtnPic, nullptr);
+    //这里以前错写为menu->setPosition(Vec2...)导致按钮未显示
+    this->addChild(menuButton, 0);
+    menuButton->setPosition(Vec2::ZERO);
+
+}
 
 bool StartMenuScene::init()
 {
@@ -52,79 +82,37 @@ bool StartMenuScene::init()
         return false;
     }
 
-    auto visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    Size visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
+    Point origin = cocos2d::Director::getInstance()->getVisibleOrigin();
+
+    auto bgSprite = cocos2d::Sprite::create("background.jpg");
+    if (bgSprite == nullptr)
+    {
+
+    }
+    else
+    {
+        bgSprite->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
+
+        this->addChild(bgSprite, 0);
+    }
 
   
-    auto closeItem = MenuItemImage::create(
-                                           "CloseNormal.png",
-                                           "CloseSelected.png",
-                                           CC_CALLBACK_1(StartMenuScene::menuCloseCallback, this));
-
-    if (closeItem == nullptr ||
-        closeItem->getContentSize().width <= 0 ||
-        closeItem->getContentSize().height <= 0)
-    {
-        problemLoading("'CloseNormal.png' and 'CloseSelected.png'");
-    }
-    else
-    {
-        float x = origin.x + visibleSize.width - closeItem->getContentSize().width/2;
-        float y = origin.y + closeItem->getContentSize().height/2;
-        closeItem->setPosition(Vec2(x,y));
-    }
-
-   
-    auto menu = Menu::create(closeItem, NULL);
-    menu->setPosition(Vec2::ZERO);
-    this->addChild(menu, 1);
-
-    
-    auto exitBtnPic = cocos2d::MenuItemImage::create("Normal_Button.png",
-        "Pressed_Button.png",
-        CC_CALLBACK_1(StartMenuScene::menuCloseCallback, this));
-    if (exitBtnPic == nullptr ||
-        exitBtnPic->getContentSize().width <= 0 ||
-        exitBtnPic->getContentSize().height <= 0)
-    {
-        //problemLoading("'CloseNormal.png' and 'CloseSelected.png'");
-
-    }
-    else
-    {
-        float x = origin.x + visibleSize.width / 3;
-        float y = origin.y + visibleSize.height / 2;
-        exitBtnPic->setAnchorPoint(cocos2d::Vec2::ZERO);
-        exitBtnPic->setPosition(cocos2d::Vec2(x, y));
-    }
-
-    auto exitButton = Menu::create(exitBtnPic, nullptr);
-    //这里以前错写为menu->setPosition(Vec2...)导致按钮未显示
-    exitButton->setPosition(Vec2::ZERO);
-    this->addChild(exitButton, 0);
-
-    
-    auto layer1 = LayerColor::create(Color4B(255, 0, 0, 255), 100, 100);
-    layer1->setPosition(Vec2(200, 200));
-    this->addChild(layer1, 0);
-
-    auto layer2 = LayerColor::create(Color4B(255, 125, 0, 255), 100, 100);
-    layer2->setPosition(Vec2(150, 150));
-    this->addChild(layer2);
-
-    auto layer3 = LayerColor::create(Color4B(255, 200, 0, 255), 100, 100);
-    layer3->setPosition(Vec2(100, 100));
-    this->addChild(layer3);
-    
-
     
     return true;
 }
 
-
-void StartMenuScene::menuCloseCallback(Ref* pSender)
+void StartMenuScene::menuCallback(Ref* pSender)
 {
-   
-    Director::getInstance()->end();
+    auto menuLayer = this->getChildByName("bsmenuLayer");
 
+
+    Size visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
+    Point origin = cocos2d::Director::getInstance()->getVisibleOrigin();
+
+    float x = origin.x - visibleSize.width / 3;
+    float y = origin.y - visibleSize.height / 3;
+
+    menuLayer->setPosition(Vec2(x, y));
 }
+

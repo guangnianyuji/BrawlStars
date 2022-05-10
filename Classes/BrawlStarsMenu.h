@@ -20,22 +20,20 @@ public:
 	void initSoundEffectsButton();
 
 	void exitCallback(cocos2d::Ref* pSender);
-	//void pauseCallback(cocos2d::Ref* pSender);
-
-	void Test();
+	void pauseCallback(cocos2d::Ref* pSender);
 
 	//不写这个函数场景初始化不了
 	CREATE_FUNC(BrawlStarsMenu);
 
 protected:
-	/*
-	Button* exitButton;
-	Button* pauseButton;
-	Button* musicButton;
-	Button* soundEffectsButton;
-	*/
+	
+	cocos2d::Menu* exitButton=nullptr;
+	cocos2d::Menu* pauseButton=nullptr;
+	cocos2d::Menu* musicButton=nullptr;
+	cocos2d::Menu* soundEffectsButton=nullptr;
 
-	cocos2d::Menu* exitButton;
+private:
+
 };
 
 

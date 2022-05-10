@@ -26,6 +26,7 @@
 #define __Start_Menu_SCENE_H__
 
 #include "cocos2d.h"
+#include "ui/CocosGUI.h"
 
 class StartMenuScene : public cocos2d::Scene
 {
@@ -33,12 +34,19 @@ public:
     static cocos2d::Scene* createScene();
 
     virtual bool init() override;
+
+    void initMenuButton();
     
 
-    void menuCloseCallback(Ref* pSender);
+    void menuCallback(Ref* pSender);
+
     
     // implement the "static create()" method manually
     CREATE_FUNC(StartMenuScene);
+
+protected:
+    cocos2d::Menu* menuButton=nullptr;
+
 };
 
 #endif 
