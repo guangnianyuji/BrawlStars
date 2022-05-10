@@ -1,5 +1,5 @@
 #include "BrawlStarsMenu.h"
-#include "SimpleAudioEngine.h"
+#include "AudioEngine.h"
 
 USING_NS_CC;
 
@@ -8,13 +8,11 @@ cocos2d::Layer* BrawlStarsMenu::createLayer()
 	return BrawlStarsMenu::create();
 }
 
-
 void BrawlStarsMenu::drawMenuBackGround()
 {
 	Size visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
 	Point origin = cocos2d::Director::getInstance()->getVisibleOrigin();
 
-	//this->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height/2 + origin.y));
 
 	this->menuSprite = cocos2d::Sprite::create("Menu3.png");
 
@@ -45,11 +43,9 @@ void BrawlStarsMenu::initMenuLabel()
 	}
 	else
 	{
-		// position the label on the center of the screen
 		menuLabel->setPosition(Vec2(origin.x + visibleSize.width / 2,
 			origin.y + visibleSize.height - menuLabel->getContentSize().height * 2));
 
-		// add the label as a child to this layer
 		this->addChild(menuLabel, 1);
 	}
 
@@ -80,7 +76,6 @@ void BrawlStarsMenu::initExitButton()
 	}
 
 	this->exitButton = Menu::create(exitBtnPic, nullptr);
-	//这里以前错写为menu->setPosition(Vec2...)导致按钮未显示
 	this->addChild(exitButton, 0);
 	exitButton->setPosition(Vec2::ZERO);
 
@@ -110,9 +105,49 @@ void BrawlStarsMenu::initPauseButton()
 	}
 
 	this->pauseButton = Menu::create(pauseBtnPic, nullptr);
-	//这里以前错写为menu->setPosition(Vec2...)导致按钮未显示
 	this->addChild(pauseButton, 0);
 	pauseButton->setPosition(Vec2::ZERO);
+}
+
+void BrawlStarsMenu::initBackgroundMusicButton()
+{
+	Size visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
+	Point origin = cocos2d::Director::getInstance()->getVisibleOrigin();
+
+	musicButton = cocos2d::ui::CheckBox::create("Selected_CheckBox.png",
+		"Selected_CheckBox.png","Selected_CheckBox.png","Normal_CheckBox.png", "Normal_CheckBox.png");
+
+	if (musicButton == nullptr ||
+		musicButton->getContentSize().width <= 0 ||
+		musicButton->getContentSize().height <= 0)
+	{
+		//problemLoading("'CloseNormal.png' and 'CloseSelected.png'");
+
+	}
+	else
+	{
+		float x = origin.x + visibleSize.width / 3;
+		float y = origin.y + visibleSize.height / 2;
+		musicButton->setPosition(cocos2d::Vec2(x, y));
+
+		this->addChild(musicButton,0);
+	}
+
+	musicButton->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
+		switch (type)
+		{
+		case ui::Widget::TouchEventType::BEGAN:
+
+			break;
+		case ui::Widget::TouchEventType::ENDED:
+			
+			//experimental::AudioEngine::stop();
+
+			break;
+		default:
+			break;
+		}
+		});
 }
 
 void BrawlStarsMenu::initCloseButton()
@@ -139,7 +174,6 @@ void BrawlStarsMenu::initCloseButton()
 	}
 
 	this->closeButton = Menu::create(closeBtnPic, nullptr);
-	//这里以前错写为menu->setPosition(Vec2...)导致按钮未显示
 	this->addChild(closeButton, 0);
 	closeButton->setPosition(Vec2::ZERO);
 }

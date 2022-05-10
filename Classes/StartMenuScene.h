@@ -27,6 +27,8 @@
 
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
+#include "SimpleAudioEngine.h"
+//using namespace CocosDenshion;
 
 class StartMenuScene : public cocos2d::Scene
 {
@@ -37,8 +39,7 @@ public:
 
     void drawBackGround();
     void initMenuButton();
-    
-
+    void bgplayMusic();
     void menuCallback(Ref* pSender);
 
     

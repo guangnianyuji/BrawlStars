@@ -6,6 +6,7 @@
 
 using namespace cocos2d::ui;
 
+
 class BrawlStarsMenu :public cocos2d::Layer
 {
 public:
@@ -37,9 +38,10 @@ protected:
 
 	cocos2d::Menu* exitButton=nullptr;
 	cocos2d::Menu* pauseButton=nullptr;
-	cocos2d::Menu* musicButton=nullptr;
-	cocos2d::Menu* soundEffectsButton=nullptr;
 	cocos2d::Menu* closeButton = nullptr;
+	cocos2d::ui::CheckBox* musicButton=nullptr;
+	cocos2d::ui::Button* soundEffectsButton=nullptr;
+
 
 
 private:

@@ -23,7 +23,7 @@
  ****************************************************************************/
 
 #include "StartMenuScene.h"
-#include "SimpleAudioEngine.h"
+#include "AudioEngine.h"
 #include "BrawlStarsMenu.h"
 
 USING_NS_CC;
@@ -62,7 +62,7 @@ void StartMenuScene::drawBackGround()
     this->bgSprite = cocos2d::Sprite::create("background.jpg");
     if (bgSprite == nullptr)
     {
-
+      
     }
     else
     {
@@ -96,11 +96,17 @@ void StartMenuScene::initMenuButton()
     }
 
     this->menuButton = Menu::create(menuBtnPic, nullptr);
-    //这里以前错写为menu->setPosition(Vec2...)导致按钮未显示
     this->addChild(menuButton, 5);
     menuButton->setPosition(Vec2::ZERO);
 
 }
+
+void StartMenuScene::bgplayMusic()
+{
+    int bgMusicID = experimental::AudioEngine::play2d("bgMusic.mp3");
+}
+
+
 
 bool StartMenuScene::init()
 {
@@ -113,7 +119,7 @@ bool StartMenuScene::init()
 
     drawBackGround();
     initMenuButton();
-    
+    bgplayMusic();
     return true;
 }
 
