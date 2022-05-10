@@ -35,6 +35,7 @@ public:
 
     virtual bool init() override;
 
+    void drawBackGround();
     void initMenuButton();
     
 
@@ -45,6 +46,8 @@ public:
     CREATE_FUNC(StartMenuScene);
 
 protected:
+
+    cocos2d::Sprite* bgSprite = nullptr;
     cocos2d::Menu* menuButton=nullptr;
 
 };

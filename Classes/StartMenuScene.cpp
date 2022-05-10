@@ -32,6 +32,17 @@ Scene* StartMenuScene::createScene()
 {  
     auto layer = BrawlStarsMenu::createLayer();
     layer->setName("bsmenuLayer");
+
+    Size visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
+    Point origin = cocos2d::Director::getInstance()->getVisibleOrigin();
+
+
+    float x = origin.x - visibleSize.width ;
+    float y = origin.y - visibleSize.height ;
+
+    layer->setPosition(x, y);
+
+
     auto scene= StartMenuScene::create();
     scene->addChild(layer);
     return scene;
@@ -41,6 +52,24 @@ static void problemLoading(const char* filename)
 {
     printf("Error while loading: %s\n", filename);
     printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
+}
+
+void StartMenuScene::drawBackGround()
+{
+    Size visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
+    Point origin = cocos2d::Director::getInstance()->getVisibleOrigin();
+
+    this->bgSprite = cocos2d::Sprite::create("background.jpg");
+    if (bgSprite == nullptr)
+    {
+
+    }
+    else
+    {
+        bgSprite->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
+
+        this->addChild(bgSprite, 0);
+    }
 }
 
 void StartMenuScene::initMenuButton()
@@ -60,15 +89,15 @@ void StartMenuScene::initMenuButton()
     }
     else
     {
-        float x = origin.x + visibleSize.width / 3;
-        float y = origin.y + visibleSize.height / 3;
+        float x = origin.x;
+        float y = origin.y+ visibleSize.height / 1.2;
         menuBtnPic->setAnchorPoint(cocos2d::Vec2::ZERO);
         menuBtnPic->setPosition(cocos2d::Vec2(x, y));
     }
 
     this->menuButton = Menu::create(menuBtnPic, nullptr);
     //这里以前错写为menu->setPosition(Vec2...)导致按钮未显示
-    this->addChild(menuButton, 0);
+    this->addChild(menuButton, 5);
     menuButton->setPosition(Vec2::ZERO);
 
 }
@@ -82,22 +111,8 @@ bool StartMenuScene::init()
         return false;
     }
 
-    Size visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
-    Point origin = cocos2d::Director::getInstance()->getVisibleOrigin();
-
-    auto bgSprite = cocos2d::Sprite::create("background.jpg");
-    if (bgSprite == nullptr)
-    {
-
-    }
-    else
-    {
-        bgSprite->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
-
-        this->addChild(bgSprite, 0);
-    }
-
-  
+    drawBackGround();
+    initMenuButton();
     
     return true;
 }
@@ -110,8 +125,8 @@ void StartMenuScene::menuCallback(Ref* pSender)
     Size visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
     Point origin = cocos2d::Director::getInstance()->getVisibleOrigin();
 
-    float x = origin.x - visibleSize.width / 3;
-    float y = origin.y - visibleSize.height / 3;
+    float x = origin.x;//+ visibleSize.width / 2;
+    float y = origin.y - visibleSize.height / 5;
 
     menuLayer->setPosition(Vec2(x, y));
 }
