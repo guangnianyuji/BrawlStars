@@ -24,7 +24,7 @@
 
 #include "AppDelegate.h"
 #include "StartMenuScene.h"
-//#include "BrawlStarsMenu.cpp"
+#include "BrawlStarsMenu.h"
 
 // #define USE_AUDIO_ENGINE 1
 // #define USE_SIMPLE_AUDIO_ENGINE 1
@@ -119,7 +119,9 @@ bool AppDelegate::applicationDidFinishLaunching() {
     register_all_packages();
 
     // create a scene. it's an autorelease object
+    //auto scene = BrawlStarsMenu::createScene();
     auto scene = StartMenuScene::createScene();
+
 
     // run
     director->runWithScene(scene);

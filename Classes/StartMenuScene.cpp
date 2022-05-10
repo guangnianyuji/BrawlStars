@@ -29,10 +29,10 @@
 USING_NS_CC;
 
 Scene* StartMenuScene::createScene()
-{
-    //auto menuLayer = BrawlStarsMenu::create();
-    auto scene = StartMenuScene::create();
-    //scene->addChild(menuLayer);
+{  
+    auto layer = BrawlStarsMenu::createLayer();
+    auto scene= StartMenuScene::create();
+    scene->addChild(layer);
     return scene;
 }
 
@@ -79,64 +79,45 @@ bool StartMenuScene::init()
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
 
-
-    auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
-    if (label == nullptr)
+    
+    auto exitBtnPic = cocos2d::MenuItemImage::create("Normal_Button.png",
+        "Pressed_Button.png",
+        CC_CALLBACK_1(StartMenuScene::menuCloseCallback, this));
+    if (exitBtnPic == nullptr ||
+        exitBtnPic->getContentSize().width <= 0 ||
+        exitBtnPic->getContentSize().height <= 0)
     {
-        problemLoading("'fonts/Marker Felt.ttf'");
+        //problemLoading("'CloseNormal.png' and 'CloseSelected.png'");
+
     }
     else
     {
-        label->setPosition(Vec2(origin.x + visibleSize.width/2,
-                                origin.y + visibleSize.height - label->getContentSize().height));
-
-   
-        this->addChild(label, 1);
+        float x = origin.x + visibleSize.width / 3;
+        float y = origin.y + visibleSize.height / 2;
+        exitBtnPic->setAnchorPoint(cocos2d::Vec2::ZERO);
+        exitBtnPic->setPosition(cocos2d::Vec2(x, y));
     }
 
-   
-    auto sprite = Sprite::create("HelloWorld.png");
-    if (sprite == nullptr)
-    {
-        problemLoading("'HelloWorld.png'");
-    }
-    else
-    {
-        
-        sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
+    auto exitButton = Menu::create(exitBtnPic, nullptr);
+    //这里以前错写为menu->setPosition(Vec2...)导致按钮未显示
+    exitButton->setPosition(Vec2::ZERO);
+    this->addChild(exitButton, 0);
 
-        
-        this->addChild(sprite, 0);
-    }
+    
+    auto layer1 = LayerColor::create(Color4B(255, 0, 0, 255), 100, 100);
+    layer1->setPosition(Vec2(200, 200));
+    this->addChild(layer1, 0);
 
+    auto layer2 = LayerColor::create(Color4B(255, 125, 0, 255), 100, 100);
+    layer2->setPosition(Vec2(150, 150));
+    this->addChild(layer2);
 
-    auto exitButton = Button::create("Normal_Button.png", "Pressed_Button.png","");
+    auto layer3 = LayerColor::create(Color4B(255, 200, 0, 255), 100, 100);
+    layer3->setPosition(Vec2(100, 100));
+    this->addChild(layer3);
+    
 
-    exitButton->setTitleText("exit Game");
-
-    exitButton->setTitleFontSize(10);
-
-    exitButton->setPosition(cocos2d::Vec2(200, 200));
-
-    exitButton->setTouchEnabled(false);
-
-    exitButton->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
-        switch (type)
-        {
-        case ui::Widget::TouchEventType::BEGAN:
-            Director::getInstance()->end();
-            break;
-        case ui::Widget::TouchEventType::ENDED:
-
-            break;
-        default:
-            break;
-        }
-        });
-
-    this->addChild(exitButton, 1);
-
-
+    
     return true;
 }
 
