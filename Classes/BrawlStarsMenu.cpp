@@ -167,12 +167,15 @@ void BrawlStarsMenu::initBackgroundMusicButton()
 			{
 				experimental::AudioEngine::stop(bgMusicID);
 				musicSlider->setTouchEnabled(false);
+				soundEffectsSlider->setTouchEnabled(false);
 				isbgMusicPlaying = false;
 			}
 			else
 			{
 				bgMusicID = experimental::AudioEngine::play2d("bgMusic.mp3");
 				musicSlider->setTouchEnabled(true);
+				int percent = musicSlider->getPercent();
+				experimental::AudioEngine::setVolume(bgMusicID,percent);
 				isbgMusicPlaying = true;
 			}
 
@@ -228,19 +231,6 @@ void BrawlStarsMenu::initSoundEffectsButton()
 			break;
 		case ui::Widget::TouchEventType::ENDED:
 
-			if (isbgMusicPlaying)
-			{
-				experimental::AudioEngine::stop(bgMusicID);
-				soundEffectsSlider->setTouchEnabled(false);
-				isbgMusicPlaying = false;
-			}
-			else
-			{
-				bgMusicID = experimental::AudioEngine::play2d("bgMusic.mp3");
-				soundEffectsSlider->setTouchEnabled(true);
-				isbgMusicPlaying = true;
-			}
-
 			break;
 		default:
 			break;
@@ -267,33 +257,52 @@ void BrawlStarsMenu::initBackgroundMusicSlider()
 	}
 	else
 	{
-		musicSlider->setPercent(80);
+		musicSlider->setPercent(100);
+		musicSlider->setScale(0.6);
 		musicSlider->addEventListener(CC_CALLBACK_2(BrawlStarsMenu::musicSliderCallback, this));
 
 		musicSlider->setAnchorPoint(Vec2(0.5, 0.5));
 
-		float x = origin.x + visibleSize.width / 32 * 11.1;
-		float y = origin.y + visibleSize.height / 16 * 7;
+		float x = origin.x + visibleSize.width / 32 * 16;
+		float y = origin.y + visibleSize.height / 16 * 9;
 		musicSlider->setPosition(cocos2d::Vec2(x, y));
 
 		this->addChild(musicSlider, 0);
 	}
-	
-	this->addChild(musicSlider);
 }
 
 void BrawlStarsMenu::initSoundEffectsSlider()
 {
+	Size visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
+	Point origin = cocos2d::Director::getInstance()->getVisibleOrigin();
+
 	soundEffectsSlider = Slider::create();
 	soundEffectsSlider->loadBarTexture("Slider_Back.png");
-	soundEffectsSlider->loadSlidBallTextures("Slider_Normal.png", "Slider_Press.png", "Slider_Press.png");
+	soundEffectsSlider->loadSlidBallTextures("Slider_Normal.png", "Slider_Press.png", "Slider_Normal.png");
 	soundEffectsSlider->loadProgressBarTexture("Slider_PressBar.png");
 
-	soundEffectsSlider->setPercent(80);
+if (soundEffectsSlider == nullptr ||
+		soundEffectsSlider->getContentSize().width <= 0 ||
+		soundEffectsSlider->getContentSize().height <= 0)
+	{
+		//problemLoading("'CloseNormal.png' and 'CloseSelected.png'");
 
-	soundEffectsSlider->addEventListener(CC_CALLBACK_2(BrawlStarsMenu::soundEffectdSliderCallback, this));
+	}
+	else
+	{
+		soundEffectsSlider->setPercent(100);
 
-	this->addChild(soundEffectsSlider);
+		soundEffectsSlider->setScale(0.6);
+		soundEffectsSlider->addEventListener(CC_CALLBACK_2(BrawlStarsMenu::soundEffectsSliderCallback, this));
+
+		soundEffectsSlider->setAnchorPoint(Vec2(0.5, 0.5));
+
+		float x = origin.x + visibleSize.width / 32 * 16;
+		float y = origin.y + visibleSize.height / 16 * 5;
+		soundEffectsSlider->setPosition(cocos2d::Vec2(x, y));
+
+		this->addChild(soundEffectsSlider, 0);
+	}
 }
 
 void BrawlStarsMenu::initCloseButton()
@@ -376,10 +385,10 @@ void BrawlStarsMenu::musicSliderCallback(cocos2d::Ref* ref, cocos2d::ui::Slider:
 	case cocos2d::ui::Slider::EventType::ON_PERCENTAGE_CHANGED:
 	{
 		int percent = musicSlider->getPercent();
-		//log("slider percent = %d", percent);
+		log("slider percent = %d", percent);
 		if (isbgMusicPlaying)
 		{
-			experimental::AudioEngine::setVolume(bgMusicID, percent);
+			experimental::AudioEngine::setVolume(bgMusicID, (float)percent/100);
 		}
 	}
 	break;
@@ -388,19 +397,14 @@ void BrawlStarsMenu::musicSliderCallback(cocos2d::Ref* ref, cocos2d::ui::Slider:
 	}
 }
 
-void BrawlStarsMenu::soundEffectdSliderCallback(cocos2d::Ref* ref, cocos2d::ui::Slider::EventType type)
+void BrawlStarsMenu::soundEffectsSliderCallback(cocos2d::Ref* ref, cocos2d::ui::Slider::EventType type)
 {
 
 	switch (type)
 	{
 	case cocos2d::ui::Slider::EventType::ON_PERCENTAGE_CHANGED:
 	{
-		int percent = soundEffectsSlider->getPercent();
-		//log("slider percent = %d", percent);
-		if (isbgMusicPlaying)
-		{
-			experimental::AudioEngine::setVolume(bgMusicID, percent);
-		}
+		
 	}
 	break;
 	default:

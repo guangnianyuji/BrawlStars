@@ -36,7 +36,7 @@ public:
 	void closeCallback(cocos2d::Ref* pSender);
 
 	void musicSliderCallback(cocos2d::Ref* ref, cocos2d::ui::Slider::EventType type);
-	void soundEffectdSliderCallback(cocos2d::Ref* ref, cocos2d::ui::Slider::EventType type);
+	void soundEffectsSliderCallback(cocos2d::Ref* ref, cocos2d::ui::Slider::EventType type);
 
 	//不写这个函数场景初始化不了
 	CREATE_FUNC(BrawlStarsMenu);
