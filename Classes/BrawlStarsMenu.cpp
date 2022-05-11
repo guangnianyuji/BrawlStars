@@ -51,6 +51,15 @@ void BrawlStarsMenu::initMenuLabel()
 
 }
 
+void BrawlStarsMenu::bgplayMusic()
+{
+	if (!isbgMusicPlaying)
+	{
+		bgMusicID = experimental::AudioEngine::play2d("bgMusic.mp3",true);
+		isbgMusicPlaying = true;
+	}
+}
+
 void BrawlStarsMenu::initExitButton()
 {
 
@@ -69,8 +78,8 @@ void BrawlStarsMenu::initExitButton()
 	}
 	else
 	{
-		float x = origin.x + visibleSize.width / 3;
-		float y = origin.y + visibleSize.height / 3;
+		float x = origin.x + visibleSize.width / 32*16;
+		float y = origin.y + visibleSize.height / 16*2.5;
 		exitBtnPic->setAnchorPoint(cocos2d::Vec2::ZERO);
 		exitBtnPic->setPosition(cocos2d::Vec2(x, y));
 	}
@@ -98,8 +107,8 @@ void BrawlStarsMenu::initPauseButton()
 	}
 	else
 	{
-		float x = origin.x + visibleSize.width / 3;
-		float y = origin.y + visibleSize.height / 2;
+		float x = origin.x + visibleSize.width / 32*11;
+		float y = origin.y + visibleSize.height / 16*2.5;
 		pauseBtnPic->setAnchorPoint(cocos2d::Vec2::ZERO);
 		pauseBtnPic->setPosition(cocos2d::Vec2(x, y));
 	}
@@ -115,7 +124,7 @@ void BrawlStarsMenu::initBackgroundMusicButton()
 	Point origin = cocos2d::Director::getInstance()->getVisibleOrigin();
 
 	musicButton = cocos2d::ui::CheckBox::create("Selected_CheckBox.png",
-		"Selected_CheckBox.png","Selected_CheckBox.png","Normal_CheckBox.png", "Normal_CheckBox.png");
+		"Selected_CheckBox.png","Normal_CheckBox.png","Normal_CheckBox.png", "Normal_CheckBox.png");
 
 	if (musicButton == nullptr ||
 		musicButton->getContentSize().width <= 0 ||
@@ -126,8 +135,21 @@ void BrawlStarsMenu::initBackgroundMusicButton()
 	}
 	else
 	{
-		float x = origin.x + visibleSize.width / 3;
-		float y = origin.y + visibleSize.height / 2;
+		musicButton->setScale(0.3);
+
+		musicButton->setAnchorPoint(Vec2(0, 0));
+
+		auto musicLabel = Label::createWithTTF("music", "fonts/Marker Felt.ttf", 60);
+
+		musicLabel->setAnchorPoint(Vec2(-0.8, 0));
+
+
+		musicButton->addChild(musicLabel);
+
+	
+
+		float x = origin.x + visibleSize.width / 32*10.3;
+		float y = origin.y + visibleSize.height / 16*9.5;
 		musicButton->setPosition(cocos2d::Vec2(x, y));
 
 		this->addChild(musicButton,0);
@@ -141,13 +163,137 @@ void BrawlStarsMenu::initBackgroundMusicButton()
 			break;
 		case ui::Widget::TouchEventType::ENDED:
 			
-			//experimental::AudioEngine::stop();
+			if (isbgMusicPlaying)
+			{
+				experimental::AudioEngine::stop(bgMusicID);
+				musicSlider->setTouchEnabled(false);
+				isbgMusicPlaying = false;
+			}
+			else
+			{
+				bgMusicID = experimental::AudioEngine::play2d("bgMusic.mp3");
+				musicSlider->setTouchEnabled(true);
+				isbgMusicPlaying = true;
+			}
 
 			break;
 		default:
 			break;
 		}
 		});
+}
+
+void BrawlStarsMenu::initSoundEffectsButton()
+{
+	Size visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
+	Point origin = cocos2d::Director::getInstance()->getVisibleOrigin();
+
+	soundEffectsButton = cocos2d::ui::CheckBox::create("Selected_CheckBox.png",
+		"Selected_CheckBox.png", "Normal_CheckBox.png", "Normal_CheckBox.png", "Normal_CheckBox.png");
+
+	if (soundEffectsButton == nullptr ||
+		soundEffectsButton->getContentSize().width <= 0 ||
+		soundEffectsButton->getContentSize().height <= 0)
+	{
+		//problemLoading("'CloseNormal.png' and 'CloseSelected.png'");
+
+	}
+	else
+	{
+		soundEffectsButton->setScale(0.3);
+
+		soundEffectsButton->setAnchorPoint(Vec2(0.5,0.5));
+
+		auto soundEffectsLabel = Label::createWithTTF("sound effeccts", "fonts/Marker Felt.ttf", 60);
+
+		soundEffectsLabel->setAnchorPoint(Vec2(-0.3, 0));
+
+
+		soundEffectsButton->addChild(soundEffectsLabel);
+
+
+
+		float x = origin.x + visibleSize.width / 32*11.1;
+		float y = origin.y + visibleSize.height / 16*7;
+		soundEffectsButton->setPosition(cocos2d::Vec2(x, y));
+
+		this->addChild(soundEffectsButton, 0);
+	}
+
+	soundEffectsButton->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
+		switch (type)
+		{
+		case ui::Widget::TouchEventType::BEGAN:
+
+			break;
+		case ui::Widget::TouchEventType::ENDED:
+
+			if (isbgMusicPlaying)
+			{
+				experimental::AudioEngine::stop(bgMusicID);
+				soundEffectsSlider->setTouchEnabled(false);
+				isbgMusicPlaying = false;
+			}
+			else
+			{
+				bgMusicID = experimental::AudioEngine::play2d("bgMusic.mp3");
+				soundEffectsSlider->setTouchEnabled(true);
+				isbgMusicPlaying = true;
+			}
+
+			break;
+		default:
+			break;
+		}
+		});
+}
+
+
+void BrawlStarsMenu::initBackgroundMusicSlider()
+{
+	Size visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
+	Point origin = cocos2d::Director::getInstance()->getVisibleOrigin();
+
+	musicSlider = Slider::create();
+	musicSlider->loadBarTexture("Slider_Back.png");
+	musicSlider->loadSlidBallTextures("Slider_Normal.png", "Slider_Press.png", "Slider_Press.png");
+	musicSlider->loadProgressBarTexture("Slider_PressBar.png");
+	if (musicSlider == nullptr ||
+		musicSlider->getContentSize().width <= 0 ||
+		musicSlider->getContentSize().height <= 0)
+	{
+		//problemLoading("'CloseNormal.png' and 'CloseSelected.png'");
+
+	}
+	else
+	{
+		musicSlider->setPercent(80);
+		musicSlider->addEventListener(CC_CALLBACK_2(BrawlStarsMenu::musicSliderCallback, this));
+
+		musicSlider->setAnchorPoint(Vec2(0.5, 0.5));
+
+		float x = origin.x + visibleSize.width / 32 * 11.1;
+		float y = origin.y + visibleSize.height / 16 * 7;
+		musicSlider->setPosition(cocos2d::Vec2(x, y));
+
+		this->addChild(musicSlider, 0);
+	}
+	
+	this->addChild(musicSlider);
+}
+
+void BrawlStarsMenu::initSoundEffectsSlider()
+{
+	soundEffectsSlider = Slider::create();
+	soundEffectsSlider->loadBarTexture("Slider_Back.png");
+	soundEffectsSlider->loadSlidBallTextures("Slider_Normal.png", "Slider_Press.png", "Slider_Press.png");
+	soundEffectsSlider->loadProgressBarTexture("Slider_PressBar.png");
+
+	soundEffectsSlider->setPercent(80);
+
+	soundEffectsSlider->addEventListener(CC_CALLBACK_2(BrawlStarsMenu::soundEffectdSliderCallback, this));
+
+	this->addChild(soundEffectsSlider);
 }
 
 void BrawlStarsMenu::initCloseButton()
@@ -167,7 +313,7 @@ void BrawlStarsMenu::initCloseButton()
 	}
 	else
 	{
-		float x = origin.x + visibleSize.width / 3.15;
+		float x = origin.x + visibleSize.width / 3.2;
 		float y = origin.y + visibleSize.height / 1.3;
 		closeBtnPic->setAnchorPoint(cocos2d::Vec2::ZERO);
 		closeBtnPic->setPosition(cocos2d::Vec2(x, y));
@@ -186,17 +332,20 @@ bool BrawlStarsMenu::init()
 	}
 
 	drawMenuBackGround();
+	bgplayMusic();
 	
 	initMenuLabel();
 	initExitButton();
 
 	initPauseButton();
-
 	initCloseButton();
 
-	//initBackgroundMusicButton();
+	initBackgroundMusicButton();
+	initSoundEffectsButton();
 
-	//initSoundEffectsButton();
+	initBackgroundMusicSlider();
+	initSoundEffectsSlider();
+
 	
 	return true;
 }
@@ -218,4 +367,43 @@ void BrawlStarsMenu::closeCallback(Ref* psender)
 	float y = origin.y - visibleSize.height;
 
 	this->setPosition(x, y);
+}
+
+void BrawlStarsMenu::musicSliderCallback(cocos2d::Ref* ref, cocos2d::ui::Slider::EventType type)
+{
+	switch (type)
+	{
+	case cocos2d::ui::Slider::EventType::ON_PERCENTAGE_CHANGED:
+	{
+		int percent = musicSlider->getPercent();
+		//log("slider percent = %d", percent);
+		if (isbgMusicPlaying)
+		{
+			experimental::AudioEngine::setVolume(bgMusicID, percent);
+		}
+	}
+	break;
+	default:
+		break;
+	}
+}
+
+void BrawlStarsMenu::soundEffectdSliderCallback(cocos2d::Ref* ref, cocos2d::ui::Slider::EventType type)
+{
+
+	switch (type)
+	{
+	case cocos2d::ui::Slider::EventType::ON_PERCENTAGE_CHANGED:
+	{
+		int percent = soundEffectsSlider->getPercent();
+		//log("slider percent = %d", percent);
+		if (isbgMusicPlaying)
+		{
+			experimental::AudioEngine::setVolume(bgMusicID, percent);
+		}
+	}
+	break;
+	default:
+		break;
+	}
 }

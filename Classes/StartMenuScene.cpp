@@ -101,10 +101,7 @@ void StartMenuScene::initMenuButton()
 
 }
 
-void StartMenuScene::bgplayMusic()
-{
-    int bgMusicID = experimental::AudioEngine::play2d("bgMusic.mp3");
-}
+
 
 
 
@@ -119,7 +116,6 @@ bool StartMenuScene::init()
 
     drawBackGround();
     initMenuButton();
-    bgplayMusic();
     return true;
 }
 

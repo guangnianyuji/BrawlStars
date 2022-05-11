@@ -30,6 +30,8 @@
 #include "SimpleAudioEngine.h"
 //using namespace CocosDenshion;
 
+
+
 class StartMenuScene : public cocos2d::Scene
 {
 public:
@@ -39,7 +41,6 @@ public:
 
     void drawBackGround();
     void initMenuButton();
-    void bgplayMusic();
     void menuCallback(Ref* pSender);
 
     
