@@ -175,7 +175,7 @@ void BrawlStarsMenu::initBackgroundMusicButton()
 				bgMusicID = experimental::AudioEngine::play2d("bgMusic.mp3");
 				musicSlider->setTouchEnabled(true);
 				int percent = musicSlider->getPercent();
-				experimental::AudioEngine::setVolume(bgMusicID,percent);
+				experimental::AudioEngine::setVolume(bgMusicID,(float)percent/100);
 				isbgMusicPlaying = true;
 			}
 
