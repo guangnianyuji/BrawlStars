@@ -9,7 +9,7 @@ class FightControllerLayer :public Layer
 {
 public:
 	//创建控制层
-	static FightControllerLayer* create();
+	static FightControllerLayer* create(Vec2 position);
 	//启动摇杆（启动摇杆，监听键盘事件）
 	void startRocker(bool isStop);
 	//停止摇杆（隐藏摇杆，取消监听事件）
@@ -34,9 +34,10 @@ private:
 	Vec2 RockerBackgroundPosition;
 	//摇杆背景的半径
 	float RockerBackgroundRadius;
-	//按键状态
-	std::map <EventKeyboard::KeyCode, bool> KeyStateValueMap;
+	//摇杆的坐标
+	Vec2 RockerPosition;
 
+	void update(float dt);
 };
 
 #endif//__FIGHTCONTROLLERLAYER_H__

@@ -13,7 +13,7 @@ float BSMath::getRad(const Vec2& StartPoint, const Vec2& EndPoint)
 	auto Distance = StartPoint.distance(EndPoint);
 	auto CosRad = Delta.x / Distance;
 	auto Rad = acos(CosRad);
-	if (StartPoint.y < EndPoint.x)
+	if (StartPoint.y > EndPoint.y)
 	{
 		Rad = - Rad;
 	}
