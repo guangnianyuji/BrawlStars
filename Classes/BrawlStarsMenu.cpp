@@ -39,7 +39,7 @@ void BrawlStarsMenu::initMenuLabel()
 	this->menuLabel = Label::createWithTTF("Menu", "fonts/Marker Felt.ttf", 24);
 	if (menuLabel == nullptr)
 	{
-		//problemLoading("'fonts/Marker Felt.ttf'");
+
 	}
 	else
 	{
@@ -73,8 +73,6 @@ void BrawlStarsMenu::initExitButton()
 		exitBtnPic->getContentSize().width <= 0 ||
 		exitBtnPic->getContentSize().height <= 0)
 	{
-		//problemLoading("'CloseNormal.png' and 'CloseSelected.png'");
-
 	}
 	else
 	{
@@ -102,8 +100,6 @@ void BrawlStarsMenu::initPauseButton()
 		pauseBtnPic->getContentSize().width <= 0 ||
 		pauseBtnPic->getContentSize().height <= 0)
 	{
-		//problemLoading("'CloseNormal.png' and 'CloseSelected.png'");
-
 	}
 	else
 	{
@@ -130,8 +126,6 @@ void BrawlStarsMenu::initBackgroundMusicButton()
 		musicButton->getContentSize().width <= 0 ||
 		musicButton->getContentSize().height <= 0)
 	{
-		//problemLoading("'CloseNormal.png' and 'CloseSelected.png'");
-
 	}
 	else
 	{
@@ -198,8 +192,6 @@ void BrawlStarsMenu::initSoundEffectsButton()
 		soundEffectsButton->getContentSize().width <= 0 ||
 		soundEffectsButton->getContentSize().height <= 0)
 	{
-		//problemLoading("'CloseNormal.png' and 'CloseSelected.png'");
-
 	}
 	else
 	{

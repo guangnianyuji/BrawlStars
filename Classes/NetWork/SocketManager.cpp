@@ -23,7 +23,6 @@ SocketManager* SocketManager::getInstance()
 
 bool SocketManager::init()
 {
-
 	return false;
 }
 
@@ -38,6 +37,7 @@ void SocketManager::startConnectSever()
 
 bool SocketManager::connectServer()
 {
+	return true;
 }
 
 
