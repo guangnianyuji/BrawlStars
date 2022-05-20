@@ -14,9 +14,9 @@ void BrawlStarsMenu::drawMenuBackGround()
 	Point origin = cocos2d::Director::getInstance()->getVisibleOrigin();
 
 
-	this->menuSprite = cocos2d::Sprite::create("Menu3.png");
+	this->menuSprite = cocos2d::Sprite::create("ui/BG.png");
 
-	menuSprite->setScaleY(1.5);
+	
 
 	if (menuSprite == nullptr)
 	{
@@ -24,6 +24,9 @@ void BrawlStarsMenu::drawMenuBackGround()
 	}
 	else
 	{
+		//menuSprite->setScale(0.5);
+		menuSprite->setScaleY(0.6);
+		menuSprite->setScaleX(0.4);
 		float x = origin.x + visibleSize.width / 2;
 		float y = origin.y + visibleSize.height / 2;
 		menuSprite->setPosition(cocos2d::Vec2(x, y));
@@ -66,8 +69,8 @@ void BrawlStarsMenu::initExitButton()
 	Size visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
 	Point origin = cocos2d::Director::getInstance()->getVisibleOrigin();
 
-	auto exitBtnPic = cocos2d::MenuItemImage::create("Normal_exitButton.png",
-		"Pressed_exitButton.png",
+	auto exitBtnPic = cocos2d::MenuItemImage::create("ui/Exit.png",
+		"ui/Exit.png",
 		CC_CALLBACK_1(BrawlStarsMenu::exitCallback, this));
 	if (exitBtnPic == nullptr ||
 		exitBtnPic->getContentSize().width <= 0 ||
@@ -76,42 +79,44 @@ void BrawlStarsMenu::initExitButton()
 	}
 	else
 	{
-		float x = origin.x + visibleSize.width / 32*16;
-		float y = origin.y + visibleSize.height / 16*2.5;
-		exitBtnPic->setAnchorPoint(cocos2d::Vec2::ZERO);
+		float x = origin.x + visibleSize.width / 32*24;
+		float y = origin.y + visibleSize.height / 16*0.8;
+		exitBtnPic->setAnchorPoint(cocos2d::Vec2(0.5,0.5));
 		exitBtnPic->setPosition(cocos2d::Vec2(x, y));
 	}
 
 	this->exitButton = Menu::create(exitBtnPic, nullptr);
 	this->addChild(exitButton, 0);
 	exitButton->setPosition(Vec2::ZERO);
+	exitButton->setScale(0.6);
 
 }
 
-void BrawlStarsMenu::initPauseButton()
+void BrawlStarsMenu::initDNDButton()
 {
 	Size visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
 	Point origin = cocos2d::Director::getInstance()->getVisibleOrigin();
 
-	auto pauseBtnPic = cocos2d::MenuItemImage::create("Normal_pauseButton.png",
-		"Pressed_pauseButton.png",
+	auto DNDBtnPic = cocos2d::MenuItemImage::create("ui/Notifications_ON.png",
+		"ui/Notifications_OFF.png",
 		CC_CALLBACK_1(BrawlStarsMenu::exitCallback, this));
-	if (pauseBtnPic == nullptr ||
-		pauseBtnPic->getContentSize().width <= 0 ||
-		pauseBtnPic->getContentSize().height <= 0)
+	if (DNDBtnPic == nullptr ||
+		DNDBtnPic->getContentSize().width <= 0 ||
+		DNDBtnPic->getContentSize().height <= 0)
 	{
 	}
 	else
 	{
-		float x = origin.x + visibleSize.width / 32*11;
-		float y = origin.y + visibleSize.height / 16*2.5;
-		pauseBtnPic->setAnchorPoint(cocos2d::Vec2::ZERO);
-		pauseBtnPic->setPosition(cocos2d::Vec2(x, y));
+		float x = origin.x + visibleSize.width / 32*8;
+		float y = origin.y + visibleSize.height / 16*0.8;
+		DNDBtnPic->setAnchorPoint(cocos2d::Vec2(0.5,0.5));
+		DNDBtnPic->setPosition(cocos2d::Vec2(x, y));
 	}
 
-	this->pauseButton = Menu::create(pauseBtnPic, nullptr);
-	this->addChild(pauseButton, 0);
-	pauseButton->setPosition(Vec2::ZERO);
+	this->DNDButton = Menu::create(DNDBtnPic, nullptr);
+	this->addChild(DNDButton, 0);
+	DNDButton->setPosition(Vec2::ZERO);
+	DNDButton->setScale(0.6);
 }
 
 void BrawlStarsMenu::initBackgroundMusicButton()
@@ -119,8 +124,8 @@ void BrawlStarsMenu::initBackgroundMusicButton()
 	Size visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
 	Point origin = cocos2d::Director::getInstance()->getVisibleOrigin();
 
-	musicButton = cocos2d::ui::CheckBox::create("Selected_CheckBox.png",
-		"Selected_CheckBox.png","Normal_CheckBox.png","Normal_CheckBox.png", "Normal_CheckBox.png");
+	musicButton = cocos2d::ui::CheckBox::create("ui/Music_ON.png",
+		"ui/Music_ON.png","ui/Music_OFF.png","ui/Music_OFF.png", "ui/Music_OFF.png");
 
 	if (musicButton == nullptr ||
 		musicButton->getContentSize().width <= 0 ||
@@ -129,11 +134,11 @@ void BrawlStarsMenu::initBackgroundMusicButton()
 	}
 	else
 	{
-		musicButton->setScale(0.3);
+		musicButton->setScale(0.5);
 
 		musicButton->setAnchorPoint(Vec2(0, 0));
 
-		auto musicLabel = Label::createWithTTF("music", "fonts/Marker Felt.ttf", 60);
+		auto musicLabel = Label::createWithTTF("music", "fonts/Marker Felt.ttf", 45);
 
 		musicLabel->setAnchorPoint(Vec2(-0.8, 0));
 
@@ -142,8 +147,8 @@ void BrawlStarsMenu::initBackgroundMusicButton()
 
 	
 
-		float x = origin.x + visibleSize.width / 32*10.3;
-		float y = origin.y + visibleSize.height / 16*9.5;
+		float x = origin.x + visibleSize.width / 32*10;
+		float y = origin.y + visibleSize.height / 16*10;
 		musicButton->setPosition(cocos2d::Vec2(x, y));
 
 		this->addChild(musicButton,0);
@@ -185,8 +190,8 @@ void BrawlStarsMenu::initSoundEffectsButton()
 	Size visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
 	Point origin = cocos2d::Director::getInstance()->getVisibleOrigin();
 
-	soundEffectsButton = cocos2d::ui::CheckBox::create("Selected_CheckBox.png",
-		"Selected_CheckBox.png", "Normal_CheckBox.png", "Normal_CheckBox.png", "Normal_CheckBox.png");
+	soundEffectsButton = cocos2d::ui::CheckBox::create("ui/Sound_ON.png",
+		"ui/Sound_ON.png", "ui/Sound_OFF.png", "ui/Sound_OFF.png", "ui/Sound_OFF.png");
 
 	if (soundEffectsButton == nullptr ||
 		soundEffectsButton->getContentSize().width <= 0 ||
@@ -195,11 +200,11 @@ void BrawlStarsMenu::initSoundEffectsButton()
 	}
 	else
 	{
-		soundEffectsButton->setScale(0.3);
+		soundEffectsButton->setScale(0.5);
 
 		soundEffectsButton->setAnchorPoint(Vec2(0.5,0.5));
 
-		auto soundEffectsLabel = Label::createWithTTF("sound effeccts", "fonts/Marker Felt.ttf", 60);
+		auto soundEffectsLabel = Label::createWithTTF("sound effeccts", "fonts/Marker Felt.ttf", 45);
 
 		soundEffectsLabel->setAnchorPoint(Vec2(-0.3, 0));
 
@@ -209,7 +214,7 @@ void BrawlStarsMenu::initSoundEffectsButton()
 
 
 		float x = origin.x + visibleSize.width / 32*11.1;
-		float y = origin.y + visibleSize.height / 16*7;
+		float y = origin.y + visibleSize.height / 16*8;
 		soundEffectsButton->setPosition(cocos2d::Vec2(x, y));
 
 		this->addChild(soundEffectsButton, 0);
@@ -237,9 +242,9 @@ void BrawlStarsMenu::initBackgroundMusicSlider()
 	Point origin = cocos2d::Director::getInstance()->getVisibleOrigin();
 
 	musicSlider = Slider::create();
-	musicSlider->loadBarTexture("Slider_Back.png");
-	musicSlider->loadSlidBallTextures("Slider_Normal.png", "Slider_Press.png", "Slider_Press.png");
-	musicSlider->loadProgressBarTexture("Slider_PressBar.png");
+	musicSlider->loadBarTexture("ui/Load_BG.png");
+	musicSlider->loadSlidBallTextures("ui/Slider.png", "ui/Slider.png", "ui/Slider.png");
+	musicSlider->loadProgressBarTexture("ui/Load.png");
 	if (musicSlider == nullptr ||
 		musicSlider->getContentSize().width <= 0 ||
 		musicSlider->getContentSize().height <= 0)
@@ -250,13 +255,13 @@ void BrawlStarsMenu::initBackgroundMusicSlider()
 	else
 	{
 		musicSlider->setPercent(100);
-		musicSlider->setScale(0.6);
+		musicSlider->setScale(0.4);
 		musicSlider->addEventListener(CC_CALLBACK_2(BrawlStarsMenu::musicSliderCallback, this));
 
 		musicSlider->setAnchorPoint(Vec2(0.5, 0.5));
 
 		float x = origin.x + visibleSize.width / 32 * 16;
-		float y = origin.y + visibleSize.height / 16 * 9;
+		float y = origin.y + visibleSize.height / 16 * 9.5;
 		musicSlider->setPosition(cocos2d::Vec2(x, y));
 
 		this->addChild(musicSlider, 0);
@@ -269,9 +274,9 @@ void BrawlStarsMenu::initSoundEffectsSlider()
 	Point origin = cocos2d::Director::getInstance()->getVisibleOrigin();
 
 	soundEffectsSlider = Slider::create();
-	soundEffectsSlider->loadBarTexture("Slider_Back.png");
-	soundEffectsSlider->loadSlidBallTextures("Slider_Normal.png", "Slider_Press.png", "Slider_Normal.png");
-	soundEffectsSlider->loadProgressBarTexture("Slider_PressBar.png");
+	soundEffectsSlider->loadBarTexture("ui/Load_BG.png");
+	soundEffectsSlider->loadSlidBallTextures("ui/Slider.png", "ui/Slider.png", "ui/Slider.png");
+	soundEffectsSlider->loadProgressBarTexture("ui/Load.png");
 
 if (soundEffectsSlider == nullptr ||
 		soundEffectsSlider->getContentSize().width <= 0 ||
@@ -284,13 +289,13 @@ if (soundEffectsSlider == nullptr ||
 	{
 		soundEffectsSlider->setPercent(100);
 
-		soundEffectsSlider->setScale(0.6);
+		soundEffectsSlider->setScale(0.4);
 		soundEffectsSlider->addEventListener(CC_CALLBACK_2(BrawlStarsMenu::soundEffectsSliderCallback, this));
 
 		soundEffectsSlider->setAnchorPoint(Vec2(0.5, 0.5));
 
 		float x = origin.x + visibleSize.width / 32 * 16;
-		float y = origin.y + visibleSize.height / 16 * 5;
+		float y = origin.y + visibleSize.height / 16 * 6;
 		soundEffectsSlider->setPosition(cocos2d::Vec2(x, y));
 
 		this->addChild(soundEffectsSlider, 0);
@@ -299,11 +304,11 @@ if (soundEffectsSlider == nullptr ||
 
 void BrawlStarsMenu::initCloseButton()
 {
-	Size visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
+	Size winSize = cocos2d::Director::getInstance()->getWinSize();
 	Point origin = cocos2d::Director::getInstance()->getVisibleOrigin();
 
-	auto closeBtnPic = cocos2d::MenuItemImage::create("Normal_closeButton.png",
-		"Pressed_closeButton.png",
+	auto closeBtnPic = cocos2d::MenuItemImage::create("ui/Close.png",
+		"ui/Close.png",
 		CC_CALLBACK_1(BrawlStarsMenu::closeCallback, this));
 	if (closeBtnPic == nullptr ||
 		closeBtnPic->getContentSize().width <= 0 ||
@@ -314,8 +319,8 @@ void BrawlStarsMenu::initCloseButton()
 	}
 	else
 	{
-		float x = origin.x + visibleSize.width / 3.2;
-		float y = origin.y + visibleSize.height / 1.3;
+		float x = origin.x + winSize.width/5;
+		float y = origin.y + winSize.height/1.3;
 		closeBtnPic->setAnchorPoint(cocos2d::Vec2::ZERO);
 		closeBtnPic->setPosition(cocos2d::Vec2(x, y));
 	}
@@ -323,6 +328,7 @@ void BrawlStarsMenu::initCloseButton()
 	this->closeButton = Menu::create(closeBtnPic, nullptr);
 	this->addChild(closeButton, 0);
 	closeButton->setPosition(Vec2::ZERO);
+	closeButton->setScale(0.6);
 }
 
 bool BrawlStarsMenu::init()
@@ -338,7 +344,7 @@ bool BrawlStarsMenu::init()
 	initMenuLabel();
 	initExitButton();
 
-	initPauseButton();
+	initDNDButton();
 	initCloseButton();
 
 	initBackgroundMusicButton();

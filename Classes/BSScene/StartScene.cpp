@@ -1,4 +1,5 @@
 #include "StartScene.h"
+#include "Network/SocketManager.h"
 
 cocos2d::Scene* StartScene::createScene()
 {
@@ -14,6 +15,8 @@ bool StartScene::init()
     }
 
     this->drawBackGround(cocos2d::Sprite::create("background.jpg"));
+
+    SocketManager::getInstance()->start();
 
     return true;
 }

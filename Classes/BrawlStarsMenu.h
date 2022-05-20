@@ -20,7 +20,7 @@ public:
 	void bgplayMusic();
 
 	void initExitButton();
-	void initPauseButton();
+	void initDNDButton();
 	void initCloseButton();
 
 
@@ -32,7 +32,7 @@ public:
 
 
 	void exitCallback(cocos2d::Ref* pSender);
-	void pauseCallback(cocos2d::Ref* pSender);
+	void DNDCallback(cocos2d::Ref* pSender);
 	void closeCallback(cocos2d::Ref* pSender);
 
 	void musicSliderCallback(cocos2d::Ref* ref, cocos2d::ui::Slider::EventType type);
@@ -47,7 +47,7 @@ protected:
 	cocos2d::Label* menuLabel = nullptr;
 
 	cocos2d::Menu* exitButton=nullptr;
-	cocos2d::Menu* pauseButton=nullptr;
+	cocos2d::Menu* DNDButton=nullptr;
 	cocos2d::Menu* closeButton = nullptr;
 	cocos2d::ui::CheckBox* musicButton=nullptr;
 	cocos2d::ui::CheckBox* soundEffectsButton=nullptr;

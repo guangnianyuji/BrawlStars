@@ -45,12 +45,16 @@ void BaseScene::addMenu()
         /* 给菜单节点命名，方便之后获取 */
         layer->setName("bsmenuLayer");
 
+        //layer->setAnchorPoint(Vec2(0.5, 0.5));
+
+        //layer->setScale(0.5);
+
         Size visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
         Point origin = cocos2d::Director::getInstance()->getVisibleOrigin();
 
         /* 默认菜单不在视窗内，按下按钮后改变位置 */
-        float x = origin.x - visibleSize.width;
-        float y = origin.y - visibleSize.height;
+        float x = origin.x + visibleSize.width*2;
+        float y = origin.y + visibleSize.height*2;
 
         layer->setPosition(x, y);
 
@@ -63,8 +67,8 @@ void BaseScene::initMenuButton()
     Size visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
     Point origin = cocos2d::Director::getInstance()->getVisibleOrigin();
 
-    auto menuBtnPic = cocos2d::MenuItemImage::create("Normal_menuButton.png",
-        "Pressed_menuButton.png",
+    auto menuBtnPic = cocos2d::MenuItemImage::create("ui/Options.png",
+        "ui/Options.png",
         CC_CALLBACK_1(BaseScene::menuCallback, this));
     if (menuBtnPic == nullptr ||
         menuBtnPic->getContentSize().width <= 0 ||
