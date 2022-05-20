@@ -79,8 +79,8 @@ void BaseScene::initMenuButton()
     }
     else
     {
-        float x = origin.x;
-        float y = origin.y+ visibleSize.height / 1.2;
+        float x = origin.x-visibleSize.width/3;
+        float y = origin.y+visibleSize.height*1.1;
         menuBtnPic->setAnchorPoint(cocos2d::Vec2::ZERO);
         menuBtnPic->setPosition(cocos2d::Vec2(x, y));
     }
@@ -88,7 +88,7 @@ void BaseScene::initMenuButton()
     this->menuButton = Menu::create(menuBtnPic, nullptr);
     this->addChild(menuButton, 5);
     menuButton->setPosition(Vec2::ZERO);
-
+    menuButton->setScale(0.6);
 }
 
 

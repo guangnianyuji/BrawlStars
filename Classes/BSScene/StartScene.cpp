@@ -16,7 +16,7 @@ bool StartScene::init()
 
     this->drawBackGround(cocos2d::Sprite::create("background.jpg"));
 
-    SocketManager::getInstance()->start();
+    //SocketManager::getInstance()->start();
 
     return true;
 }

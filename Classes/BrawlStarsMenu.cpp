@@ -24,7 +24,6 @@ void BrawlStarsMenu::drawMenuBackGround()
 	}
 	else
 	{
-		//menuSprite->setScale(0.5);
 		menuSprite->setScaleY(0.6);
 		menuSprite->setScaleX(0.4);
 		float x = origin.x + visibleSize.width / 2;
