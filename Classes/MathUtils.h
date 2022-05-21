@@ -1,11 +1,11 @@
-#ifndef __BSMATH_H__
-#define __BSMATH_H__
+#ifndef __MATHUTILS_H__
+#define __MATHUTILS_H__
 #define Pi 3.14159265358979323846
 
 #include"cocos2d.h"
 using namespace cocos2d;
 
-class BSMath
+class MathUtils
 {
 public:
 	//极坐标变为直角坐标
