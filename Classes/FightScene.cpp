@@ -32,22 +32,24 @@ bool FightScene::init()
 	addChild(m_TiledMap,-1);
 	
 	m_Player->setOriginalPositionInMap(m_TiledMap,"PlayerBirthPlace");
-	m_TiledMap->addChild(m_Player,1);
-	m_Player->runAction(AnimationUtils::createAnimation("F","f"));
-	
+	m_TiledMap->addChild(m_Player,4);
+		
 	
 	m_FightControllerLayer->startRocker(true);
 	addChild(m_FightControllerLayer,2);
 
-	schedule(schedule_selector(FightScene::updatePlayerMove));
-
-	setViewPointByPlayer();
+	scheduleUpdate();
 	
 	return true;
 }
 
+void FightScene::update(float delta)
+{
+	updatePlayerMove();
+	updateViewPointByPlayer();
+}
 
-void FightScene::setViewPointByPlayer()
+void FightScene::updateViewPointByPlayer()
 {
 	//地图方块数量
 	Size TiledNumber = m_TiledMap->getMapSize();
@@ -73,7 +75,7 @@ void FightScene::setViewPointByPlayer()
 	m_TiledMap->setPosition(CenterPosition - DestinationPosition);
 }
 
-void FightScene::updatePlayerMove(float delta )
+void FightScene::updatePlayerMove( )
 {
 	if (m_FightControllerLayer->getisCanMove())
 	{

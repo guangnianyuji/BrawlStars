@@ -13,7 +13,6 @@ protected:
     //³õÊ¼»¯Íæ¼Ò
     virtual bool init() override;
 
-    void onEnter() override;
 
 };
 #endif // !__PLAYER_H__

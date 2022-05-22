@@ -39,10 +39,10 @@ private:
 	Vec2 m_RockerPosition;
 	//摇杆得到的方向角
 	float m_RockerAngle;
-	//记录按键状态
-	std::map<int, bool> m_KeyStateMap;
+
+	void update(float delta);
 	//更新摇杆所指角度
-	void updateRad(float dt);
+	void updateRad( );
 };
 
 #endif//__FIGHTCONTROLLERLAYER_H__

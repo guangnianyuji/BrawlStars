@@ -48,7 +48,7 @@ bool FightControllerLayer::init()
 	m_TouchListener->onTouchBegan = ([&](Touch* touch, Event* event)->bool
 		{
 			Point TouchPoint = touch->getLocation();
-			if (TouchPoint.x<780)
+			if (TouchPoint.x<780)//在屏幕左侧点击将移动摇杆（以后右侧点击移动技能摇杆）
 		    {
 				m_isCanMove = true;
 		    }	
@@ -90,13 +90,13 @@ bool FightControllerLayer::init()
 			switch (keycode)
 			{
 			case EventKeyboard::KeyCode::KEY_A:m_RockerPosition.x
-				-= m_RockerBackgroundRadius; m_KeyStateMap[1] = true; m_isCanMove = true; break;
+				-= m_RockerBackgroundRadius; m_isCanMove = true; break;
 			case EventKeyboard::KeyCode::KEY_D:m_RockerPosition.x
-				+= m_RockerBackgroundRadius; m_KeyStateMap[2] = true; m_isCanMove = true; break;
+				+= m_RockerBackgroundRadius; m_isCanMove = true; break;
 			case EventKeyboard::KeyCode::KEY_W:m_RockerPosition.y
-				+= m_RockerBackgroundRadius; m_KeyStateMap[3] = true; m_isCanMove = true; break;
+				+= m_RockerBackgroundRadius; m_isCanMove = true; break;
 			case EventKeyboard::KeyCode::KEY_S:m_RockerPosition.y
-				-= m_RockerBackgroundRadius; m_KeyStateMap[4] = true; m_isCanMove = true; break;
+				-= m_RockerBackgroundRadius; m_isCanMove = true; break;
 			}
 			m_RockerSprite->setPosition(m_RockerPosition);
 		});
@@ -106,22 +106,18 @@ bool FightControllerLayer::init()
 			switch (keycode)
 			{
 			case EventKeyboard::KeyCode::KEY_A:m_RockerPosition.x
-				+= m_RockerBackgroundRadius; m_KeyStateMap[1] = false; break;
+				+= m_RockerBackgroundRadius; break;
 			case EventKeyboard::KeyCode::KEY_D:m_RockerPosition.x
-				-= m_RockerBackgroundRadius; m_KeyStateMap[2] = false; break;
+				-= m_RockerBackgroundRadius; break;
 			case EventKeyboard::KeyCode::KEY_W:m_RockerPosition.y
-				-= m_RockerBackgroundRadius; m_KeyStateMap[3] = false; break;
+				-= m_RockerBackgroundRadius;  break;
 			case EventKeyboard::KeyCode::KEY_S:m_RockerPosition.y
-				+= m_RockerBackgroundRadius; m_KeyStateMap[4] = false; break;
-			}
-			for (int i = 1; i < 5; i++)
-			{
-				m_isCanMove = m_KeyStateMap[i];
+				+= m_RockerBackgroundRadius; break;
 			}
 			m_RockerSprite->setPosition(m_RockerPosition);
 		});
 
-	schedule(schedule_selector(FightControllerLayer::updateRad));
+	scheduleUpdate();
 
 	return true;
 }
@@ -153,7 +149,18 @@ bool  FightControllerLayer::getisCanMove()
 	return m_isCanMove;
 }
 
-void FightControllerLayer::updateRad(float dt)
+void  FightControllerLayer::update(float delta)
 {
+	updateRad();
+}
+
+void FightControllerLayer::updateRad( )
+{
+	if (m_RockerBackgroundPosition == m_RockerPosition)
+	{
+		m_isCanMove=false;
+		return;
+	}
 	m_RockerAngle = MathUtils::getRad(m_RockerBackgroundPosition, m_RockerPosition);
+	m_isCanMove = true;
 }

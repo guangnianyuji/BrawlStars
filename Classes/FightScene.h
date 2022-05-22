@@ -3,7 +3,6 @@
 
 #include "cocos2d.h"
 #include "Player.h"
-#include "TiledMapUtils.h"
 #include "FightControllerLayer.h"
 
 using namespace cocos2d;
@@ -17,11 +16,12 @@ public:
 private:	
 	//初始化场景
 	bool init() override;
-    //让地图随主角滚动
-	void setViewPointByPlayer();
 
+	void update(float delta);
+    //让地图随主角滚动
+	void updateViewPointByPlayer();
 	//更新玩家行走状态
-	void updatePlayerMove(float delta);
+	void updatePlayerMove();
 
 	TMXTiledMap* m_TiledMap;
 	FightControllerLayer* m_FightControllerLayer;

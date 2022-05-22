@@ -96,7 +96,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     register_all_packages();
 
     // create a scene. it's an autorelease object
-    auto scene = FightScene::create(Fei(true));
+    auto scene = FightScene::create(Fei());
 
     // run
     director->runWithScene(scene);

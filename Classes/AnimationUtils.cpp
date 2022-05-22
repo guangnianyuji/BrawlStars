@@ -22,7 +22,7 @@ Animate* AnimationUtils::createAnimation(const std::string& name, const std::str
 
 		frameVec.pushBack(frame);
 	}
-	Animation* animation = Animation::createWithSpriteFrames(frameVec, 1.0f / 60);
+	Animation* animation = Animation::createWithSpriteFrames(frameVec, 1.0f / 5,-1);
 	Animate* animate = Animate::create(animation);
 	return animate;
 };

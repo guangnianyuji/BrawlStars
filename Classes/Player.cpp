@@ -26,9 +26,3 @@ bool Player::init()
 	
 	return true;
 }
-
-void Player::onEnter()
-{
-	Hero::onEnter();
-	
-}

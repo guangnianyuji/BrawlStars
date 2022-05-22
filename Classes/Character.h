@@ -9,16 +9,8 @@ USING_NS_CC;
 class Character
 {
 public:
-
-	Sprite* m_FrontBody;
-	Sprite* m_BehindBody;
-	Sprite* m_LeftBody;
-	Sprite* m_RightBody;
-public:
-	Animate* m_FrontMove;
-	Animate* m_BehindMove;
-	Animate* m_LeftMove;
-	Animate* m_RightMove;
+	std::string m_Name;
+	int m_Speed;
 };
 
 

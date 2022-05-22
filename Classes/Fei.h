@@ -9,6 +9,6 @@ using namespace cocos2d;
 class Fei :public Character
 {
 public:
-	Fei(bool flag);
+	Fei();
 };
 #endif // !__FEI_H__

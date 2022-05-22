@@ -15,12 +15,12 @@ public:
 protected:
 	//英雄的角色
 	Character m_Character;
-
+	//英雄的身体
 	Sprite* m_Body;
 	//英雄是否正在移动
 	bool m_isMoving;
-
-	void onEnter() override;
+	//英雄大致移动方向缩写(方便找动画文件)
+	std::string m_Direction;
 public:
 	//动画播放
 	void setAnimation(const float& Angle);

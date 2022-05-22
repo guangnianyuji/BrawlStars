@@ -2,7 +2,7 @@
 
 bool Hero::init()
 {
-	m_Body = m_Character.m_FrontBody;
+	m_Body = Sprite::create(m_Character.m_Name + "/" + m_Character.m_Name + "f1.png");
 	if (!Entity::init())
 	{
 		return false;
@@ -11,32 +11,37 @@ bool Hero::init()
 	addChild(m_Body);
 
 	m_isMoving = false;
+	m_Direction = "a";//随意初始化无意义
 
 	return true;
 }
 
 void Hero::setAnimation(const float& Angle)
 {
-	if (Angle > -3 * Pi / 4 &&  Angle < -Pi / 4)
+	std::string tempDirection;
+	if (Angle > -3 * Pi / 4 && Angle < -Pi / 4)
 	{
-		m_Body = m_Character.m_FrontBody;
-		m_Body->runAction(m_Character.m_FrontMove->clone ());
+		tempDirection = "f";
 	}
-	else if (Angle >  Pi / 4 && Angle < 3*Pi / 4)
+	else if (Angle < 3 * Pi / 4 && Angle > Pi / 4)
 	{
-		m_Body = m_Character.m_BehindBody;
-		m_Body->runAction(m_Character.m_BehindMove->clone());
+		tempDirection = "b";
 	}
-	else if (Angle >= 3 * Pi / 4 || Angle <= -3*Pi / 4)
+	else if (Angle > 3 * Pi / 4 || Angle < -3 * Pi / 4)
 	{
-		m_Body = m_Character.m_LeftBody;
-		m_Body->runAction(m_Character.m_LeftMove->clone());
+		tempDirection = "l";
 	}
-	else if (Angle >= -  Pi / 4 && Angle <=  Pi / 4)
+	else if (Angle > - Pi / 4 && Angle < 3*Pi / 4)
 	{
-		m_Body = m_Character.m_RightBody;
-		m_Body->runAction(m_Character.m_RightMove->clone());
+		tempDirection = "r";
 	}
+	if (tempDirection != m_Direction)
+	{
+		m_Direction = tempDirection;
+		m_Body->stopAllActions();
+		m_Body->runAction(AnimationUtils::createAnimation(m_Character.m_Name, m_Direction));
+	}
+	runAction(MoveBy::create(0.1f, MathUtils::getVectorialSpeed(Angle, m_Character.m_Speed / 200)));
 	m_isMoving = true;
 }
 
@@ -49,7 +54,3 @@ void Hero::stopAnimation()
 	}
 }
 
-void Hero::onEnter()
-{
-	Entity::onEnter();
-}
