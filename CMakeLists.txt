@@ -32,7 +32,6 @@ list(APPEND GAME_SOURCE
      Classes/Hero.cpp
      Classes/MathUtils.cpp
      Classes/Player.cpp
-     Classes/TiledMapUtils.cpp
      )
 list(APPEND GAME_HEADER
     Classes/AnimationUtils.h
@@ -45,7 +44,6 @@ list(APPEND GAME_HEADER
      Classes/Hero.h
      Classes/MathUtils.h
      Classes/Player.h
-     Classes/TiledMapUtils.h
      )
 
 if(ANDROID)
