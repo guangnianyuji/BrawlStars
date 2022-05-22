@@ -23,18 +23,22 @@ FightScene* FightScene::create(Character character)
 
 bool FightScene::init()
 {
-	if (!Scene::init())
+	if (!BaseScene::init())
 	{
 		return false;
 	}
 	Vec2 VisibleSize = Director::getInstance()->getVisibleSize();
 
+	//加入地图
 	addChild(m_TiledMap,-1);
 	
+	//设置玩家初始位置
 	m_Player->setOriginalPositionInMap(m_TiledMap,"PlayerBirthPlace");
+
+	//将玩家加入到地图中
 	m_TiledMap->addChild(m_Player,4);
 		
-	
+	//在场景中加入遥杆
 	m_FightControllerLayer->startRocker(true);
 	addChild(m_FightControllerLayer,2);
 
@@ -53,6 +57,7 @@ void FightScene::updateViewPointByPlayer()
 {
 	//地图方块数量
 	Size TiledNumber = m_TiledMap->getMapSize();
+
 	//地图单个格子大小
 	Size TiledSize = m_TiledMap->getTileSize();
 	//地图大小

@@ -48,7 +48,8 @@ bool FightControllerLayer::init()
 	m_TouchListener->onTouchBegan = ([&](Touch* touch, Event* event)->bool
 		{
 			Point TouchPoint = touch->getLocation();
-			if (TouchPoint.x<780)//在屏幕左侧点击将移动摇杆（以后右侧点击移动技能摇杆）
+			//在屏幕左侧点击将移动摇杆（以后右侧点击移动技能摇杆）
+			if (TouchPoint.x<780)
 		    {
 				m_isCanMove = true;
 		    }	
@@ -90,13 +91,17 @@ bool FightControllerLayer::init()
 			switch (keycode)
 			{
 			case EventKeyboard::KeyCode::KEY_A:m_RockerPosition.x
-				-= m_RockerBackgroundRadius; m_isCanMove = true; break;
+				-= m_RockerBackgroundRadius; m_isCanMove = true; 
+				break;
 			case EventKeyboard::KeyCode::KEY_D:m_RockerPosition.x
-				+= m_RockerBackgroundRadius; m_isCanMove = true; break;
+				+= m_RockerBackgroundRadius; m_isCanMove = true; 
+				break;
 			case EventKeyboard::KeyCode::KEY_W:m_RockerPosition.y
-				+= m_RockerBackgroundRadius; m_isCanMove = true; break;
+				+= m_RockerBackgroundRadius; m_isCanMove = true; 
+				break;
 			case EventKeyboard::KeyCode::KEY_S:m_RockerPosition.y
-				-= m_RockerBackgroundRadius; m_isCanMove = true; break;
+				-= m_RockerBackgroundRadius; m_isCanMove = true; 
+				break;
 			}
 			m_RockerSprite->setPosition(m_RockerPosition);
 		});
@@ -106,13 +111,17 @@ bool FightControllerLayer::init()
 			switch (keycode)
 			{
 			case EventKeyboard::KeyCode::KEY_A:m_RockerPosition.x
-				+= m_RockerBackgroundRadius; break;
+				+= m_RockerBackgroundRadius; 
+				break;
 			case EventKeyboard::KeyCode::KEY_D:m_RockerPosition.x
-				-= m_RockerBackgroundRadius; break;
+				-= m_RockerBackgroundRadius; 
+				break;
 			case EventKeyboard::KeyCode::KEY_W:m_RockerPosition.y
-				-= m_RockerBackgroundRadius;  break;
+				-= m_RockerBackgroundRadius;  
+				break;
 			case EventKeyboard::KeyCode::KEY_S:m_RockerPosition.y
-				+= m_RockerBackgroundRadius; break;
+				+= m_RockerBackgroundRadius; 
+				break;
 			}
 			m_RockerSprite->setPosition(m_RockerPosition);
 		});
@@ -126,16 +135,22 @@ bool FightControllerLayer::init()
 void FightControllerLayer::startRocker(bool isStop)
 {
 	m_RockerSprite->setVisible(true);
+
 	m_RockerBackgroundSprite->setVisible(true);
+
 	Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(m_TouchListener, 2);
+
 	Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(m_KeyboardListener, 2);
 }
 
 void FightControllerLayer::stopRocker()
 {
 	m_RockerSprite->setVisible(false);
+
 	m_RockerBackgroundSprite->setVisible(false);
+
 	Director::getInstance()->getEventDispatcher()->removeEventListener(m_TouchListener);
+
 	Director::getInstance()->getEventDispatcher()->removeEventListener(m_KeyboardListener);
 }
 

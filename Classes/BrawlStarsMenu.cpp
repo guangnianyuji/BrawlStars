@@ -38,7 +38,7 @@ void BrawlStarsMenu::initMenuLabel()
 	Size visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
 	Point origin = cocos2d::Director::getInstance()->getVisibleOrigin();
 
-	this->menuLabel = Label::createWithTTF("Menu", "fonts/Marker Felt.ttf", 24);
+	this->menuLabel = Label::createWithTTF("Menu", "fonts/Marker Felt.ttf", 40);
 	if (menuLabel == nullptr)
 	{
 
@@ -46,7 +46,7 @@ void BrawlStarsMenu::initMenuLabel()
 	else
 	{
 		menuLabel->setPosition(Vec2(origin.x + visibleSize.width / 2,
-			origin.y + visibleSize.height - menuLabel->getContentSize().height * 2));
+			origin.y + visibleSize.height/16*13));
 
 		this->addChild(menuLabel, 1);
 	}
@@ -78,8 +78,8 @@ void BrawlStarsMenu::initExitButton()
 	}
 	else
 	{
-		float x = origin.x + visibleSize.width / 32*24;
-		float y = origin.y + visibleSize.height / 16*0.8;
+		float x = origin.x + visibleSize.width / 32*22;
+		float y = origin.y + visibleSize.height / 16*2;
 		exitBtnPic->setAnchorPoint(cocos2d::Vec2(0.5,0.5));
 		exitBtnPic->setPosition(cocos2d::Vec2(x, y));
 	}
@@ -106,8 +106,8 @@ void BrawlStarsMenu::initDNDButton()
 	}
 	else
 	{
-		float x = origin.x + visibleSize.width / 32*8;
-		float y = origin.y + visibleSize.height / 16*0.8;
+		float x = origin.x + visibleSize.width / 32*10;
+		float y = origin.y + visibleSize.height / 16*2;
 		DNDBtnPic->setAnchorPoint(cocos2d::Vec2(0.5,0.5));
 		DNDBtnPic->setPosition(cocos2d::Vec2(x, y));
 	}
@@ -133,20 +133,20 @@ void BrawlStarsMenu::initBackgroundMusicButton()
 	}
 	else
 	{
-		musicButton->setScale(0.5);
+		musicButton->setScale(0.6);
 
 		musicButton->setAnchorPoint(Vec2(0, 0));
 
-		auto musicLabel = Label::createWithTTF("music", "fonts/Marker Felt.ttf", 45);
+		auto musicLabel = Label::createWithTTF("music", "fonts/Marker Felt.ttf", 55);
 
-		musicLabel->setAnchorPoint(Vec2(-0.8, 0));
+		musicLabel->setAnchorPoint(Vec2(-1.5, 0));
 
 
 		musicButton->addChild(musicLabel);
 
 	
 
-		float x = origin.x + visibleSize.width / 32*10;
+		float x = origin.x + visibleSize.width / 32*11;
 		float y = origin.y + visibleSize.height / 16*10;
 		musicButton->setPosition(cocos2d::Vec2(x, y));
 
@@ -199,21 +199,21 @@ void BrawlStarsMenu::initSoundEffectsButton()
 	}
 	else
 	{
-		soundEffectsButton->setScale(0.5);
+		soundEffectsButton->setScale(0.6);
 
-		soundEffectsButton->setAnchorPoint(Vec2(0.5,0.5));
+		soundEffectsButton->setAnchorPoint(Vec2(0,0));
 
-		auto soundEffectsLabel = Label::createWithTTF("sound effeccts", "fonts/Marker Felt.ttf", 45);
+		auto soundEffectsLabel = Label::createWithTTF("sound effeccts", "fonts/Marker Felt.ttf", 55);
 
-		soundEffectsLabel->setAnchorPoint(Vec2(-0.3, 0));
+		soundEffectsLabel->setAnchorPoint(Vec2(-0.5, 0));
 
 
 		soundEffectsButton->addChild(soundEffectsLabel);
 
 
 
-		float x = origin.x + visibleSize.width / 32*11.1;
-		float y = origin.y + visibleSize.height / 16*8;
+		float x = origin.x + visibleSize.width / 32*11;
+		float y = origin.y + visibleSize.height / 16*7;
 		soundEffectsButton->setPosition(cocos2d::Vec2(x, y));
 
 		this->addChild(soundEffectsButton, 0);
@@ -254,7 +254,7 @@ void BrawlStarsMenu::initBackgroundMusicSlider()
 	else
 	{
 		musicSlider->setPercent(100);
-		musicSlider->setScale(0.4);
+		musicSlider->setScale(0.5);
 		musicSlider->addEventListener(CC_CALLBACK_2(BrawlStarsMenu::musicSliderCallback, this));
 
 		musicSlider->setAnchorPoint(Vec2(0.5, 0.5));
@@ -288,7 +288,7 @@ if (soundEffectsSlider == nullptr ||
 	{
 		soundEffectsSlider->setPercent(100);
 
-		soundEffectsSlider->setScale(0.4);
+		soundEffectsSlider->setScale(0.5);
 		soundEffectsSlider->addEventListener(CC_CALLBACK_2(BrawlStarsMenu::soundEffectsSliderCallback, this));
 
 		soundEffectsSlider->setAnchorPoint(Vec2(0.5, 0.5));
@@ -318,8 +318,8 @@ void BrawlStarsMenu::initCloseButton()
 	}
 	else
 	{
-		float x = origin.x + winSize.width/5;
-		float y = origin.y + winSize.height/1.3;
+		float x = origin.x + winSize.width/32*10;
+		float y = origin.y + winSize.height/16*14;
 		closeBtnPic->setAnchorPoint(cocos2d::Vec2::ZERO);
 		closeBtnPic->setPosition(cocos2d::Vec2(x, y));
 	}

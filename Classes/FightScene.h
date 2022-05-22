@@ -3,11 +3,12 @@
 
 #include "cocos2d.h"
 #include "Player.h"
+#include "BSScene\BaseScene.h"
 #include "FightControllerLayer.h"
 
 using namespace cocos2d;
 
-class FightScene:public Scene
+class FightScene:public BaseScene
 {
 public:
 	//创造场景
@@ -18,13 +19,17 @@ private:
 	bool init() override;
 
 	void update(float delta);
+
     //让地图随主角滚动
 	void updateViewPointByPlayer();
+
 	//更新玩家行走状态
 	void updatePlayerMove();
 
 	TMXTiledMap* m_TiledMap;
+
 	FightControllerLayer* m_FightControllerLayer;
+
 	Player* m_Player;
 
 

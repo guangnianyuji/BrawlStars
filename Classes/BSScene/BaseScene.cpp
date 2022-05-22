@@ -114,7 +114,7 @@ void BaseScene::menuCallback(Ref* pSender)
     Point origin = cocos2d::Director::getInstance()->getVisibleOrigin();
 
     float x = origin.x;
-    float y = origin.y - visibleSize.height / 5;
+    float y = origin.y;
 
     menuLayer->setPosition(Vec2(x, y));
 }
