@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "BSScene\BaseScene.h"
 #include "FightControllerLayer.h"
+#include "AttackLayer.h"
 
 using namespace cocos2d;
 
@@ -26,9 +27,15 @@ private:
 	//更新玩家行走状态
 	void updatePlayerMove();
 
+	//播放技能动画函数
+	void updatePlayerAttack();
+
+
 	TMXTiledMap* m_TiledMap;
 
 	FightControllerLayer* m_FightControllerLayer;
+
+	AttackLayer* m_AttackLayer;
 
 	Player* m_Player;
 

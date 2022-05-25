@@ -10,5 +10,6 @@ class Fei :public Character
 {
 public:
 	Fei();
+
 };
 #endif // !__FEI_H__

@@ -149,7 +149,7 @@ void BrawlStarsMenu::initBackgroundMusicButton()
 		float x = origin.x + visibleSize.width / 32*11;
 		float y = origin.y + visibleSize.height / 16*10;
 		musicButton->setPosition(cocos2d::Vec2(x, y));
-
+		
 		this->addChild(musicButton,0);
 	}
 

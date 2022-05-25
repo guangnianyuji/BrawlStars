@@ -34,6 +34,7 @@ list(APPEND GAME_SOURCE
      Classes/Entity.cpp 
      Classes/Fei.cpp
      Classes/FightControllerLayer.cpp
+     Classes/AttackLayer.cpp
      Classes/FightScene.cpp
      Classes/Hero.cpp
      Classes/MathUtils.cpp
@@ -48,11 +49,11 @@ list(APPEND GAME_HEADER
      Classes/ODSocket/ODSocket.h
      Classes/Network/SocketManager.h
      Classes/Network/SocketDataManager.h
-
      Classes/Character.h
      Classes/Entity.h
      Classes/Fei.h
      Classes/FightControllerLayer.h
+     Classes/AttackLayer.h
      Classes/FightScene.h
      Classes/Hero.h
      Classes/MathUtils.h

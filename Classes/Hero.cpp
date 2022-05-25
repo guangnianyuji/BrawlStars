@@ -3,6 +3,11 @@
 bool Hero::init()
 {
 	m_Body = Sprite::create(m_Character.m_Name + "/" + m_Character.m_Name + "f1.png");
+
+	m_Skill = Sprite::create(m_Character.m_Name + "/" + "Skill/1.png");
+
+	//m_Body->addChild(m_Skill);
+
 	if (!Entity::init())
 	{
 		return false;
@@ -18,6 +23,8 @@ bool Hero::init()
 
 void Hero::setAnimation(const float& Angle)
 {
+	m_Skill->runAction(AnimationUtils::createSkillAnimation(m_Character.m_Name));
+
 	std::string tempDirection;
 	if (Angle > -3 * Pi / 4 && Angle < -Pi / 4)
 	{
@@ -52,5 +59,17 @@ void Hero::stopAnimation()
        m_Body->stopAllActions();
 	   m_isMoving = false;
 	}
+}
+
+void Hero::NormalAttack(const float& Angle)
+{
+	m_Skill->runAction(AnimationUtils::createNormalAttackAnimation(m_Character.m_Name));
+
+	m_Skill->runAction(MoveBy::create(0.1f, MathUtils::getVectorialSpeed(Angle, m_Character.m_Speed / 200)));
+}
+
+void Hero::stopNormalAttack()
+{
+	m_Skill->runAction(AnimationUtils::createSkillAnimation(m_Character.m_Name));
 }
 

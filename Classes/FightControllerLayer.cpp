@@ -51,6 +51,7 @@ bool FightControllerLayer::init()
 			//在屏幕左侧点击将移动摇杆（以后右侧点击移动技能摇杆）
 			if (TouchPoint.x<780)
 		    {
+				cocos2d::log("hahahha!");
 				m_isCanMove = true;
 		    }	
 		return true;

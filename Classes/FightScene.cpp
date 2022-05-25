@@ -4,10 +4,18 @@
 FightScene* FightScene::create(Character character)
 {
 	FightScene* pRet = new(std::nothrow)FightScene();
+
 	Vec2 VisibleSize = Director::getInstance()->getVisibleSize();
+
 	pRet->m_TiledMap = TMXTiledMap::create("map.tmx");
+
 	pRet->m_Player = Player::create(character);
+
 	pRet->m_FightControllerLayer = FightControllerLayer::create(Vec2(VisibleSize.x / 4, VisibleSize.y / 3));
+
+	pRet->m_AttackLayer = AttackLayer::create(Vec2(VisibleSize.x / 6 * 5, VisibleSize.y / 6),
+	Vec2(VisibleSize.x/6*5,VisibleSize.y/3));
+
 	if (pRet && pRet->init())
 	{
 		pRet->autorelease();
@@ -40,7 +48,12 @@ bool FightScene::init()
 		
 	//在场景中加入遥杆
 	m_FightControllerLayer->startRocker(true);
+
+	m_AttackLayer->setButtonEnable();
+
 	addChild(m_FightControllerLayer,2);
+
+	addChild(m_AttackLayer, 2);
 
 	scheduleUpdate();
 	
@@ -90,4 +103,16 @@ void FightScene::updatePlayerMove( )
 	{
         m_Player->stopAnimation();
 	} 
+}
+
+void FightScene::updatePlayerAttack()
+{
+	if (m_AttackLayer->isAttacking())
+	{
+		m_Player->NormalAttack(m_FightControllerLayer->getRockerAngle());
+	}
+	else
+	{
+		m_Player->stopNormalAttack();
+	}
 }

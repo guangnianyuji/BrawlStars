@@ -1,5 +1,5 @@
-#ifndef _FIGHTCONTROLLERLAYER_H__
-#define _FIGHTCONTROLLERLAYER_H__
+#ifndef __FIGHTCONTROLLERLAYER_H__
+#define __FIGHTCONTROLLERLAYER_H__
 
 #include "cocos2d.h"
 #include "Math.h"
