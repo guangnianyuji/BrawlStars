@@ -11,6 +11,16 @@ public:
 	void setOriginalPositionInMap(TMXTiledMap* Map,const std::string& strPlace);
 
 	bool init()override;
+
+	virtual void BeAttacked(const int& Damage)=0;
+		
+	virtual void AttackSomething()=0;
+
+	virtual void Death()=0;
+
+	/* ÊµÊ±ÑªÁ¿ */
+	int RealTimeBlood = 0;
+
 };
 
 #endif

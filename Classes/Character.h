@@ -16,7 +16,13 @@ public:
 	int m_Speed;
 
 	/* 角色的初始血量 */
-	int m_Blood_Volume;
+	int m_BloodVolume;
+
+	/* 角色的普攻伤害值 */
+	int m_NormalAttackDamage;
+
+	/* 角色的大招伤害值 */
+	int m_AceDamage;
 
 	/* 大招冷却时间 */
 	int m_Cooldown;

@@ -54,7 +54,11 @@ void AttackLayer::initNormalAttackButton()
     { 
         normalAttackButton_Normal->setVisible(false);
 
+		normalAttackButton_Normal->setScale(1.5);
+
 		normalAttackButton_Pressed->setVisible(false);
+
+		normalAttackButton_Pressed->setScale(1.5);
 
         normalAttackButton_Normal->setAnchorPoint(cocos2d::Vec2(0.5, 0.5));
 
@@ -78,7 +82,7 @@ void AttackLayer::initNormalAttackButton()
 				if (TouchPoint.x > 780)
 				{
 
-					cocos2d::log("heiheihei");
+					//cocos2d::log("heiheihei");
 					_isAttacking = true;
 				}
 				return true;
@@ -118,7 +122,10 @@ void AttackLayer::initNormalAttackButton()
 			{
 				switch (keycode)
 				{
-				case cocos2d::EventKeyboard::KeyCode::KEY_A:
+				case cocos2d::EventKeyboard::KeyCode::KEY_J:
+					_isAttacking = true;
+					normalAttackButton_Normal->setVisible(false);
+					normalAttackButton_Pressed->setVisible(true);
 					break;
 				}
 			});
@@ -127,7 +134,10 @@ void AttackLayer::initNormalAttackButton()
 			{
 				switch (keycode)
 				{
-				case cocos2d::EventKeyboard::KeyCode::KEY_A:
+				case cocos2d::EventKeyboard::KeyCode::KEY_J:
+					_isAttacking = false;
+					normalAttackButton_Normal->setVisible(true);
+					normalAttackButton_Pressed->setVisible(false);
 					break;
 				}
 			});

@@ -33,7 +33,7 @@ list(APPEND GAME_SOURCE
      Classes/Network/SocketDataManager.cpp
      Classes/Entity.cpp 
      Classes/Fei.cpp
-     Classes/FightControllerLayer.cpp
+     Classes/MoveControllerLayer.cpp
      Classes/AttackLayer.cpp
      Classes/FightScene.cpp
      Classes/Hero.cpp
@@ -52,7 +52,7 @@ list(APPEND GAME_HEADER
      Classes/Character.h
      Classes/Entity.h
      Classes/Fei.h
-     Classes/FightControllerLayer.h
+     Classes/MoveControllerLayer.h
      Classes/AttackLayer.h
      Classes/FightScene.h
      Classes/Hero.h

@@ -4,8 +4,9 @@
 #include "cocos2d.h"
 #include "Player.h"
 #include "BSScene\BaseScene.h"
-#include "FightControllerLayer.h"
+#include "MoveControllerLayer.h"
 #include "AttackLayer.h"
+#include  <typeinfo>
 
 using namespace cocos2d;
 
@@ -30,14 +31,22 @@ private:
 	//播放技能动画函数
 	void updatePlayerAttack();
 
+	//在场景中开启碰撞监听
+	void startContactListen();
+
+	//监听到两物体开始碰撞的回调函数
+	bool OnContactBegin(cocos2d::PhysicsContact& contact);
+
 
 	TMXTiledMap* m_TiledMap;
 
-	FightControllerLayer* m_FightControllerLayer;
+	MoveControllerLayer* m_MoveControllerLayer;
 
 	AttackLayer* m_AttackLayer;
 
 	Player* m_Player;
+
+	EventListenerPhysicsContact* m_ContactListener;
 
 
 };

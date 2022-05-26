@@ -12,7 +12,6 @@ class Hero :public Entity
 {
 public:
 	bool init() override;
-protected:
 
 	//英雄的角色
 	Character m_Character;
@@ -20,7 +19,7 @@ protected:
 	//英雄的身体
 	Sprite* m_Body;
 
-	//英雄的技能包
+	//英雄的技能
 	Sprite* m_Skill;
 
 	//英雄是否正在移动
@@ -41,6 +40,11 @@ public:
 	//停止普通攻击
 	void stopNormalAttack();
 
+	virtual void AttackSomething() override;
+
+	virtual void BeAttacked(const int& Damage) override;
+
+	virtual void Death() override;
 
 };
 

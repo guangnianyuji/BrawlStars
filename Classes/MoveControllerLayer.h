@@ -1,15 +1,15 @@
-#ifndef __FIGHTCONTROLLERLAYER_H__
-#define __FIGHTCONTROLLERLAYER_H__
+#ifndef __MOVECONTROLLERLAYER_H__
+#define __MOVECONTROLLERLAYER_H__
 
 #include "cocos2d.h"
 #include "Math.h"
 using namespace cocos2d;
 
-class FightControllerLayer :public Layer
+class MoveControllerLayer :public Layer
 {
 public:
 	//创建控制层
-	static FightControllerLayer* create(Vec2 position);
+	static MoveControllerLayer* create(Vec2 position);
 
 	//启动摇杆（启动摇杆，监听键盘事件）
 	void startRocker(bool isStop);
@@ -58,4 +58,4 @@ private:
 	void updateRad( );
 };
 
-#endif//__FIGHTCONTROLLERLAYER_H__
+#endif//__MOVECONTROLLERLAYER_H__

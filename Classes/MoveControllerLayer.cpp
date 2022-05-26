@@ -1,9 +1,9 @@
-#include "FightControllerLayer.h"
+#include "MoveControllerLayer.h"
 #include "MathUtils.h"
 
-FightControllerLayer* FightControllerLayer::create(Vec2 positon)
+MoveControllerLayer* MoveControllerLayer::create(Vec2 positon)
 {
-	FightControllerLayer* pRet = new(std::nothrow)FightControllerLayer();
+	MoveControllerLayer* pRet = new(std::nothrow)MoveControllerLayer();
 	pRet->m_RockerBackgroundPosition = positon;
 	pRet->m_RockerPosition = positon;
 	pRet->m_isCanMove = false;
@@ -19,7 +19,7 @@ FightControllerLayer* FightControllerLayer::create(Vec2 positon)
 		return nullptr;
 	}
 }
-bool FightControllerLayer::init()
+bool MoveControllerLayer::init()
 {
 	if (!Layer::init())
 	{
@@ -133,7 +133,7 @@ bool FightControllerLayer::init()
 }
 
 
-void FightControllerLayer::startRocker(bool isStop)
+void MoveControllerLayer::startRocker(bool isStop)
 {
 	m_RockerSprite->setVisible(true);
 
@@ -144,7 +144,7 @@ void FightControllerLayer::startRocker(bool isStop)
 	Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(m_KeyboardListener, 2);
 }
 
-void FightControllerLayer::stopRocker()
+void MoveControllerLayer::stopRocker()
 {
 	m_RockerSprite->setVisible(false);
 
@@ -155,22 +155,22 @@ void FightControllerLayer::stopRocker()
 	Director::getInstance()->getEventDispatcher()->removeEventListener(m_KeyboardListener);
 }
 
-float FightControllerLayer::getRockerAngle()
+float MoveControllerLayer::getRockerAngle()
 {
 	return m_RockerAngle;
 }
 
-bool  FightControllerLayer::getisCanMove()
+bool  MoveControllerLayer::getisCanMove()
 {
 	return m_isCanMove;
 }
 
-void  FightControllerLayer::update(float delta)
+void  MoveControllerLayer::update(float delta)
 {
 	updateRad();
 }
 
-void FightControllerLayer::updateRad( )
+void MoveControllerLayer::updateRad( )
 {
 	if (m_RockerBackgroundPosition == m_RockerPosition)
 	{

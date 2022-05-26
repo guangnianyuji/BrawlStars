@@ -13,6 +13,7 @@ protected:
     //³õÊ¼»¯Íæ¼Ò
     virtual bool init() override;
 
+private:
 
 };
 #endif // !__PLAYER_H__
