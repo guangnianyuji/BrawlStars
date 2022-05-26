@@ -2,22 +2,43 @@
 
 bool Hero::init()
 {
-	m_Body = Sprite::create(m_Character.m_Name + "/" + m_Character.m_Name + "f1.png");
-
-	m_Skill = Sprite::create(m_Character.m_Name + "/" + "Skill/1.png");
-
-	RealTimeBlood = m_Character.m_BloodVolume;
-
 	if (!Entity::init())
 	{
 		return false;
 	}
 
+	m_Body = Sprite::create(m_Character.m_Name + "/" + m_Character.m_Name + "f1.png");
+
+	if (m_Body == nullptr)
+	{
+		return false;
+	}
+
+	m_Skill = Sprite::create(m_Character.m_Name + "/" + "Skill/1.png");
+
+	if (m_Skill == nullptr)
+	{
+		return false;
+	}
+
+	m_Blood = ProgressView::create();
+
+	if (m_Blood == nullptr)
+	{
+		return false;
+	}
+
+	m_Blood->setBloodVolume(m_Character.m_BloodVolume);
+
 	addChild(m_Body);
 
 	m_Body->addChild(m_Skill);
 
+	m_Body->addChild(m_Blood);
+
 	m_Skill->setAnchorPoint(Vec2(1,-0.5));
+
+	m_Blood->setAnchorPoint(Vec2(1, 1));
 
 	m_isMoving = false;
 	m_Direction = "a";//随意初始化无意义
@@ -79,7 +100,6 @@ void Hero::NormalAttack(const float& Angle)
 		Point nowPosition = m_Body->getPosition();
 		Fire->setPosition(nowPosition);
 		Fire->setAnchorPoint(Vec2(1, 1));
-		Fire->setRotation(Angle);
 		Fire->setName("Weapon");
 		this->addChild(Fire);
 
@@ -111,12 +131,7 @@ void Hero::AttackSomething()
 
 void Hero::BeAttacked(const int& Damage)
 {
-	this->RealTimeBlood -= Damage;
 
-	if (RealTimeBlood <= 0)
-	{
-		this->Death();
-	}
 }
 
 void Hero::Death()

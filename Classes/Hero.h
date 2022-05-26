@@ -5,6 +5,7 @@
 #include "Entity.h"
 #include "MathUtils.h"
 #include "Character.h"
+#include "ProgressView.h"
 
 using namespace cocos2d;
 
@@ -21,6 +22,7 @@ public:
 
 	//英雄的技能
 	Sprite* m_Skill;
+
 
 	//英雄是否正在移动
 	bool m_isMoving;

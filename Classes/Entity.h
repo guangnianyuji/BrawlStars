@@ -2,6 +2,7 @@
 #define __ENTITY_H__
 
 #include "cocos2d.h"
+#include "ProgressView.h"
 
 USING_NS_CC;
 
@@ -18,8 +19,7 @@ public:
 
 	virtual void Death()=0;
 
-	/* ÊµÊ±ÑªÁ¿ */
-	int RealTimeBlood = 0;
+	ProgressView* m_Blood;
 
 };
 

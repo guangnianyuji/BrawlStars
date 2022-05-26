@@ -35,6 +35,7 @@ list(APPEND GAME_SOURCE
      Classes/Fei.cpp
      Classes/MoveControllerLayer.cpp
      Classes/AttackLayer.cpp
+     Classes/ProgressView.cpp
      Classes/FightScene.cpp
      Classes/Hero.cpp
      Classes/MathUtils.cpp
@@ -54,6 +55,7 @@ list(APPEND GAME_HEADER
      Classes/Fei.h
      Classes/MoveControllerLayer.h
      Classes/AttackLayer.h
+     Classes/ProgressView.h
      Classes/FightScene.h
      Classes/Hero.h
      Classes/MathUtils.h
