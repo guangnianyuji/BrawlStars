@@ -119,11 +119,11 @@ void FightScene::updatePlayerMove( )
 {
 	if (m_MoveControllerLayer->getisCanMove())
 	{
-        m_Player->setAnimation(m_MoveControllerLayer->getRockerAngle());
+        m_Player->beganToMove(m_MoveControllerLayer->getRockerAngle());
 	}
 	else
 	{
-        m_Player->stopAnimation();
+        m_Player->stopMoving();
 	} 
 }
 

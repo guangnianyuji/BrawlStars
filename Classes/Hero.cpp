@@ -47,7 +47,7 @@ bool Hero::init()
 	return true;
 }
 
-void Hero::setAnimation(const float& Angle)
+void Hero::beganToMove(const float& Angle)
 {
 	m_Skill->runAction(AnimationUtils::createSkillAnimation(m_Character.m_Name));
 
@@ -78,7 +78,7 @@ void Hero::setAnimation(const float& Angle)
 	m_isMoving = true;
 }
 
-void Hero::stopAnimation()
+void Hero::stopMoving()
 {
 	if (m_isMoving)
 	{

@@ -30,10 +30,10 @@ public:
 	std::string m_Direction;
 public:
 	//动画播放，角色开始行走
-	void setAnimation(const float& Angle);
+	void beganToMove(const float& Angle);
 
 	//停止动画播放，角色静止
-	void stopAnimation();
+	void stopMoving();
 
 	//普通攻击
 	void NormalAttack(const float& Angle);
