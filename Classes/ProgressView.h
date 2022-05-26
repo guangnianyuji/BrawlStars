@@ -7,6 +7,7 @@
 class ProgressView:public cocos2d::Node
 {
 public:
+
 	virtual bool init() override;
 
 	/* ÉèÖÃÑªÌõ±³¾° */

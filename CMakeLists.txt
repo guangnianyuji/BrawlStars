@@ -36,6 +36,7 @@ list(APPEND GAME_SOURCE
      Classes/MoveControllerLayer.cpp
      Classes/AttackLayer.cpp
      Classes/ProgressView.cpp
+     Classes/TimeCounter.cpp
      Classes/FightScene.cpp
      Classes/Hero.cpp
      Classes/MathUtils.cpp
@@ -56,6 +57,7 @@ list(APPEND GAME_HEADER
      Classes/MoveControllerLayer.h
      Classes/AttackLayer.h
      Classes/ProgressView.h
+     Classes/TimeCounter.h
      Classes/FightScene.h
      Classes/Hero.h
      Classes/MathUtils.h

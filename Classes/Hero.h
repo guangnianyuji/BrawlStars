@@ -23,7 +23,6 @@ public:
 	//英雄的技能
 	Sprite* m_Skill;
 
-
 	//英雄是否正在移动
 	bool m_isMoving;
 
@@ -44,7 +43,7 @@ public:
 
 	virtual void AttackSomething() override;
 
-	virtual void BeAttacked(const int& Damage) override;
+	virtual void BeAttacked(const float& Damage) override;
 
 	virtual void Death() override;
 

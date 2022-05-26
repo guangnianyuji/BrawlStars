@@ -22,11 +22,10 @@ void ProgressView::setForegroundTexture(const char* fileName)
 
 	this->addChild(m_BloodForeground);
 
-	m_BloodForeground->setAnchorPoint(cocos2d::Vec2(0.5, 0.5));
+	m_BloodForeground->setAnchorPoint(cocos2d::Vec2(0.0, 0.5));
 
-	m_BloodForeground->setPosition(Vec2(m_BloodBackground->getContentSize().width / 2, 0));
+	m_BloodForeground->setPosition(Vec2(-m_BloodBackground->getContentSize().width *0.5f, 0));
 
-	this->addChild(m_BloodForeground);
 }
 
 void ProgressView::setBloodVolume(float total)
@@ -39,6 +38,7 @@ void ProgressView::setBloodVolume(float total)
 
 	m_BloodVolume = total;
 
+	/* 刚开始的实时血量即为总血量 */
 	m_RealTimeVolume = total;
 }
 

@@ -16,7 +16,7 @@ public:
 	int m_Speed;
 
 	/* 角色的初始血量 */
-	int m_BloodVolume;
+	float m_BloodVolume;
 
 	/* 角色的普攻伤害值 */
 	int m_NormalAttackDamage;

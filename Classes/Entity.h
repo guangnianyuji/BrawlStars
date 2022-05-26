@@ -11,16 +11,15 @@ class Entity:public Node
 public:	
 	void setOriginalPositionInMap(TMXTiledMap* Map,const std::string& strPlace);
 
-	bool init()override;
+	bool init() override;
 
-	virtual void BeAttacked(const int& Damage)=0;
+	virtual void BeAttacked(const float& Damage) = 0;
 		
-	virtual void AttackSomething()=0;
+	virtual void AttackSomething() = 0;
 
-	virtual void Death()=0;
+	virtual void Death() = 0;
 
 	ProgressView* m_Blood;
-
 };
 
 #endif

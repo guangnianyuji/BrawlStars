@@ -30,15 +30,16 @@ bool Hero::init()
 
 	m_Blood->setBloodVolume(m_Character.m_BloodVolume);
 
-	addChild(m_Body);
+	this->addChild(m_Body);
+
+	m_Skill->setAnchorPoint(Vec2(1,-1));
+
+	m_Blood->setAnchorPoint(Vec2(0,0));
 
 	m_Body->addChild(m_Skill);
 
 	m_Body->addChild(m_Blood);
 
-	m_Skill->setAnchorPoint(Vec2(1,-0.5));
-
-	m_Blood->setAnchorPoint(Vec2(1, 1));
 
 	m_isMoving = false;
 	m_Direction = "a";//随意初始化无意义
@@ -110,6 +111,8 @@ void Hero::NormalAttack(const float& Angle)
 		auto actionRemove = RemoveSelf::create();
 
 		Fire->runAction(Sequence::create((Spawn::create(actionShoot, actionBurn, nullptr)), actionRemove, nullptr));
+
+		this->BeAttacked(1.0f);
 	}
 
 	else if (m_Character.m_Name == "Y")
@@ -129,14 +132,21 @@ void Hero::AttackSomething()
 	log("hahaha");
 }
 
-void Hero::BeAttacked(const int& Damage)
+void Hero::BeAttacked(const float& Damage)
 {
+	float realTimeBlood = m_Blood->getRealTimeBlood() - Damage;
 
+	m_Blood->setRealTimeBlood(realTimeBlood);
+
+	if (realTimeBlood <= 0)
+	{
+		this->Death();
+	}
 }
 
 void Hero::Death()
 {
-	this->removeFromParentAndCleanup(true);
+	//this->removeFromParentAndCleanup(true);
 }
 
 

@@ -72,7 +72,7 @@ Animate* AnimationUtils::createSkillAnimation(const std::string& name)
 
 		frameVec.pushBack(frame);
 	}
-	Animation* animation = Animation::createWithSpriteFrames(frameVec, 1.0f / 5, -1);
+	Animation* animation = Animation::createWithSpriteFrames(frameVec, 1.0f / 60, -1);
 	Animate* animate = Animate::create(animation);
 	return animate;
 }
