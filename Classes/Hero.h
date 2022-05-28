@@ -20,6 +20,9 @@ public:
 	//英雄的身体
 	Sprite* m_Body;
 
+	//英雄的速度
+	float m_Speed;
+
 	//英雄的技能
 	Sprite* m_Skill;
 

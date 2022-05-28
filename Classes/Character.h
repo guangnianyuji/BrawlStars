@@ -13,7 +13,7 @@ public:
 	std::string m_Name;
 
 	/* 角色的初始速度 */
-	int m_Speed;
+	float m_Speed;
 
 	/* 角色的初始血量 */
 	float m_BloodVolume;
@@ -26,7 +26,40 @@ public:
 
 	/* 大招冷却时间 */
 	int m_Cooldown;
+
+	//重写等于操作符
+	bool operator==(Character& aCharacter);
 };
 
 
+class Fei :public Character
+{
+public:
+	Fei();
+
+};
+
+class Yu :public Character
+{
+public:
+	Yu();
+
+};
+class Jide :public Character
+{
+public:
+	Jide();
+
+};
+class Lin :public Character
+{
+public:
+	Lin();
+
+};
+class Nothing :public Character
+{
+public:
+	Nothing();
+};
 #endif

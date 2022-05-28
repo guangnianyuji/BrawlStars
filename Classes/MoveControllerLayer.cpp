@@ -81,7 +81,7 @@ bool MoveControllerLayer::init()
 				return;
 			}
 			m_RockerSprite->stopAllActions();
-			m_RockerSprite->runAction(MoveTo::create(0.08f, m_RockerBackgroundPosition));
+			m_RockerSprite->runAction(MoveTo::create(1.0f/60, m_RockerBackgroundPosition));
 			m_isCanMove = false;
 		});
 	//¼üÅÌÒÆ¶¯ÊÂ¼ş

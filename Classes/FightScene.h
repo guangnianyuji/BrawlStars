@@ -39,6 +39,7 @@ private:
 
 
 	TMXTiledMap* m_TiledMap;
+	TMXLayer* m_WallLayer;
 
 	MoveControllerLayer* m_MoveControllerLayer;
 
@@ -48,7 +49,9 @@ private:
 
 	EventListenerPhysicsContact* m_ContactListener;
 
-
+	//工具类函数
+	//让像素坐标转换为瓦片坐标
+	Vec2 PositionToTiled(const Vec2& position);
 };
 
 #endif // ! __FIGHTSCENE_H__

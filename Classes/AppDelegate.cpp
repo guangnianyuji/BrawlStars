@@ -1,7 +1,8 @@
 #include "AppDelegate.h"
 #include "BSScene/StartScene.h"
 #include "FightScene.h"
-#include "Fei.h"
+#include "RoomScene.h"
+#include "Character.h"
 
 
 // #define USE_AUDIO_ENGINE 1
@@ -99,7 +100,9 @@ bool AppDelegate::applicationDidFinishLaunching() {
     //auto scene = StartScene::createScene();
 
     // create a scene. it's an autorelease object
-    auto scene = FightScene::create(Fei());
+   // auto scene = FightScene::create(Fei());
+
+    auto scene = StartScene::create();
 
     director->runWithScene(scene);
 

@@ -7,6 +7,8 @@ bool Hero::init()
 		return false;
 	}
 
+	m_Speed = m_Character.m_Speed;
+
 	m_Body = Sprite::create(m_Character.m_Name + "/" + m_Character.m_Name + "f1.png");
 
 	if (m_Body == nullptr)
@@ -74,7 +76,7 @@ void Hero::beganToMove(const float& Angle)
 		m_Body->stopAllActions();
 		m_Body->runAction(AnimationUtils::createAnimation(m_Character.m_Name, m_Direction));
 	}
-	runAction(MoveBy::create(0.1f, MathUtils::getVectorialSpeed(Angle, m_Character.m_Speed / 200)));
+	runAction(MoveBy::create(1.0f/60, MathUtils::getVectorialSpeed(Angle,m_Speed / 150)));
 	m_isMoving = true;
 }
 
@@ -84,6 +86,7 @@ void Hero::stopMoving()
 	{
        m_Body->stopAllActions();
 	   m_isMoving = false;
+	   m_Direction = "a";
 	}
 }
 

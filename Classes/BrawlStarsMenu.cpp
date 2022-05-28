@@ -57,7 +57,7 @@ void BrawlStarsMenu::bgplayMusic()
 {
 	if (!isbgMusicPlaying)
 	{
-		bgMusicID = experimental::AudioEngine::play2d("bgMusic.mp3",true);
+		bgMusicID = experimental::AudioEngine::play2d("music/bgMusic.mp3",true);
 		isbgMusicPlaying = true;
 	}
 }
@@ -170,7 +170,7 @@ void BrawlStarsMenu::initBackgroundMusicButton()
 			}
 			else
 			{
-				bgMusicID = experimental::AudioEngine::play2d("bgMusic.mp3");
+				bgMusicID = experimental::AudioEngine::play2d("music/bgMusic.mp3");
 				musicSlider->setTouchEnabled(true);
 				int percent = musicSlider->getPercent();
 				experimental::AudioEngine::setVolume(bgMusicID,(float)percent/100);
@@ -203,7 +203,7 @@ void BrawlStarsMenu::initSoundEffectsButton()
 
 		soundEffectsButton->setAnchorPoint(Vec2(0,0));
 
-		auto soundEffectsLabel = Label::createWithTTF("sound effeccts", "fonts/Marker Felt.ttf", 55);
+		auto soundEffectsLabel = Label::createWithTTF("sound effects", "fonts/Marker Felt.ttf", 55);
 
 		soundEffectsLabel->setAnchorPoint(Vec2(-0.5, 0));
 
