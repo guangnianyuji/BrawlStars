@@ -3,42 +3,74 @@
 
 #include "cocos2d.h"
 
+
 class AttackLayer:public cocos2d::Layer
 {
+	friend class FightControllerLayer;
 public:
 	static AttackLayer* create(cocos2d::Vec2 position1,cocos2d::Vec2 position2);
 
 	virtual bool init() override;
 
-	void initNormalAttackButton();
+	/* 设置技能摇杆为可用状态 */
+	void setRockerDisable(); 
 
-	void initAceButton();
+	/* 设置技能摇杆为不可用状态 */
+	void setRockerEnable();
 
-	void setButtonDisable(); 
+	/* 判断人物是否在进行普通攻击 */
+	inline const bool isAttacking() { return _isAttacking; }
 
-	void setButtonEnable();
+	/* 判断人物是否在放大招 */
+	inline const bool isAceTime() { return _isAceTime; }
 
-	inline const bool& isAttacking() { return _isAttacking; }
+	/* 得到普攻摇杆方向角 */
+	inline const float getNormalRockerAngle() { return normalAttackRockerAngle; }
 
-	//CREATE_FUNC(AttackLayer);
+	/* 得到绝招摇杆方向角 */
+	inline const float getAceRockerAngle() { return aceRockerAngle; }
 
 private:
 
-	cocos2d::EventListenerTouchOneByOne* TouchListener;
+	/* 加入普通攻击摇杆 */
+	void initNormalAttackRocker();
 
-	cocos2d::EventListenerKeyboard* KeyboardListener;
+	/* 加入绝招摇杆 */
+	void initAceRocker();
 
+	void update(float delta);
 
-	cocos2d::Vec2 normalAttackButtonPosition;
+	//更新摇杆所指角度
+	void updateRad();
 
-	cocos2d::Vec2 aceButtonPosition;
+	cocos2d::Vec2 normalAttackRockerBGPosition;
 
-	cocos2d::Sprite* normalAttackButton_Normal;
+	cocos2d::Vec2 normalAttackRockerPosition;
 
-	cocos2d::Sprite* normalAttackButton_Pressed;
+	cocos2d::Vec2 aceRockerBGPosition;
 
-	cocos2d::Menu* aceButton;
+	cocos2d::Vec2 aceRockerPosition;
+
+	cocos2d::Sprite* normalAttackRockerBG;
+
+	cocos2d::Sprite* normalAttackRocker;
+
+	cocos2d::Sprite*  aceRockerBG;
+
+	cocos2d::Sprite* aceRocker;
+
+	/* 摇杆的半径 */
+	float RockerBackgroundRadius;
+
+	/* 普通攻击摇杆的方向角 */
+	float normalAttackRockerAngle;
+
+	/* 绝招摇杆的方向角 */
+	float aceRockerAngle;
+
 
 	bool _isAttacking = false;
+
+	bool _isAceTime = false;
 };
 #endif

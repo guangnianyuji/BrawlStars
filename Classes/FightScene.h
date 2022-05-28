@@ -4,7 +4,7 @@
 #include "cocos2d.h"
 #include "Player.h"
 #include "BSScene\BaseScene.h"
-#include "MoveControllerLayer.h"
+#include "FightControllerLayer.h"
 #include "AttackLayer.h"
 #include  <typeinfo>
 
@@ -40,9 +40,9 @@ private:
 
 	TMXTiledMap* m_TiledMap;
 
-	MoveControllerLayer* m_MoveControllerLayer;
+	FightControllerLayer* m_FightControllerLayer;
 
-	AttackLayer* m_AttackLayer;
+	//AttackLayer* m_AttackLayer;
 
 	Player* m_Player;
 

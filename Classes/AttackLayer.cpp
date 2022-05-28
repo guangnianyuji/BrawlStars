@@ -1,4 +1,5 @@
 #include "AttackLayer.h"
+#include <MathUtils.h>
 
 AttackLayer* AttackLayer::create(cocos2d::Vec2 position1, cocos2d::Vec2 position2)
 {
@@ -6,9 +7,13 @@ AttackLayer* AttackLayer::create(cocos2d::Vec2 position1, cocos2d::Vec2 position
 
 	cocos2d::Vec2 VisibleSize = cocos2d::Director::getInstance()->getVisibleSize();
 
-	pRet->normalAttackButtonPosition = position1;
+	pRet->normalAttackRockerBGPosition = position1;
 
-	pRet->aceButtonPosition = position2;
+	pRet->normalAttackRockerPosition = position1;
+
+	pRet->aceRockerBGPosition = position2;
+
+	pRet->aceRockerPosition = position2;
 
 	if (pRet && pRet->init())
 	{
@@ -32,131 +37,114 @@ bool AttackLayer::init()
 	}
 	else
 	{
-		initNormalAttackButton();
+		initNormalAttackRocker();
 
-		initAceButton();
+		initAceRocker();
+
+		RockerBackgroundRadius = normalAttackRocker->getContentSize().width ;
 
 		return true;
 	}
-}
-
-void AttackLayer::initNormalAttackButton()
-{
-    normalAttackButton_Normal = cocos2d::Sprite::create("ui/Attack_Normal.png");
-
-	normalAttackButton_Pressed = cocos2d::Sprite::create("ui/Attack_Pressed.png");
-
-    if (normalAttackButton_Normal == nullptr)
-    {
-
-    }
-    else
-    { 
-        normalAttackButton_Normal->setVisible(false);
-
-		normalAttackButton_Normal->setScale(1.5);
-
-		normalAttackButton_Pressed->setVisible(false);
-
-		normalAttackButton_Pressed->setScale(1.5);
-
-        normalAttackButton_Normal->setAnchorPoint(cocos2d::Vec2(0.5, 0.5));
-
-		normalAttackButton_Pressed->setAnchorPoint(cocos2d::Vec2(0.5, 0.5));
-
-		normalAttackButton_Normal->setPosition(normalAttackButtonPosition);
-
-		normalAttackButton_Pressed->setPosition(normalAttackButtonPosition);
-
-        this->addChild(normalAttackButton_Normal);
-
-		this->addChild(normalAttackButton_Pressed);
-
-		TouchListener = cocos2d::EventListenerTouchOneByOne::create();
-
-		TouchListener->onTouchBegan = ([&](cocos2d::Touch* touch, cocos2d::Event* event)->bool
-			{
-				cocos2d::Point TouchPoint = touch->getLocation();
-				
-				/* 在屏幕右侧任意地方点击将可进行普攻 */
-				if (TouchPoint.x > 780)
-				{
-
-					//cocos2d::log("heiheihei");
-					_isAttacking = true;
-				}
-				return true;
-			});
-		TouchListener->onTouchMoved = ([&](cocos2d::Touch* touch, cocos2d::Event* event)->void
-			{
-				if (!_isAttacking)
-				{
-					return;
-				}
-				
-				else
-				{
-					normalAttackButton_Normal->setVisible(false);
-
-					normalAttackButton_Pressed->setVisible(true);
-				}
-			});
-		TouchListener->onTouchEnded = ([&](cocos2d::Touch* touch, cocos2d::Event* event)->void
-			{
-				if (!isAttacking())
-				{
-					return;
-				}
-				normalAttackButton_Normal->setVisible(true);
-
-				normalAttackButton_Pressed->setVisible(false);
-
-				_isAttacking = false;
-			});
-
-
-
-		KeyboardListener = cocos2d::EventListenerKeyboard::create();
-
-		KeyboardListener->onKeyPressed = ([&](cocos2d::EventKeyboard::KeyCode keycode, cocos2d::Event* event)->void
-			{
-				switch (keycode)
-				{
-				case cocos2d::EventKeyboard::KeyCode::KEY_J:
-					_isAttacking = true;
-					normalAttackButton_Normal->setVisible(false);
-					normalAttackButton_Pressed->setVisible(true);
-					break;
-				}
-			});
-
-		KeyboardListener->onKeyReleased = ([&](cocos2d::EventKeyboard::KeyCode keycode, cocos2d::Event* event)->void
-			{
-				switch (keycode)
-				{
-				case cocos2d::EventKeyboard::KeyCode::KEY_J:
-					_isAttacking = false;
-					normalAttackButton_Normal->setVisible(true);
-					normalAttackButton_Pressed->setVisible(false);
-					break;
-				}
-			});
-    }
-
 	scheduleUpdate();
 }
 
-void AttackLayer::initAceButton()
+void AttackLayer::setRockerDisable()
 {
+
 }
 
-void AttackLayer::setButtonEnable()
+void AttackLayer::initAceRocker()
 {
-	normalAttackButton_Normal->setVisible(true);
+	aceRockerBG = cocos2d::Sprite::create("ui/Ace_BG.png");
 
-	cocos2d::Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(TouchListener, 1);
+	aceRocker = cocos2d::Sprite::create("ui/Ace_bt.png");
 
-	cocos2d::Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(KeyboardListener, 1);
+	if (aceRockerBG == nullptr || aceRocker == nullptr)
+	{
+
+	}
+	else
+	{
+		aceRockerBG->setVisible(true);
+
+		aceRocker->setVisible(false);
+
+		aceRocker->setScale(1.5);
+
+		aceRockerBG->setAnchorPoint(cocos2d::Vec2(0.5, 0.5));
+
+		aceRocker->setAnchorPoint(cocos2d::Vec2(0.5, 0.5));
+
+		aceRockerBG->setPosition(aceRockerBGPosition);
+
+		aceRocker->setPosition(aceRockerPosition);
+
+		this->addChild(aceRockerBG);
+
+		this->addChild(aceRocker);
+
+	}
 }
+
+void AttackLayer::update(float delta)
+{
+	updateRad();
+}
+
+void AttackLayer::updateRad()
+{
+	if (normalAttackRockerPosition == normalAttackRockerBGPosition)
+	{
+		_isAttacking = false;
+	}
+	else
+	{
+		normalAttackRockerAngle = MathUtils::getRad(normalAttackRockerBGPosition, normalAttackRockerPosition);
+	}
+	
+	if (aceRockerPosition == aceRockerBGPosition)
+	{
+		_isAceTime = false;
+	}
+	else
+	{
+		aceRockerAngle= MathUtils::getRad(aceRockerBGPosition, aceRockerPosition);
+	}
+}
+
+void AttackLayer::initNormalAttackRocker()
+{
+
+	normalAttackRockerBG = cocos2d::Sprite::create("ui/Normal_Attack_BG.png");
+
+	normalAttackRocker = cocos2d::Sprite::create("ui/Normal_Attack_bt.png");
+
+	if (normalAttackRockerBG == nullptr || normalAttackRocker == nullptr)
+	{
+
+	}
+	else
+	{
+		normalAttackRockerBG->setVisible(true);
+
+		normalAttackRocker->setVisible(false);
+
+		normalAttackRocker->setScale(1.5);
+
+		normalAttackRockerBG->setAnchorPoint(cocos2d::Vec2(0.5, 0.5));
+
+		normalAttackRocker->setAnchorPoint(cocos2d::Vec2(0.5, 0.5));
+
+		normalAttackRockerBG->setPosition(normalAttackRockerBGPosition);
+
+		normalAttackRocker->setPosition(normalAttackRockerPosition);
+
+		this->addChild(normalAttackRockerBG);
+
+		this->addChild(normalAttackRocker);
+
+	}
+}
+
 
 

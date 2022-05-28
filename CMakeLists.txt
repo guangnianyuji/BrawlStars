@@ -33,7 +33,7 @@ list(APPEND GAME_SOURCE
      Classes/Network/SocketDataManager.cpp
      Classes/Entity.cpp 
      Classes/Fei.cpp
-     Classes/MoveControllerLayer.cpp
+     Classes/FightControllerLayer.cpp
      Classes/AttackLayer.cpp
      Classes/ProgressView.cpp
      Classes/TimeCounter.cpp
@@ -54,7 +54,7 @@ list(APPEND GAME_HEADER
      Classes/Character.h
      Classes/Entity.h
      Classes/Fei.h
-     Classes/MoveControllerLayer.h
+     Classes/FightControllerLayer.h
      Classes/AttackLayer.h
      Classes/ProgressView.h
      Classes/TimeCounter.h

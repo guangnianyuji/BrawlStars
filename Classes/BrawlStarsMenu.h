@@ -31,17 +31,17 @@ public:
 	void initSoundEffectsSlider();
 
 
+	//不写这个函数场景初始化不了
+	CREATE_FUNC(BrawlStarsMenu);
+
+private:
+
 	void exitCallback(cocos2d::Ref* pSender);
 	void DNDCallback(cocos2d::Ref* pSender);
 	void closeCallback(cocos2d::Ref* pSender);
 
 	void musicSliderCallback(cocos2d::Ref* ref, cocos2d::ui::Slider::EventType type);
 	void soundEffectsSliderCallback(cocos2d::Ref* ref, cocos2d::ui::Slider::EventType type);
-
-	//不写这个函数场景初始化不了
-	CREATE_FUNC(BrawlStarsMenu);
-
-protected:
 
 	cocos2d::Sprite* menuSprite = nullptr;
 	cocos2d::Label* menuLabel = nullptr;
@@ -53,10 +53,6 @@ protected:
 	cocos2d::ui::CheckBox* soundEffectsButton=nullptr;
 	cocos2d::ui::Slider* musicSlider = nullptr;
 	cocos2d::ui::Slider* soundEffectsSlider = nullptr;
-
-
-
-private:
 
 	int bgMusicID;
 	bool isbgMusicPlaying = false;

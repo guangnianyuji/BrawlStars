@@ -11,10 +11,10 @@ FightScene* FightScene::create(Character character)
 
 	pRet->m_Player = Player::create(character);
 
-	pRet->m_MoveControllerLayer = MoveControllerLayer::create(Vec2(VisibleSize.x / 4, VisibleSize.y / 3));
+	pRet->m_FightControllerLayer = FightControllerLayer::create(Vec2(VisibleSize.x / 4, VisibleSize.y / 3));
 
-	pRet->m_AttackLayer = AttackLayer::create(Vec2(VisibleSize.x / 6 * 5, VisibleSize.y / 6),
-	Vec2(VisibleSize.x/6*5,VisibleSize.y/3));
+	//pRet->m_AttackLayer = AttackLayer::create(Vec2(VisibleSize.x / 6 * 4.5, VisibleSize.y / 6),
+	//Vec2(VisibleSize.x/8*7,VisibleSize.y/2));
 
 	if (pRet && pRet->init())
 	{
@@ -53,10 +53,7 @@ bool FightScene::init()
 	m_TiledMap->addChild(m_Player,4);
 		
 	//在场景中加入遥杆
-	m_MoveControllerLayer->startRocker(true);
-
-	//在场景中加入攻击按键
-	m_AttackLayer->setButtonEnable();
+	m_FightControllerLayer->startMoveRocker(true);
 
 	//开启场景碰撞监听
 	startContactListen();
@@ -66,9 +63,7 @@ bool FightScene::init()
 
 	
 
-	addChild(m_MoveControllerLayer,2);
-
-	addChild(m_AttackLayer, 2);
+	addChild(m_FightControllerLayer,2);
 
 	scheduleUpdate();
 	
@@ -79,7 +74,7 @@ void FightScene::update(float delta)
 {
 	updatePlayerMove();
 	updateViewPointByPlayer();
-	updatePlayerAttack();
+	//updatePlayerAttack();
 }
 
 void FightScene::updateViewPointByPlayer()
@@ -117,9 +112,9 @@ void FightScene::updateViewPointByPlayer()
 
 void FightScene::updatePlayerMove( )
 {
-	if (m_MoveControllerLayer->getisCanMove())
+	if (m_FightControllerLayer->getisCanMove())
 	{
-        m_Player->beganToMove(m_MoveControllerLayer->getRockerAngle());
+        m_Player->beganToMove(m_FightControllerLayer->getMoveRockerAngle());
 	}
 	else
 	{
@@ -127,18 +122,19 @@ void FightScene::updatePlayerMove( )
 	} 
 }
 
+/*
 void FightScene::updatePlayerAttack()
 {
 	if (m_AttackLayer->isAttacking())
 	{
-		m_Player->NormalAttack(m_MoveControllerLayer->getRockerAngle());
+		m_Player->NormalAttack(m_FightControllerLayer->getMoveRockerAngle());
 	}
 	else
 	{
 		m_Player->stopNormalAttack();
 	}
 }
-
+*/
 void FightScene::startContactListen()
 {
 	m_ContactListener = EventListenerPhysicsContact::create();
