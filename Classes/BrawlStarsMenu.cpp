@@ -58,7 +58,7 @@ void BrawlStarsMenu::playbgMusic()
 {
 	if (whetherToPlaybgMusic && !isbgMusicPlaying)
 	{
-		bgMusicID= experimental::AudioEngine::play2d("music/bgMusic.mp3");
+		bgMusicID= experimental::AudioEngine::play2d("music/bgMusic.mp3",-1);
 
 		isbgMusicPlaying = true;
 	}
@@ -169,7 +169,6 @@ void BrawlStarsMenu::initBackgroundMusicButton()
 				experimental::AudioEngine::stop(bgMusicID);
 				whetherToPlaybgMusic = false;
 				isbgMusicPlaying = false;
-				musicSlider->setTouchEnabled(whetherToPlaybgMusic);
 			}
 			else
 			{
@@ -177,7 +176,6 @@ void BrawlStarsMenu::initBackgroundMusicButton()
 				experimental::AudioEngine::setVolume(bgMusicID, (float)bgMusicVolume / 100);
 				whetherToPlaybgMusic = true;
 				isbgMusicPlaying = true;
-				musicSlider->setTouchEnabled(whetherToPlaybgMusic);
 			}
 			
 			break;
@@ -258,7 +256,6 @@ void BrawlStarsMenu::initBackgroundMusicSlider()
 	{
 		musicSlider->setPercent(bgMusicVolume);
 		musicSlider->setScale(0.5);
-		//musicSlider->setEnabled(whetherToPlaybgMusic);
 		musicSlider->addEventListener(CC_CALLBACK_2(BrawlStarsMenu::musicSliderCallback, this));
 
 		musicSlider->setAnchorPoint(Vec2(0.5, 0.5));
