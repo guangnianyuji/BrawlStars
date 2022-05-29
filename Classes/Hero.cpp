@@ -40,6 +40,7 @@ bool Hero::init()
 
 	m_Body->addChild(m_Blood);
 
+	m_Speed = m_Character.m_Speed;
 
 	m_isMoving = false;
 	m_Direction = "a";//随意初始化无意义
@@ -81,7 +82,7 @@ void Hero::beganToMove(const float& Angle)
 		m_Body->runAction(AnimationUtils::createAnimation(m_Character.m_Name, m_Direction));
 	}
 
-	runAction(MoveBy::create(0.1f, MathUtils::getVectorialSpeed(Angle, m_Character.m_Speed / 200)));
+	runAction(MoveBy::create(0.1f, MathUtils::getVectorialSpeed(Angle, m_Speed /150)));
 
 	m_isMoving = true;
 
@@ -93,6 +94,7 @@ void Hero::stopMoving()
 	{
        m_Body->stopAllActions();
 	   m_isMoving = false;
+	   m_Direction = "a";
 	}
 }
 
@@ -166,5 +168,8 @@ void Hero::Death()
 	//this->removeFromParentAndCleanup(true);
 }
 
-
+float Hero::getSpeed()
+{
+	return m_Speed;
+}
 

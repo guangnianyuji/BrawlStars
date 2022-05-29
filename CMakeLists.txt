@@ -31,8 +31,8 @@ list(APPEND GAME_SOURCE
      Classes/ODSocket/ODSocket.cpp
      Classes/Network/SocketManager.cpp
      Classes/Network/SocketDataManager.cpp
+     Classes/Character.cpp
      Classes/Entity.cpp 
-     Classes/Fei.cpp
      Classes/FightControllerLayer.cpp
      Classes/AttackLayer.cpp
      Classes/ProgressView.cpp
@@ -40,7 +40,8 @@ list(APPEND GAME_SOURCE
      Classes/FightScene.cpp
      Classes/Hero.cpp
      Classes/MathUtils.cpp
-     Classes/Player.cpp
+     Classes/Player.cpp 
+     Classes/RoomScene.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AnimationUtils.h
@@ -53,7 +54,6 @@ list(APPEND GAME_HEADER
      Classes/Network/SocketDataManager.h
      Classes/Character.h
      Classes/Entity.h
-     Classes/Fei.h
      Classes/FightControllerLayer.h
      Classes/AttackLayer.h
      Classes/ProgressView.h
@@ -62,6 +62,7 @@ list(APPEND GAME_HEADER
      Classes/Hero.h
      Classes/MathUtils.h
      Classes/Player.h
+    Classes/RoomScene.h
      )
 
 if(ANDROID)

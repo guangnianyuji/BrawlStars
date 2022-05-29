@@ -165,6 +165,7 @@ void FightControllerLayer::initEventListener()
 
 	m_KeyboardListener->onKeyPressed = ([&](EventKeyboard::KeyCode keycode, Event* event)->void
 		{
+
 			switch (keycode)
 			{
 			case EventKeyboard::KeyCode::KEY_A:m_MoveRockerPosition.x

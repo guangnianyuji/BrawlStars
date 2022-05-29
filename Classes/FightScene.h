@@ -6,6 +6,7 @@
 #include "BSScene\BaseScene.h"
 #include "FightControllerLayer.h"
 #include "AttackLayer.h"
+#include "Character.h"
 #include  <typeinfo>
 
 using namespace cocos2d;

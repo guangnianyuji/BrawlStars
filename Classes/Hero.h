@@ -40,12 +40,18 @@ public:
 	//英雄的角色
 	Character m_Character;
 
+	//得到速度的接口
+	float getSpeed();
+
 private:
 	//英雄的身体
 	Sprite* m_Body;
 
 	//英雄的技能
 	Sprite* m_Skill;
+
+	//英雄的速度
+	float m_Speed;
 
 	//英雄是否正在移动
 	bool m_isMoving;

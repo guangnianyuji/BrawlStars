@@ -1,5 +1,5 @@
 #include "FightScene.h"
-#include "Fei.h"
+
 
 FightScene* FightScene::create(Character character)
 {
@@ -45,6 +45,23 @@ bool FightScene::init()
 
 	//加入地图
 	addChild(m_TiledMap,-1);
+
+	//获取障碍层
+	m_WallLayer = m_TiledMap->layerNamed("wall");//获取需要添加PhysicsBody的瓦片所在的图层
+	Size TiledNumber = m_TiledMap->getMapSize();
+	for (int i = 0; i < TiledNumber.width; i++)
+	{
+		for (int j = 0; j < TiledNumber.height; j++)// 这个循环遍历一遍所有瓦片
+		{
+			Sprite* WallTiled = m_WallLayer->tileAt(ccp(i, j));//获取wall层里的瓦片，瓦片是精灵，可以放在这个数组中
+			if (WallTiled)//并不是所有位置都有瓦片，如果没有瓦片就是空
+			{
+				auto boxPhysicsBody = PhysicsBody::createBox(WallTiled->getContentSize());//设置PhysicsBody组件
+				boxPhysicsBody->setDynamic(false);
+				WallTiled->setPhysicsBody(boxPhysicsBody);//给瓦片添加上PhysicsBody组件
+			}
+		}
+	}
 	
 	//设置玩家初始位置
 	m_Player->setOriginalPositionInMap(m_TiledMap,"PlayerBirthPlace");
@@ -113,8 +130,17 @@ void FightScene::updateViewPointByPlayer()
 void FightScene::updatePlayerMove( )
 {
 	if (m_FightControllerLayer->getisCanMove())
-	{
-        m_Player->beganToMove(m_FightControllerLayer->getMoveRockerAngle());
+	{//判断要去的地方是否是障碍层
+		float MoveAngle;
+		MoveAngle = m_FightControllerLayer->getMoveRockerAngle();
+		int TiledGid = m_WallLayer->getTileGIDAt(PositionToTiled
+		(Vec2(m_Player->getPosition()
+			+ MathUtils::getVectorialSpeed(MoveAngle, m_Player->getSpeed()/150))));
+		if (TiledGid)
+		{
+			return;
+		}
+        m_Player->beganToMove(MoveAngle);
 	}
 	else
 	{
@@ -193,4 +219,15 @@ bool FightScene::OnContactBegin(cocos2d::PhysicsContact& contact)
 		}
 	}
 	return false;
+}
+
+
+Vec2 FightScene::PositionToTiled(const Vec2& position)
+{
+	int x = position.x / m_TiledMap->getTileSize().width;
+
+	int y = ((m_TiledMap->getMapSize().height * m_TiledMap->getTileSize().height) - position.y) /
+		m_TiledMap->getTileSize().height;
+
+	return Vec2(x, y);
 }
