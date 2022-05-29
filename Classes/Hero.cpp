@@ -14,12 +14,12 @@ bool Hero::init()
 		return false;
 	}
 
-	m_Skill = Sprite::create(m_Character.m_Name + "/" + "Skill/1.png");
+	//m_Skill = Sprite::create(m_Character.m_Name + "/" + "Skill/1.png");
 
-	if (m_Skill == nullptr)
-	{
-		return false;
-	}
+	//if (m_Skill == nullptr)
+	//{
+	//	log("hahahaha");
+	//}
 
 	m_Blood = ProgressView::create();
 
@@ -32,11 +32,11 @@ bool Hero::init()
 
 	this->addChild(m_Body);
 
-	m_Skill->setAnchorPoint(Vec2(1,-1));
+	//m_Skill->setAnchorPoint(Vec2(1,-1));
 
 	m_Blood->setAnchorPoint(Vec2(0,0));
 
-	m_Body->addChild(m_Skill);
+	//m_Body->addChild(m_Skill);
 
 	m_Body->addChild(m_Blood);
 
@@ -56,7 +56,7 @@ bool Hero::init()
 
 void Hero::beganToMove(const float& Angle)
 {
-	m_Skill->runAction(AnimationUtils::createSkillAnimation(m_Character.m_Name));
+	//m_Skill->runAction(AnimationUtils::createSkillAnimation(m_Character.m_Name));
 
 	std::string tempDirection;
 	if (Angle > -3 * Pi / 4 && Angle < -Pi / 4)

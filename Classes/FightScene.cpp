@@ -135,7 +135,7 @@ void FightScene::updatePlayerMove( )
 		MoveAngle = m_FightControllerLayer->getMoveRockerAngle();
 		int TiledGid = m_WallLayer->getTileGIDAt(PositionToTiled
 		(Vec2(m_Player->getPosition()
-			+ MathUtils::getVectorialSpeed(MoveAngle, m_Player->getSpeed()/150))));
+			+ MathUtils::getVectorialSpeed(MoveAngle, m_Player->getSpeed()/20))));
 		if (TiledGid)
 		{
 			return;
