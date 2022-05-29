@@ -6,6 +6,12 @@
 
 using namespace cocos2d::ui;
 
+/* 用全局静态变量控制背景音乐状态 */
+static bool whetherToPlaybgMusic = true;
+
+static bool isbgMusicPlaying = false;
+
+static int bgMusicVolume = 100;
 
 class BrawlStarsMenu :public cocos2d::Layer
 {
@@ -17,7 +23,7 @@ public:
 
 	void drawMenuBackGround();
 	void initMenuLabel();
-	void bgplayMusic();
+	void playbgMusic();
 
 	void initExitButton();
 	void initDNDButton();
@@ -55,7 +61,6 @@ private:
 	cocos2d::ui::Slider* soundEffectsSlider = nullptr;
 
 	int bgMusicID;
-	bool isbgMusicPlaying = false;
 };
 
 
