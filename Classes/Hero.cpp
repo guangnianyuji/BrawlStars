@@ -7,8 +7,6 @@ bool Hero::init()
 		return false;
 	}
 
-	m_Speed = m_Character.m_Speed;
-
 	m_Body = Sprite::create(m_Character.m_Name + "/" + m_Character.m_Name + "f1.png");
 
 	if (m_Body == nullptr)
@@ -46,6 +44,12 @@ bool Hero::init()
 	m_isMoving = false;
 	m_Direction = "a";//随意初始化无意义
 
+	/* 使Player的身体承载物理属性 */
+	auto physicsBody = PhysicsBody::createBox(m_Body->getContentSize(), PhysicsMaterial(0.0f, 0.0f, 0.0f));
+	physicsBody->setDynamic(false);
+	physicsBody->setContactTestBitmask(0xFFFFFFFF);
+	m_Body->setPhysicsBody(physicsBody);
+
 	return true;
 }
 
@@ -76,8 +80,11 @@ void Hero::beganToMove(const float& Angle)
 		m_Body->stopAllActions();
 		m_Body->runAction(AnimationUtils::createAnimation(m_Character.m_Name, m_Direction));
 	}
-	runAction(MoveBy::create(1.0f/60, MathUtils::getVectorialSpeed(Angle,m_Speed / 150)));
+
+	runAction(MoveBy::create(0.1f, MathUtils::getVectorialSpeed(Angle, m_Character.m_Speed / 200)));
+
 	m_isMoving = true;
+
 }
 
 void Hero::stopMoving()
@@ -86,25 +93,32 @@ void Hero::stopMoving()
 	{
        m_Body->stopAllActions();
 	   m_isMoving = false;
-	   m_Direction = "a";
 	}
 }
 
 void Hero::NormalAttack(const float& Angle)
 {
+
 	if (m_Character.m_Name == "F")
 	{
 		auto Fire = Sprite::create(m_Character.m_Name + "/" + "Skill/1.png");
 		
 		auto physicsBody = cocos2d::PhysicsBody::createBox(Fire->getContentSize(), PhysicsMaterial(0.0f, 0.0f, 0.0f));
+
 		physicsBody->setDynamic(false);
+
 		physicsBody->setContactTestBitmask(0XFFFFFFFF);
+
 		Fire->setPhysicsBody(physicsBody);
 
 		Point nowPosition = m_Body->getPosition();
+
 		Fire->setPosition(nowPosition);
+
 		Fire->setAnchorPoint(Vec2(1, 1));
+
 		Fire->setName("Weapon");
+
 		this->addChild(Fire);
 
 		auto actionShoot = MoveTo::create(1.0f / 5, nowPosition + MathUtils::getVectorialSpeed(Angle, 200));

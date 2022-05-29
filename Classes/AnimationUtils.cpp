@@ -53,6 +53,7 @@ Animate* AnimationUtils::createNormalAttackAnimation(const std::string& name)
 	return animate;
 }
 
+
 Animate* AnimationUtils::createSkillAnimation(const std::string& name)
 {
 	SpriteFrameCache* cache = SpriteFrameCache::getInstance();

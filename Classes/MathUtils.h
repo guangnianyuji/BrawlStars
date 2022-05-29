@@ -10,10 +10,17 @@ class MathUtils
 public:
 	//极坐标变为直角坐标
 	static Point PolarToRectangular(float Radius, float Rad);
+
 	//得到弧度大小
 	static float getRad(const Vec2& StartPoint, const Vec2& EndPoint);
+
 	//得到速度的矢量式
 	static Vec2 getVectorialSpeed(float Rad, float Speed);
+
+	/* 判断触摸点是否在有效范围内 */
+	static bool isTouchEffective(const Vec2& TouchPoint, const Vec2& centre, const float radius);
+
+	
 };
 
 #endif //__MATH_H__

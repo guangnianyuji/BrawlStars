@@ -24,3 +24,11 @@ float MathUtils::getRad(const Vec2& StartPoint, const Vec2& EndPoint)
 {
 	return Vec2(cos(Rad) * Speed, sin(Rad) * Speed);
 }
+
+ bool MathUtils::isTouchEffective(const Vec2& TouchPoint, const Vec2& centre, const float radius)
+ {
+	 if (centre.distance(TouchPoint) > radius)
+		 return false;
+	 else
+		 return true;
+ }

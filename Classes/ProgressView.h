@@ -35,8 +35,6 @@ private:
 	/* 设置前景血条显示的长度 */
 	void setForegroundTectureRect(const cocos2d::Rect& rect);
 
-private:
-
 	cocos2d::Sprite* m_BloodBackground;
 
 	cocos2d::Sprite* m_BloodForeground;
