@@ -97,12 +97,12 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     register_all_packages();
 
-    //auto scene = StartScene::createScene();
+  auto scene = StartScene::createScene();
 
     // create a scene. it's an autorelease object
-   // auto scene = FightScene::create(Fei());
+ //auto scene = FightScene::create(Jide());
 
-    auto scene = StartScene::create();
+   //auto scene = StartScene::create();
 
     director->runWithScene(scene);
 

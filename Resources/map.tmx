@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.3468" orientation="orthogonal" renderorder="right-down" width="60" height="60" tilewidth="64" tileheight="64" infinite="0" nextlayerid="5" nextobjectid="5">
+<map version="1.2" tiledversion="1.2.3468" orientation="orthogonal" renderorder="right-down" width="60" height="60" tilewidth="64" tileheight="64" infinite="0" nextlayerid="5" nextobjectid="15">
  <tileset firstgid="1" name="1" tilewidth="64" tileheight="64" tilecount="48" columns="8">
   <image source="1.png" width="512" height="384"/>
  </tileset>
@@ -13,7 +13,7 @@
  </layer>
  <layer id="2" name="wall" width="60" height="60">
   <data encoding="base64" compression="zlib">
-   eJztlVESxCAIQ3uIvf9Z99dxCgQIVFsz04+1GvIqur/run7CM0qaE3kQz4q6aK7Duy6vpihvRId3P17WN7DGWDq8dbzRbxPpd69XxTfu4M16MfUG3o7+iPAiPR/J23kekCxzrvl3J2/HeZlrITmrFOk7LS9SS1v/Fl50PVo7U79rf5EMHp/uu+nwYnO19Z5+zuTVMjC0Au/op2VgqPu+krJneJGMmrp5s3t4eGXfFfpZ62/Eg8nLFsqL+MyeX+JlSetttI617m28nULvHWv+4Y31szbmUXT9rrx32SNrKnq4qv8lT3Y/R3NV3aPau2gfWmvv3iHfueL8snmRPrHqVvf4qrxPC72Xs/mR+Z67JapuXrTnvTnQ75Hltfp6Nd4KRes+lTernXgZZ9bbf6y8Us7qO+rrvNo7KRcqFu84V/JBMrB4M/uS5bV6ksGbzWztC9JLUV7vGc2cpUwNbc5OvFZGaR7K+7S8ezKPWT5f5pV8vXmlmiyxPHfhHb2zHpon+l+D1LG8tLG7bKivJ+sqvFr+at4Il8efwYsqe0YYvIhvJy9aW9ufu3FGzUhGppfFm2E7vOvyRp8/dqJ6+Q==
+   eJztlVGOxCAMQ3uIuf9ZR5qvCkHixCYDLZH6sQw4fmDYz3Vdn/P9vnvN0GXnHF67sryZOrz78ar2wBtT1eGdx5vdm0zeo1oz9riCl9VS1hN4K/KR4UUyn/FbeR8QL62v9u9K3or70vZCfM6qTO4sv0gva/1TeNH1aG+mf9X5Ih4iOtVv0+HF5lrrI3lm/FoeFLUC713P8qCo6vdq5J3hRTxaVc3LnuHhHeuukGcr34iGmldZKC+i02q+iVdRVq4je+GtexpvZaHvjjf/8ObybI1FKrt+V96e98yaGRmufOvbfoo8Z30peS1NRQ69tb3fkH2ecX/VvEhOvL6zM74q778LfZdZ/8j8yNuSrWpeNPNRH+h+sLxerlfj7flkK5s7RV4z/VQ6u/CydzaaP5Xnkc/Zb9Tbea3fRr7QUvHe5450EA8qXuZcWF4vkwpe1rN3LkiWsrzRO8rcJaaHNWcnXs/jaB7K+++Knkk75um8mXekG/U76qkqleYuvHdtVsPSRP/XIH08LWus5w3VjXhdhdfyP5s3wxXRV/Cixd4RBS+iW8mL9rbOpzeu6JnxqNTyeBm2w/u87wvN8nyx
   </data>
  </layer>
  <layer id="3" name="grass" width="60" height="60">
@@ -23,6 +23,33 @@
  </layer>
  <objectgroup id="4" name="objects">
   <object id="4" name="PlayerBirthPlace" x="1792" y="3646">
+   <point/>
+  </object>
+  <object id="5" name="AI1BirthPlace" x="578" y="3636">
+   <point/>
+  </object>
+  <object id="6" name="AI2BirthPlace" x="186" y="2548">
+   <point/>
+  </object>
+  <object id="7" name="AI3BirthPlace" x="198" y="1592">
+   <point/>
+  </object>
+  <object id="8" name="AI4BirthPlace" x="542" y="202">
+   <point/>
+  </object>
+  <object id="9" name="AI5BirthPlace" x="1920" y="164">
+   <point/>
+  </object>
+  <object id="10" name="AI6BirthPlace" x="2498" y="152">
+   <point/>
+  </object>
+  <object id="11" name="AI7BirthPlace" x="3638" y="1662">
+   <point/>
+  </object>
+  <object id="12" name="AI8BirthPlace" x="3676" y="2522">
+   <point/>
+  </object>
+  <object id="13" name="AI9BirthPlace" x="2630" y="3658">
    <point/>
   </object>
  </objectgroup>

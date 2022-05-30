@@ -1,7 +1,7 @@
 #include "FightControllerLayer.h"
 #include "MathUtils.h"
 
-FightControllerLayer* FightControllerLayer::create(Vec2 positon)
+FightControllerLayer* FightControllerLayer::create()
 {
 	FightControllerLayer* pRet = new(std::nothrow)FightControllerLayer();
 
@@ -10,13 +10,14 @@ FightControllerLayer* FightControllerLayer::create(Vec2 positon)
 	pRet->m_AttackLayer = AttackLayer::create(Vec2(VisibleSize.x / 6 * 4.5, VisibleSize.y / 6),
 	Vec2(VisibleSize.x/8*7,VisibleSize.y/2));
 
-	
+	pRet->m_MoveRockerBackgroundPosition = Vec2(VisibleSize.x / 4, VisibleSize.y / 3);
 
-	pRet->m_MoveRockerBackgroundPosition = positon;
-
-	pRet->m_MoveRockerPosition = positon;
+	pRet->m_MoveRockerPosition = Vec2(VisibleSize.x / 4, VisibleSize.y / 3);
 
 	pRet->m_isCanMove = false;
+
+	pRet->m_MoveRockerAngle = 0;
+
 	if (pRet && pRet->init())
 	{
 		pRet->autorelease();
@@ -41,9 +42,9 @@ void FightControllerLayer::initMoveRocker()
 	addChild(m_MoveRockerBackgroundSprite, 1);
 
 	m_MoveRockerSprite = Sprite::create("rocker.png");
-	m_MoveRockerSprite->setVisible(false);
+	m_MoveRockerSprite->setVisible(true);
 	m_MoveRockerSprite->setAnchorPoint(Vec2(0.5, 0.5));
-	m_MoveRockerSprite->setPosition(m_MoveRockerBackgroundPosition);
+	m_MoveRockerSprite->setPosition(m_MoveRockerPosition);
 	m_MoveRockerSprite->setOpacity(180);
 	m_MoveRockerSprite->setScale(2);
 	addChild(m_MoveRockerSprite, 1);
@@ -204,7 +205,6 @@ void FightControllerLayer::initEventListener()
 			m_MoveRockerSprite->setPosition(m_MoveRockerPosition);
 		});
 
-	scheduleUpdate();
 }
 
 bool FightControllerLayer::init()
@@ -214,11 +214,12 @@ bool FightControllerLayer::init()
 		return false;
 	}
 
-	this->addChild(m_AttackLayer);
 	
 	initMoveRocker();
 	initEventListener();
 
+	this->addChild(m_AttackLayer);
+	scheduleUpdate();
 	return true;
 }
 

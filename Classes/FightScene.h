@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "Player.h"
+#include "AI.h"
 #include "BSScene\BaseScene.h"
 #include "FightControllerLayer.h"
 #include "AttackLayer.h"
@@ -15,11 +16,13 @@ class FightScene:public BaseScene
 {
 public:
 	//创造场景
-	static FightScene* create(Character character);
+	static FightScene* create(std::vector<Character>);
 
 private:	
 	//初始化场景
 	bool init() override;
+
+	//void onEnter() override;
 
 	void update(float delta);
 
@@ -30,7 +33,7 @@ private:
 	void updatePlayerMove();
 
 	//播放技能动画函数
-	void updatePlayerAttack();
+	//void updatePlayerAttack();
 
 	//在场景中开启碰撞监听
 	void startContactListen();
@@ -47,6 +50,7 @@ private:
 	//AttackLayer* m_AttackLayer;
 
 	Player* m_Player;
+	std::vector<AI*> m_AIVec;
 
 	EventListenerPhysicsContact* m_ContactListener;
 

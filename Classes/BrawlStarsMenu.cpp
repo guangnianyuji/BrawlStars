@@ -3,6 +3,8 @@
 
 USING_NS_CC;
 
+bool BrawlStarsMenu::isbgMusicPlaying = true;
+
 cocos2d::Layer* BrawlStarsMenu::createLayer()
 {
 	return BrawlStarsMenu::create();

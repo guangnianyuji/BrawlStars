@@ -55,7 +55,7 @@ private:
 	cocos2d::ui::Slider* soundEffectsSlider = nullptr;
 
 	int bgMusicID;
-	bool isbgMusicPlaying = false;
+	static bool isbgMusicPlaying;
 };
 
 

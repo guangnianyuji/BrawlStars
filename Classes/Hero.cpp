@@ -45,7 +45,7 @@ bool Hero::init()
 	m_isMoving = false;
 	m_Direction = "a";//随意初始化无意义
 
-	/* 使Player的身体承载物理属性 */
+	/* 使Hero的身体承载物理属性 */
 	auto physicsBody = PhysicsBody::createBox(m_Body->getContentSize(), PhysicsMaterial(0.0f, 0.0f, 0.0f));
 	physicsBody->setDynamic(false);
 	physicsBody->setContactTestBitmask(0xFFFFFFFF);

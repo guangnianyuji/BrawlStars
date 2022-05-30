@@ -1,7 +1,6 @@
 #include "FightScene.h"
 
-
-FightScene* FightScene::create(Character character)
+FightScene* FightScene::create(std::vector<Character> CharacterVec)
 {
 	FightScene* pRet = new(std::nothrow)FightScene();
 
@@ -9,9 +8,20 @@ FightScene* FightScene::create(Character character)
 
 	pRet->m_TiledMap = TMXTiledMap::create("map.tmx");
 
-	pRet->m_Player = Player::create(character);
+	pRet->m_Player = Player::create(CharacterVec[0]);
 
-	pRet->m_FightControllerLayer = FightControllerLayer::create(Vec2(VisibleSize.x / 4, VisibleSize.y / 3));
+	for (int i = 1,AIi=0; i < 10; i++)
+	{
+		if (CharacterVec[i] == Nothing())
+		{
+			continue;
+		}
+		pRet->m_AIVec.push_back(AI::create(CharacterVec[i]));
+		pRet->m_AIVec[AIi]->setName("AI" + Value(i).asString());
+		AIi++;
+	}
+
+	pRet->m_FightControllerLayer = FightControllerLayer::create();
 
 	//pRet->m_AttackLayer = AttackLayer::create(Vec2(VisibleSize.x / 6 * 4.5, VisibleSize.y / 6),
 	//Vec2(VisibleSize.x/8*7,VisibleSize.y/2));
@@ -65,22 +75,25 @@ bool FightScene::init()
 	
 	//设置玩家初始位置
 	m_Player->setOriginalPositionInMap(m_TiledMap,"PlayerBirthPlace");
-
 	//将玩家加入到地图中
-	m_TiledMap->addChild(m_Player,4);
+	m_TiledMap->addChild(m_Player,4);	
+
+
+	for (std::vector<AI*>::iterator it= m_AIVec.begin(); it!= m_AIVec.end(); it++)
+	{
+		(*it)->setOriginalPositionInMap(m_TiledMap, (*it)->getName()+"BirthPlace");
+		m_TiledMap->addChild((*it), 4);
+	}
 		
 	//在场景中加入遥杆
 	m_FightControllerLayer->startMoveRocker(true);
 
 	//开启场景碰撞监听
 	startContactListen();
+	addChild(m_FightControllerLayer,2);
 
 	//为玩家节点设置名字，方便之后的碰撞检测
-	m_Player->setName("Person");
-
-	
-
-	addChild(m_FightControllerLayer,2);
+	m_Player->setName("Player");
 
 	scheduleUpdate();
 	
@@ -103,8 +116,8 @@ void FightScene::updateViewPointByPlayer()
 	Size TiledSize = m_TiledMap->getTileSize();
 
 	//地图大小
-	Size TiledMapSize = Size(TiledNumber.width * TiledNumber.width,
-		TiledNumber.height * TiledNumber.height);
+	Size TiledMapSize = Size(TiledNumber.width * TiledSize.width,
+		TiledNumber.height * TiledSize.height);
 
 	//屏幕大小
 	Size VisibleSize = Director::getInstance()->getVisibleSize();
@@ -187,7 +200,7 @@ bool FightScene::OnContactBegin(cocos2d::PhysicsContact& contact)
 				nodeB->removeFromParentAndCleanup(true);
 		}
 		/* 角色被武器击中 */
-		else if (nodeA->getName() == "Weapon" && nodeB->getName()=="Person")
+		else if (nodeA->getName() == "Weapon" && nodeB->getName()=="Player")
 		{
 			/* 获取武器的使用者 */
 			Hero* Attacker = (Hero*)nodeA->getParent();
@@ -203,7 +216,7 @@ bool FightScene::OnContactBegin(cocos2d::PhysicsContact& contact)
 			Attacker->AttackSomething();
 		}
 		/* 角色被武器击中 */
-		else if (nodeB->getName()=="Weapon" && nodeA->getName()=="Person")
+		else if (nodeB->getName()=="Weapon" && nodeA->getName()=="Player")
 		{
 			Hero* Attacker = (Hero*)nodeB->getParent();
 
