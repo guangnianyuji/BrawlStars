@@ -4,7 +4,7 @@
     <dict>
         <key>frames</key>
         <dict>
-            <key>F_01.png</key>
+            <key>J_01.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -19,7 +19,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>F_02.png</key>
+            <key>J_02.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -34,7 +34,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>F_03.png</key>
+            <key>J_03.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -49,7 +49,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>F_04.png</key>
+            <key>J_04.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -64,7 +64,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>F_05.png</key>
+            <key>J_05.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -79,7 +79,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>F_06.png</key>
+            <key>J_06.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -94,7 +94,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>F_07.png</key>
+            <key>J_07.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -109,7 +109,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>F_08.png</key>
+            <key>J_08.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -124,7 +124,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>F_09.png</key>
+            <key>J_09.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -139,7 +139,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>F_10.png</key>
+            <key>J_10.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -154,7 +154,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>F_11.png</key>
+            <key>J_11.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -169,7 +169,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>F_12.png</key>
+            <key>J_12.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -184,7 +184,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>F_13.png</key>
+            <key>J_13.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -199,7 +199,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>F_14.png</key>
+            <key>J_14.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -214,7 +214,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>F_15.png</key>
+            <key>J_15.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -229,7 +229,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>F_16.png</key>
+            <key>J_16.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -258,7 +258,7 @@
             <key>size</key>
             <string>{960,480}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:33ccdca166d42306c7c1fd25e7341e80:fc470d5552370a0e122843144d7c1ba9:7ad94e643b8b896ac190d560da883367$</string>
+            <string>$TexturePacker:SmartUpdate:6797c828694bae4a82b247c7cae0db11:287f5d4022cef675b805db1340603c42:7ad94e643b8b896ac190d560da883367$</string>
             <key>textureFileName</key>
             <string>Normal_Attack.png</string>
         </dict>

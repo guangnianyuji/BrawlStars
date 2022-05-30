@@ -36,15 +36,13 @@ private:
 	void startContactListen();
 
 	//监听到两物体开始碰撞的回调函数
-	bool OnContactBegin(cocos2d::PhysicsContact& contact);
+	bool onContactBegin(cocos2d::PhysicsContact& contact);
 
 
 	TMXTiledMap* m_TiledMap;
 	TMXLayer* m_WallLayer;
 
 	FightControllerLayer* m_FightControllerLayer;
-
-	//AttackLayer* m_AttackLayer;
 
 	Player* m_Player;
 

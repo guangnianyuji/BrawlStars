@@ -13,8 +13,6 @@ FightScene* FightScene::create(Character character)
 
 	pRet->m_FightControllerLayer = FightControllerLayer::create(Vec2(VisibleSize.x / 4, VisibleSize.y / 3));
 
-	//pRet->m_AttackLayer = AttackLayer::create(Vec2(VisibleSize.x / 6 * 4.5, VisibleSize.y / 6),
-	//Vec2(VisibleSize.x/8*7,VisibleSize.y/2));
 
 	if (pRet && pRet->init())
 	{
@@ -49,6 +47,8 @@ bool FightScene::init()
 	//获取障碍层
 	m_WallLayer = m_TiledMap->layerNamed("wall");//获取需要添加PhysicsBody的瓦片所在的图层
 	Size TiledNumber = m_TiledMap->getMapSize();
+
+	/*
 	for (int i = 0; i < TiledNumber.width; i++)
 	{
 		for (int j = 0; j < TiledNumber.height; j++)// 这个循环遍历一遍所有瓦片
@@ -62,6 +62,7 @@ bool FightScene::init()
 			}
 		}
 	}
+	*/
 	
 	//设置玩家初始位置
 	m_Player->setOriginalPositionInMap(m_TiledMap,"PlayerBirthPlace");
@@ -148,27 +149,26 @@ void FightScene::updatePlayerMove( )
 	} 
 }
 
-/*
+
 void FightScene::updatePlayerAttack()
 {
-	if (m_AttackLayer->isAttacking())
+	if (m_FightControllerLayer->m_AttackLayer->isAttacking())
 	{
-		m_Player->NormalAttack(m_FightControllerLayer->getMoveRockerAngle());
+		m_Player->NormalAttack(m_FightControllerLayer->m_AttackLayer->getNormalRockerAngle());
 	}
 	else
 	{
-		m_Player->stopNormalAttack();
 	}
 }
-*/
+
 void FightScene::startContactListen()
 {
 	m_ContactListener = EventListenerPhysicsContact::create();
 
-	m_ContactListener->onContactBegin = CC_CALLBACK_1(FightScene::OnContactBegin,this);
+	m_ContactListener->onContactBegin = CC_CALLBACK_1(FightScene::onContactBegin,this);
 }
 
-bool FightScene::OnContactBegin(cocos2d::PhysicsContact& contact)
+bool FightScene::onContactBegin(cocos2d::PhysicsContact& contact)
 {
 
 	Node* nodeA = contact.getShapeA()->getBody()->getNode();

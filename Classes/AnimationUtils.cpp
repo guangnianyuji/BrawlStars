@@ -40,9 +40,16 @@ Animate* AnimationUtils::createNormalAttackAnimation(const std::string& name)
 
 	Vector<SpriteFrame*> frameVec;
 	SpriteFrame* frame = nullptr;
-	for (int ix = 0; ix <= 14; ix++)
+	for (int ix = 1; ix <= 16; ix++)
 	{
-		frame = cache->getSpriteFrameByName("1_" + Value(ix).asString() + ".png");
+		if (ix <= 9)
+		{
+			frame = cache->getSpriteFrameByName(name + "_0" + Value(ix).asString() + ".png");
+		}
+		else
+		{
+			frame = cache->getSpriteFrameByName(name + "_" + Value(ix).asString() + ".png");
+		}
 		if (frame == nullptr)
 			break;
 

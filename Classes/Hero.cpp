@@ -46,6 +46,7 @@ bool Hero::init()
 	m_Direction = "a";//随意初始化无意义
 
 	/* 使Player的身体承载物理属性 */
+
 	auto physicsBody = PhysicsBody::createBox(m_Body->getContentSize(), PhysicsMaterial(0.0f, 0.0f, 0.0f));
 	physicsBody->setDynamic(false);
 	physicsBody->setContactTestBitmask(0xFFFFFFFF);
@@ -56,7 +57,7 @@ bool Hero::init()
 
 void Hero::beganToMove(const float& Angle)
 {
-	//m_Skill->runAction(AnimationUtils::createSkillAnimation(m_Character.m_Name));
+	m_Skill->runAction(AnimationUtils::createSkillAnimation(m_Character.m_Name));
 
 	std::string tempDirection;
 	if (Angle > -3 * Pi / 4 && Angle < -Pi / 4)
@@ -103,25 +104,25 @@ void Hero::NormalAttack(const float& Angle)
 
 	if (m_Character.m_Name == "F")
 	{
-		auto Fire = Sprite::create(m_Character.m_Name + "/" + "Skill/1.png");
+		auto Fire1 = Sprite::create(m_Character.m_Name + "/" + "Normal_Attack/F_01.png");
 		
-		auto physicsBody = cocos2d::PhysicsBody::createBox(Fire->getContentSize(), PhysicsMaterial(0.0f, 0.0f, 0.0f));
+		auto physicsBody = cocos2d::PhysicsBody::createBox(Fire1->getContentSize(), PhysicsMaterial(0.0f, 0.0f, 0.0f));
 
 		physicsBody->setDynamic(false);
 
 		physicsBody->setContactTestBitmask(0XFFFFFFFF);
 
-		Fire->setPhysicsBody(physicsBody);
+		Fire1->setPhysicsBody(physicsBody);
 
 		Point nowPosition = m_Body->getPosition();
 
-		Fire->setPosition(nowPosition);
+		Fire1->setPosition(nowPosition);
 
-		Fire->setAnchorPoint(Vec2(1, 1));
+		Fire1->setAnchorPoint(Vec2(1, 1));
 
-		Fire->setName("Weapon");
+		Fire1->setName("Weapon");
 
-		this->addChild(Fire);
+		this->addChild(Fire1);
 
 		auto actionShoot = MoveTo::create(1.0f / 5, nowPosition + MathUtils::getVectorialSpeed(Angle, 200));
 
@@ -129,7 +130,7 @@ void Hero::NormalAttack(const float& Angle)
 
 		auto actionRemove = RemoveSelf::create();
 
-		Fire->runAction(Sequence::create((Spawn::create(actionShoot, actionBurn, nullptr)), actionRemove, nullptr));
+		Fire1->runAction(Sequence::create((Spawn::create(actionShoot, actionBurn, nullptr)), actionRemove, nullptr));
 
 		this->BeAttacked(1.0f);
 	}
@@ -148,7 +149,7 @@ void Hero::stopNormalAttack()
 
 void Hero::AttackSomething()
 {
-	log("hahaha");
+
 }
 
 void Hero::BeAttacked(const float& Damage)
