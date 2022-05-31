@@ -10,12 +10,15 @@ FightScene* FightScene::create(std::vector<Character> CharacterVec)
 
 	pRet->m_Player = Player::create(CharacterVec[0]);
 
+	//初始化AI数组
 	for (int i = 1,AIi=0; i < 10; i++)
 	{
 		if (CharacterVec[i] == Nothing())
 		{
+			//如果角色为Nothing,跳过
 			continue;
 		}
+		//根据角色创建AI,放入AI数组，注意,m_AIVec[0]的编号为AI1
 		pRet->m_AIVec.push_back(AI::create(CharacterVec[i]));
 		pRet->m_AIVec[AIi]->setName("AI" + Value(i).asString());
 		AIi++;
@@ -72,7 +75,7 @@ bool FightScene::init()
 			}
 		}
 	}
-	
+
 	//设置玩家初始位置
 	m_Player->setOriginalPositionInMap(m_TiledMap,"PlayerBirthPlace");
 	//将玩家加入到地图中
@@ -95,6 +98,20 @@ bool FightScene::init()
 	//为玩家节点设置名字，方便之后的碰撞检测
 	m_Player->setName("Player");
 
+	//毒圈计时器开始计时
+	m_ToxicFogTimeCounter = TimeCounter::create();
+	addChild(m_ToxicFogTimeCounter);
+	m_ToxicFogTimeCounter->startCounting();
+	m_ToxicFogLevel = -1;//初始化，无意义
+	for (int i = 0; i < m_TiledMap->getMapSize().width; i++)
+	{
+		for (int j = 0; j < m_TiledMap->getMapSize().width; j++)
+		{
+			m_ToxicFogMap[Vec2(i, j)] = false;
+		}
+
+	 }
+
 	scheduleUpdate();
 	
 	return true;
@@ -104,6 +121,8 @@ void FightScene::update(float delta)
 {
 	updatePlayerMove();
 	updateViewPointByPlayer();
+	updateToxicFog();
+	updateToxicFogDamage();
 	//updatePlayerAttack();
 }
 
@@ -160,6 +179,70 @@ void FightScene::updatePlayerMove( )
         m_Player->stopMoving();
 	} 
 }
+
+void FightScene::updateToxicFog()
+{
+	m_TempToxicFogLevel = m_ToxicFogTimeCounter->getTime()/30;
+	if (m_TempToxicFogLevel == m_ToxicFogLevel)
+	{
+		return;
+	}
+	m_ToxicFogLevel = m_TempToxicFogLevel;
+	int i, j;
+	//绘制左侧毒雾
+	i = m_ToxicFogLevel;
+	for ( j = m_ToxicFogLevel;j < m_TiledMap->getMapSize().height - m_ToxicFogLevel; j++)
+	{
+		m_ToxicFogSpriteVec.push_back(Sprite::create("fog.png"));
+		m_ToxicFogSpriteVec.back()->setPosition(TiledToPosition(Vec2(i, j)));
+		m_TiledMap->addChild(m_ToxicFogSpriteVec.back(),5);
+		m_ToxicFogMap[Vec2(i, j)] = true;
+	}
+	//绘制上侧毒雾
+	j = m_ToxicFogLevel + 1;
+	for (i = m_ToxicFogLevel + 1; i< m_TiledMap->getMapSize().width - m_ToxicFogLevel; i++)
+	{
+		m_ToxicFogSpriteVec.push_back(Sprite::create("fog.png"));
+		m_ToxicFogSpriteVec.back()->setPosition(TiledToPosition(Vec2(i, j)));
+		m_TiledMap->addChild(m_ToxicFogSpriteVec.back(), 5);
+		m_ToxicFogMap[Vec2(i, j)] = true;
+	}
+	//绘制下侧毒雾
+	j = m_TiledMap->getMapSize().height - m_ToxicFogLevel-1;
+	for (i = m_ToxicFogLevel + 1; i< m_TiledMap->getMapSize().width - m_ToxicFogLevel; i++)
+	{
+		m_ToxicFogSpriteVec.push_back(Sprite::create("fog.png"));
+		m_ToxicFogSpriteVec.back()->setPosition(TiledToPosition(Vec2(i, j)));
+		m_TiledMap->addChild(m_ToxicFogSpriteVec.back(), 5);
+		m_ToxicFogMap[Vec2(i, j)] = true;
+	}
+	//绘制右侧毒雾
+	i = m_TiledMap->getMapSize().width- m_ToxicFogLevel - 1;
+	for (j = m_ToxicFogLevel; j < m_TiledMap->getMapSize().height - m_ToxicFogLevel; j++)
+	{
+		m_ToxicFogSpriteVec.push_back(Sprite::create("fog.png"));
+		m_ToxicFogSpriteVec.back()->setPosition(TiledToPosition(Vec2(i, j)));
+		m_TiledMap->addChild(m_ToxicFogSpriteVec.back(), 5);
+		m_ToxicFogMap[Vec2(i, j)] = true;
+	}
+	
+};
+
+void FightScene::updateToxicFogDamage()
+{
+	if(m_ToxicFogMap[PositionToTiled(m_Player->getPosition())])
+	{
+		//m_Player->BeAttcked(20);
+	}
+	for (auto oneAI : m_AIVec)
+	{
+		if (m_ToxicFogMap[PositionToTiled(oneAI->getPosition())])
+		{
+			//oneAI->BeAttcked(20);
+		}
+	}
+}
+
 
 /*
 void FightScene::updatePlayerAttack()
@@ -242,5 +325,14 @@ Vec2 FightScene::PositionToTiled(const Vec2& position)
 	int y = ((m_TiledMap->getMapSize().height * m_TiledMap->getTileSize().height) - position.y) /
 		m_TiledMap->getTileSize().height;
 
+	return Vec2(x, y);
+}
+
+Vec2 FightScene::TiledToPosition(const Vec2& position)
+{
+	int x= position.x* m_TiledMap->getTileSize().width+ 0.5* m_TiledMap->getTileSize().width;
+	
+	int y = (m_TiledMap->getMapSize().height - position.y) * m_TiledMap->getTileSize().height - 0.5 * m_TiledMap->getTileSize().height;
+	
 	return Vec2(x, y);
 }

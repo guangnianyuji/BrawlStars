@@ -8,6 +8,7 @@
 #include "FightControllerLayer.h"
 #include "AttackLayer.h"
 #include "Character.h"
+#include "TimeCounter.h"
 #include  <typeinfo>
 
 using namespace cocos2d;
@@ -32,6 +33,12 @@ private:
 	//更新玩家行走状态
 	void updatePlayerMove();
 
+    //更新毒雾
+	void updateToxicFog();
+
+	//更新毒雾伤害
+	void updateToxicFogDamage();
+
 	//播放技能动画函数
 	//void updatePlayerAttack();
 
@@ -45,6 +52,12 @@ private:
 	TMXTiledMap* m_TiledMap;
 	TMXLayer* m_WallLayer;
 
+	std::map < Vec2, bool > m_ToxicFogMap;//记录某一瓦片位置是否有毒雾
+	TimeCounter* m_ToxicFogTimeCounter;//增大毒雾范围的计时器
+	int m_ToxicFogLevel;//毒圈的等级
+	int m_TempToxicFogLevel;//毒圈的暂时等级
+	std::vector<Sprite*> m_ToxicFogSpriteVec;
+
 	FightControllerLayer* m_FightControllerLayer;
 
 	//AttackLayer* m_AttackLayer;
@@ -57,6 +70,8 @@ private:
 	//工具类函数
 	//让像素坐标转换为瓦片坐标
 	Vec2 PositionToTiled(const Vec2& position);
+	////让瓦片坐标转换为像素坐标
+	Vec2 TiledToPosition(const Vec2& position);
 };
 
 #endif // ! __FIGHTSCENE_H__
