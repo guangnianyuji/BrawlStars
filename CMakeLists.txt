@@ -43,6 +43,7 @@ list(APPEND GAME_SOURCE
      Classes/MathUtils.cpp
      Classes/Player.cpp 
      Classes/RoomScene.cpp
+     Classes/Weapon.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AI.h
@@ -65,6 +66,7 @@ list(APPEND GAME_HEADER
      Classes/MathUtils.h
      Classes/Player.h
     Classes/RoomScene.h
+    Classes/Weapon.h
      )
 
 if(ANDROID)

@@ -41,7 +41,7 @@ bool AttackLayer::init()
 
 		initAceRocker();
 
-		RockerBackgroundRadius = normalAttackRocker->getContentSize().width ;
+		RockerBackgroundRadius = normalAttackRocker->getContentSize().width*0.8 ;
 
 		return true;
 	}
@@ -86,31 +86,42 @@ void AttackLayer::initAceRocker()
 	}
 }
 
+/*
 void AttackLayer::update(float delta)
 {
 	updateRad();
 }
+*/
 
+/*
 void AttackLayer::updateRad()
 {
 	if (normalAttackRockerPosition == normalAttackRockerBGPosition)
 	{
-		_isAttacking = false;
+		_isAttackTime = true;
 	}
 	else
 	{
+		
+		normalAttackRockerPosition = normalAttackRockerBGPosition;
+
 		normalAttackRockerAngle = MathUtils::getRad(normalAttackRockerBGPosition, normalAttackRockerPosition);
 	}
 	
 	if (aceRockerPosition == aceRockerBGPosition)
 	{
-		_isAceTime = false;
+		_isAceTime = true;
+
 	}
 	else
 	{
+		//aceRockerAngle= MathUtils::getRad(aceRockerBGPosition, aceRockerPosition);
+		aceRockerPosition = aceRockerBGPosition;
+
 		aceRockerAngle= MathUtils::getRad(aceRockerBGPosition, aceRockerPosition);
 	}
 }
+*/
 
 void AttackLayer::initNormalAttackRocker()
 {

@@ -6,6 +6,7 @@
 #include "MathUtils.h"
 #include "Character.h"
 #include "ProgressView.h"
+#include "Weapon.h"
 
 using namespace cocos2d;
 
@@ -23,7 +24,7 @@ public:
 	void stopMoving();
 
 	//普通攻击
-	void NormalAttack(const float& Angle);
+	void NormalAttack(const float Angle,float nowTime);
 
 	//停止普通攻击
 	void stopNormalAttack();
@@ -37,15 +38,19 @@ public:
 	//死亡
 	virtual void Death() override;
 
+	inline bool isDead() { return m_isDead; }
+
 	//英雄的角色
 	Character m_Character;
+
 
 	//得到速度的接口
 	float getSpeed();
 
 private:
+
 	//英雄的身体
-	Sprite* m_Body;
+	//Sprite* m_Body;
 
 	//英雄的技能
 	Sprite* m_Skill;
@@ -55,6 +60,10 @@ private:
 
 	//英雄是否正在移动
 	bool m_isMoving;
+
+	//英雄是否已经死亡
+	bool m_isDead = false;
+
 
 	//英雄大致移动方向缩写(方便找动画文件)
 	std::string m_Direction;

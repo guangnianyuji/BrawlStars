@@ -20,6 +20,9 @@ public:
 	virtual void Death() = 0;
 
 	ProgressView* m_Blood;
+
+protected:
+	Sprite* m_Body;
 };
 
 #endif

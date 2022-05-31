@@ -3,7 +3,6 @@
 
 USING_NS_CC;
 
-bool BrawlStarsMenu::isbgMusicPlaying = true;
 
 cocos2d::Layer* BrawlStarsMenu::createLayer()
 {
@@ -55,11 +54,12 @@ void BrawlStarsMenu::initMenuLabel()
 
 }
 
-void BrawlStarsMenu::bgplayMusic()
+void BrawlStarsMenu::playbgMusic()
 {
-	if (!isbgMusicPlaying)
+	if (whetherToPlaybgMusic && !isbgMusicPlaying)
 	{
-		bgMusicID = experimental::AudioEngine::play2d("music/bgMusic.mp3",true);
+		bgMusicID= experimental::AudioEngine::play2d("music/bgMusic.mp3",-1);
+
 		isbgMusicPlaying = true;
 	}
 }
@@ -136,11 +136,8 @@ void BrawlStarsMenu::initBackgroundMusicButton()
 	else
 	{
 		musicButton->setScale(0.6);
-
 		musicButton->setAnchorPoint(Vec2(0, 0));
-
 		auto musicLabel = Label::createWithTTF("music", "fonts/Marker Felt.ttf", 55);
-
 		musicLabel->setAnchorPoint(Vec2(-1.5, 0));
 
 
@@ -155,6 +152,10 @@ void BrawlStarsMenu::initBackgroundMusicButton()
 		this->addChild(musicButton,0);
 	}
 
+	if (!whetherToPlaybgMusic)
+		musicButton->setSelectedState(true);
+	else musicButton->setSelectedState(false);
+
 	musicButton->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
 		switch (type)
 		{
@@ -163,22 +164,20 @@ void BrawlStarsMenu::initBackgroundMusicButton()
 			break;
 		case ui::Widget::TouchEventType::ENDED:
 			
-			if (isbgMusicPlaying)
+			if (whetherToPlaybgMusic)
 			{
 				experimental::AudioEngine::stop(bgMusicID);
-				musicSlider->setTouchEnabled(false);
-				soundEffectsSlider->setTouchEnabled(false);
+				whetherToPlaybgMusic = false;
 				isbgMusicPlaying = false;
 			}
 			else
 			{
 				bgMusicID = experimental::AudioEngine::play2d("music/bgMusic.mp3");
-				musicSlider->setTouchEnabled(true);
-				int percent = musicSlider->getPercent();
-				experimental::AudioEngine::setVolume(bgMusicID,(float)percent/100);
+				experimental::AudioEngine::setVolume(bgMusicID, (float)bgMusicVolume / 100);
+				whetherToPlaybgMusic = true;
 				isbgMusicPlaying = true;
 			}
-
+			
 			break;
 		default:
 			break;
@@ -255,7 +254,7 @@ void BrawlStarsMenu::initBackgroundMusicSlider()
 	}
 	else
 	{
-		musicSlider->setPercent(100);
+		musicSlider->setPercent(bgMusicVolume);
 		musicSlider->setScale(0.5);
 		musicSlider->addEventListener(CC_CALLBACK_2(BrawlStarsMenu::musicSliderCallback, this));
 
@@ -289,10 +288,8 @@ if (soundEffectsSlider == nullptr ||
 	else
 	{
 		soundEffectsSlider->setPercent(100);
-
 		soundEffectsSlider->setScale(0.5);
 		soundEffectsSlider->addEventListener(CC_CALLBACK_2(BrawlStarsMenu::soundEffectsSliderCallback, this));
-
 		soundEffectsSlider->setAnchorPoint(Vec2(0.5, 0.5));
 
 		float x = origin.x + visibleSize.width / 32 * 16;
@@ -340,7 +337,7 @@ bool BrawlStarsMenu::init()
 	}
 
 	drawMenuBackGround();
-	bgplayMusic();
+	playbgMusic();
 	
 	initMenuLabel();
 	initExitButton();
@@ -384,8 +381,9 @@ void BrawlStarsMenu::musicSliderCallback(cocos2d::Ref* ref, cocos2d::ui::Slider:
 	case cocos2d::ui::Slider::EventType::ON_PERCENTAGE_CHANGED:
 	{
 		int percent = musicSlider->getPercent();
-		log("slider percent = %d", percent);
-		if (isbgMusicPlaying)
+		/* ¸üĞÂ±³¾°ÒôÀÖÒôÁ¿ */
+		bgMusicVolume = percent;
+		if (whetherToPlaybgMusic)
 		{
 			experimental::AudioEngine::setVolume(bgMusicID, (float)percent/100);
 		}

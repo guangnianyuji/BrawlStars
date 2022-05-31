@@ -42,11 +42,14 @@ private:
 	//播放技能动画函数
 	//void updatePlayerAttack();
 
+	//更新玩家的技能发射
+	void updatePlayerAttack(float nowTime);
+
 	//在场景中开启碰撞监听
 	void startContactListen();
 
 	//监听到两物体开始碰撞的回调函数
-	bool OnContactBegin(cocos2d::PhysicsContact& contact);
+	bool onContactBegin(cocos2d::PhysicsContact& contact);
 
 
 	TMXTiledMap* m_TiledMap;
@@ -60,12 +63,12 @@ private:
 
 	FightControllerLayer* m_FightControllerLayer;
 
-	//AttackLayer* m_AttackLayer;
-
 	Player* m_Player;
 	std::vector<AI*> m_AIVec;
 
 	EventListenerPhysicsContact* m_ContactListener;
+
+	TimeCounter* m_TimeCounter;
 
 	//工具类函数
 	//让像素坐标转换为瓦片坐标

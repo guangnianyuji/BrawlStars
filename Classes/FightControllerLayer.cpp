@@ -1,7 +1,7 @@
 #include "FightControllerLayer.h"
 #include "MathUtils.h"
 
-FightControllerLayer* FightControllerLayer::create()
+FightControllerLayer* FightControllerLayer::create(Vec2 positon)
 {
 	FightControllerLayer* pRet = new(std::nothrow)FightControllerLayer();
 
@@ -10,14 +10,11 @@ FightControllerLayer* FightControllerLayer::create()
 	pRet->m_AttackLayer = AttackLayer::create(Vec2(VisibleSize.x / 6 * 4.5, VisibleSize.y / 6),
 	Vec2(VisibleSize.x/8*7,VisibleSize.y/2));
 
-	pRet->m_MoveRockerBackgroundPosition = Vec2(VisibleSize.x / 4, VisibleSize.y / 3);
+	pRet->m_MoveRockerBackgroundPosition = positon;
 
-	pRet->m_MoveRockerPosition = Vec2(VisibleSize.x / 4, VisibleSize.y / 3);
+	pRet->m_MoveRockerPosition = positon;
 
 	pRet->m_isCanMove = false;
-
-	pRet->m_MoveRockerAngle = 0;
-
 	if (pRet && pRet->init())
 	{
 		pRet->autorelease();
@@ -42,12 +39,13 @@ void FightControllerLayer::initMoveRocker()
 	addChild(m_MoveRockerBackgroundSprite, 1);
 
 	m_MoveRockerSprite = Sprite::create("rocker.png");
-	m_MoveRockerSprite->setVisible(true);
+	m_MoveRockerSprite->setVisible(false);
 	m_MoveRockerSprite->setAnchorPoint(Vec2(0.5, 0.5));
-	m_MoveRockerSprite->setPosition(m_MoveRockerPosition);
+	m_MoveRockerSprite->setPosition(m_MoveRockerBackgroundPosition);
 	m_MoveRockerSprite->setOpacity(180);
 	m_MoveRockerSprite->setScale(2);
 	addChild(m_MoveRockerSprite, 1);
+	//m_MoveRockerSprite->retain();
 
 	m_MoveRockerBackgroundRadius = m_MoveRockerBackgroundSprite->getContentSize().width * 0.5;
 }
@@ -93,7 +91,6 @@ void FightControllerLayer::initEventListener()
 			/* Èç¹û´¥ÃþµãÔÚÆÁÄ»µÄÓÒ°ë²¿·Ö */
 			else
 			{
-				m_isCanMove = true;
 
 				Vec2 centre1 = m_AttackLayer->normalAttackRockerBGPosition;
 
@@ -102,21 +99,24 @@ void FightControllerLayer::initEventListener()
 				/* ´¥ÃþµãÔÚÆÕ¹¥Ò¡¸Ë·¶Î§ÄÚ */
 				if (MathUtils::isTouchEffective(TouchPoint, centre1, m_AttackLayer->RockerBackgroundRadius))
 				{
-					m_AttackLayer->_isAttacking = true;
+					//m_AttackLayer->_isAttackTime = false;
 
 					m_AttackLayer->normalAttackRockerPosition = TouchPoint;
 
 					m_AttackLayer->normalAttackRocker->setPosition(TouchPoint);
+
+				
 				}
 
 				/* ´¥ÃþµãÔÚ¾øÕÐÒ¡¸Ë·¶Î§ÄÚ */
 				else if (MathUtils::isTouchEffective(TouchPoint, centre2, m_AttackLayer->RockerBackgroundRadius))
 				{
-					m_AttackLayer->_isAceTime = true;
+					//m_AttackLayer->_isAceTime = false;
 
 					m_AttackLayer->aceRockerPosition = TouchPoint;
 
 					m_AttackLayer->aceRocker->setPosition(TouchPoint);
+					
 				}
 			}
 		}
@@ -135,26 +135,36 @@ void FightControllerLayer::initEventListener()
 			m_isCanMove = false;
 		}
 
-		if (!m_AttackLayer->isAttacking())
+		if (m_AttackLayer->isAttackTime()||m_AttackLayer->normalAttackRockerBGPosition==m_AttackLayer->normalAttackRockerPosition )
 		{
 			
 		}
 		else
 		{
-			m_AttackLayer->normalAttackRockerPosition = m_AttackLayer->normalAttackRockerBGPosition;
 			m_AttackLayer->normalAttackRocker->stopAllActions();
 			m_AttackLayer->normalAttackRocker->runAction(MoveTo::create(0.08f, m_AttackLayer->normalAttackRockerBGPosition));
+
+			m_AttackLayer->normalAttackRockerAngle = MathUtils::getRad(m_AttackLayer->normalAttackRockerBGPosition,
+				m_AttackLayer->normalAttackRockerPosition);
+
+			m_AttackLayer->normalAttackRockerPosition = m_AttackLayer->normalAttackRockerBGPosition;
+			m_AttackLayer->_isAttackTime = true;
 		}
 
-		if (!m_AttackLayer->isAceTime())
+		if (m_AttackLayer->isAceTime()||m_AttackLayer->aceRockerBGPosition==m_AttackLayer->aceRockerPosition)
 		{
 
 		}
 		else
 		{
-			m_AttackLayer->aceRockerPosition = m_AttackLayer->aceRockerBGPosition;
 			m_AttackLayer->aceRocker->stopAllActions();
 			m_AttackLayer->aceRocker->runAction(MoveTo::create(0.08f, m_AttackLayer->aceRockerBGPosition));
+
+			m_AttackLayer->aceRockerAngle = MathUtils::getRad(m_AttackLayer->aceRockerBGPosition,
+				m_AttackLayer->aceRockerPosition);
+
+			m_AttackLayer->aceRockerPosition = m_AttackLayer->aceRockerBGPosition;
+			m_AttackLayer->_isAceTime = true;
 		}
 	};
 
@@ -205,6 +215,7 @@ void FightControllerLayer::initEventListener()
 			m_MoveRockerSprite->setPosition(m_MoveRockerPosition);
 		});
 
+	scheduleUpdate();
 }
 
 bool FightControllerLayer::init()
@@ -219,7 +230,7 @@ bool FightControllerLayer::init()
 	initEventListener();
 
 	this->addChild(m_AttackLayer);
-	scheduleUpdate();
+
 	return true;
 }
 
@@ -263,6 +274,7 @@ bool  FightControllerLayer::getisCanMove()
 void  FightControllerLayer::update(float delta)
 {
 	updateRad();
+	m_AttackLayer->update(delta);
 }
 
 void FightControllerLayer::updateRad( )

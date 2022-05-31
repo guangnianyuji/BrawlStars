@@ -27,10 +27,10 @@ public:
 	//得到方向角
 	float getMoveRockerAngle();
 
+	AttackLayer* m_AttackLayer;
 
 private:
 
-	AttackLayer* m_AttackLayer;
 
 	void initMoveRocker();
 
@@ -71,4 +71,4 @@ private:
 
 };
 
-#endif//__MOVECONTROLLERLAYER_H__
+#endif//__FIGHTCONTROLLERLAYER_H__

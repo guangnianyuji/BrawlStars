@@ -27,6 +27,15 @@ public:
 	/* 大招冷却时间 */
 	int m_Cooldown;
 
+	/* 角色的射程 */
+	int m_Range;
+
+	/* 普通攻击的间隔时间 */
+	float m_IntervalTime;
+
+	/* 上一次发出普通攻击的时间 */
+	float m_Time;
+
 	//重写等于操作符
 	bool operator==(Character& aCharacter);
 };
