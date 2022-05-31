@@ -11,8 +11,6 @@ FightScene* FightScene::create(Character character)
 
 	pRet->m_Player = Player::create(character);
 
-	pRet->m_FightControllerLayer = FightControllerLayer::create(Vec2(VisibleSize.x / 4, VisibleSize.y / 3));
-
 
 	if (pRet && pRet->init())
 	{
@@ -48,27 +46,14 @@ bool FightScene::init()
 	m_WallLayer = m_TiledMap->layerNamed("wall");//获取需要添加PhysicsBody的瓦片所在的图层
 	Size TiledNumber = m_TiledMap->getMapSize();
 
-	/*
-	for (int i = 0; i < TiledNumber.width; i++)
-	{
-		for (int j = 0; j < TiledNumber.height; j++)// 这个循环遍历一遍所有瓦片
-		{
-			Sprite* WallTiled = m_WallLayer->tileAt(ccp(i, j));//获取wall层里的瓦片，瓦片是精灵，可以放在这个数组中
-			if (WallTiled)//并不是所有位置都有瓦片，如果没有瓦片就是空
-			{
-				auto boxPhysicsBody = PhysicsBody::createBox(WallTiled->getContentSize());//设置PhysicsBody组件
-				boxPhysicsBody->setDynamic(false);
-				WallTiled->setPhysicsBody(boxPhysicsBody);//给瓦片添加上PhysicsBody组件
-			}
-		}
-	}
-	*/
-	
 	//设置玩家初始位置
 	m_Player->setOriginalPositionInMap(m_TiledMap,"PlayerBirthPlace");
 
 	//将玩家加入到地图中
 	m_TiledMap->addChild(m_Player,4);
+
+	m_FightControllerLayer = FightControllerLayer::create(Vec2(VisibleSize.x / 4, VisibleSize.y / 3));
+
 		
 	//在场景中加入遥杆
 	m_FightControllerLayer->startMoveRocker(true);
@@ -77,11 +62,19 @@ bool FightScene::init()
 	startContactListen();
 
 	//为玩家节点设置名字，方便之后的碰撞检测
-	m_Player->setName("Person");
-
-	
+	m_Player->setName("Person");	
 
 	addChild(m_FightControllerLayer,2);
+
+
+	this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+
+	m_TimeCounter = TimeCounter::create();
+
+	addChild(m_TimeCounter);
+
+	m_TimeCounter->startCounting();
+
 
 	scheduleUpdate();
 	
@@ -92,7 +85,8 @@ void FightScene::update(float delta)
 {
 	updatePlayerMove();
 	updateViewPointByPlayer();
-	//updatePlayerAttack();
+	updatePlayerAttack(m_TimeCounter->getTime());
+
 }
 
 void FightScene::updateViewPointByPlayer()
@@ -128,6 +122,17 @@ void FightScene::updateViewPointByPlayer()
 	m_TiledMap->setPosition(CenterPosition - DestinationPosition);
 }
 
+
+Vec2 FightScene::PositionToTiled(const Vec2& position)
+{
+	int x = position.x / m_TiledMap->getTileSize().width;
+
+	int y = ((m_TiledMap->getMapSize().height * m_TiledMap->getTileSize().height) - position.y) /
+		m_TiledMap->getTileSize().height;
+
+	return Vec2(x, y);
+}
+
 void FightScene::updatePlayerMove( )
 {
 	if (m_FightControllerLayer->getisCanMove())
@@ -150,11 +155,20 @@ void FightScene::updatePlayerMove( )
 }
 
 
-void FightScene::updatePlayerAttack()
+void FightScene::updatePlayerAttack(float nowTime)
 {
-	if (m_FightControllerLayer->m_AttackLayer->isAttacking())
+	if (m_Player->isDead())
+		return;
+
+	float lastTime = m_Player->m_Character.m_Time;
+	float delta = nowTime - lastTime;
+
+
+	if (m_FightControllerLayer->m_AttackLayer->isAttackTime()&&delta>=m_Player->m_Character.m_IntervalTime)
 	{
-		m_Player->NormalAttack(m_FightControllerLayer->m_AttackLayer->getNormalRockerAngle());
+		m_Player->NormalAttack(m_FightControllerLayer->m_AttackLayer->getNormalRockerAngle(),nowTime);
+
+		m_FightControllerLayer->m_AttackLayer->setAttackState(false);
 	}
 	else
 	{
@@ -187,14 +201,15 @@ bool FightScene::onContactBegin(cocos2d::PhysicsContact& contact)
 				nodeB->removeFromParentAndCleanup(true);
 		}
 		/* 角色被武器击中 */
-		else if (nodeA->getName() == "Weapon" && nodeB->getName()=="Person")
+		else if (nodeA->getName() == "Weapon" && nodeB->getName()=="PLayer")
 		{
 			/* 获取武器的使用者 */
-			Hero* Attacker = (Hero*)nodeA->getParent();
+			Weapon* weapon = (Weapon*)nodeA;
+			Hero* Attacker = weapon->getOwner();
 
 			/* 将武器从场景中移除 */
-			if(nodeA!=nullptr)
-				nodeA->removeFromParentAndCleanup(true);
+			if(weapon!=nullptr)
+				weapon->removeFromParentAndCleanup(true);
 
 			Hero* Injured = (Hero*)nodeB;
 
@@ -203,31 +218,21 @@ bool FightScene::onContactBegin(cocos2d::PhysicsContact& contact)
 			Attacker->AttackSomething();
 		}
 		/* 角色被武器击中 */
-		else if (nodeB->getName()=="Weapon" && nodeA->getName()=="Person")
+		else if (nodeB->getName()=="Weapon" && nodeA->getName()=="PLayer")
 		{
-			Hero* Attacker = (Hero*)nodeB->getParent();
+			Weapon* weapon = (Weapon*)nodeB;
+			Hero* Attacker = weapon->getOwner();
 
-			if (nodeB != nullptr)
-				nodeB->removeFromParentAndCleanup(true);
+			/* 将武器从场景中移除 */
+			if (weapon != nullptr)
+				weapon->removeFromParentAndCleanup(true);
 
 			Hero* Injured = (Hero*)nodeA;
 
 			Injured->BeAttacked(Attacker->m_Character.m_NormalAttackDamage);
 
 			Attacker->AttackSomething();
-
 		}
 	}
-	return false;
-}
-
-
-Vec2 FightScene::PositionToTiled(const Vec2& position)
-{
-	int x = position.x / m_TiledMap->getTileSize().width;
-
-	int y = ((m_TiledMap->getMapSize().height * m_TiledMap->getTileSize().height) - position.y) /
-		m_TiledMap->getTileSize().height;
-
-	return Vec2(x, y);
+	return true;
 }

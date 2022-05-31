@@ -7,6 +7,7 @@
 #include "FightControllerLayer.h"
 #include "AttackLayer.h"
 #include "Character.h"
+#include "TimeCounter.h"
 #include  <typeinfo>
 
 using namespace cocos2d;
@@ -29,8 +30,8 @@ private:
 	//更新玩家行走状态
 	void updatePlayerMove();
 
-	//播放技能动画函数
-	void updatePlayerAttack();
+	//更新玩家的技能发射
+	void updatePlayerAttack(float nowTime);
 
 	//在场景中开启碰撞监听
 	void startContactListen();
@@ -47,6 +48,8 @@ private:
 	Player* m_Player;
 
 	EventListenerPhysicsContact* m_ContactListener;
+
+	TimeCounter* m_TimeCounter;
 
 	//工具类函数
 	//让像素坐标转换为瓦片坐标

@@ -19,10 +19,12 @@ public:
 	void setRockerEnable();
 
 	/* 判断人物是否在进行普通攻击 */
-	inline const bool isAttacking() { return _isAttacking; }
+	inline const bool isAttackTime() { return _isAttackTime; }
 
 	/* 判断人物是否在放大招 */
 	inline const bool isAceTime() { return _isAceTime; }
+
+	inline void setAttackState(bool State) { _isAttackTime = State; }
 
 	/* 得到普攻摇杆方向角 */
 	inline const float getNormalRockerAngle() { return normalAttackRockerAngle; }
@@ -37,11 +39,6 @@ private:
 
 	/* 加入绝招摇杆 */
 	void initAceRocker();
-
-	void update(float delta);
-
-	//更新摇杆所指角度
-	void updateRad();
 
 	cocos2d::Vec2 normalAttackRockerBGPosition;
 
@@ -62,14 +59,14 @@ private:
 	/* 摇杆的半径 */
 	float RockerBackgroundRadius;
 
-	/* 普通攻击摇杆的方向角 */
+	/* 松开摇杆前普通攻击摇杆的方向角 */
 	float normalAttackRockerAngle;
 
-	/* 绝招摇杆的方向角 */
+	/* 松开摇杆前绝招摇杆的方向角 */
 	float aceRockerAngle;
 
 
-	bool _isAttacking = false;
+	bool _isAttackTime = false;
 
 	bool _isAceTime = false;
 };

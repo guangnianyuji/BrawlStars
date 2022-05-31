@@ -29,7 +29,7 @@ Animate* AnimationUtils::createAnimation(const std::string& name, const std::str
 }
 
 /* 创建普通攻击动画 */
-Animate* AnimationUtils::createNormalAttackAnimation(const std::string& name)
+Animate* AnimationUtils::createNormalAttackAnimation(const std::string& name,const int loops)
 {
 	SpriteFrameCache* cache = SpriteFrameCache::getInstance();
 
@@ -55,7 +55,7 @@ Animate* AnimationUtils::createNormalAttackAnimation(const std::string& name)
 
 		frameVec.pushBack(frame);
 	}
-	Animation* animation = Animation::createWithSpriteFrames(frameVec, 1.0f/60, 1);
+	Animation* animation = Animation::createWithSpriteFrames(frameVec, 1.0f/20, loops);
 	Animate* animate = Animate::create(animation);
 	return animate;
 }
