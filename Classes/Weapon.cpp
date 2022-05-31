@@ -16,8 +16,11 @@ Weapon* Weapon::create(const std::string& filename,Hero* Owner)
 void Weapon::setPhyBody()
 {
     auto physicsBody = cocos2d::PhysicsBody::createBox(this->getContentSize() / 4, cocos2d::PhysicsMaterial(0.0f, 0.0f, 0.0f));
+
     physicsBody->setDynamic(false);
-    physicsBody->setContactTestBitmask(0XFFFFFFFF);
+
+    physicsBody->setContactTestBitmask(0X03);
+
     this->setPhysicsBody(physicsBody);
 }
 

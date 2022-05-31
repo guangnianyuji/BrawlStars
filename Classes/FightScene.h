@@ -30,8 +30,11 @@ private:
 	//更新玩家行走状态
 	void updatePlayerMove();
 
-	//更新玩家的技能发射
+	//更新玩家的普攻技能发射
 	void updatePlayerAttack(float nowTime);
+
+	//更新玩家的绝招技能发射
+	void updatePlayerAce();
 
 	//在场景中开启碰撞监听
 	void startContactListen();

@@ -52,7 +52,7 @@ bool FightScene::init()
 	//将玩家加入到地图中
 	m_TiledMap->addChild(m_Player,4);
 
-	m_FightControllerLayer = FightControllerLayer::create(Vec2(VisibleSize.x / 4, VisibleSize.y / 3));
+	m_FightControllerLayer = FightControllerLayer::create(Vec2(VisibleSize.x / 4, VisibleSize.y / 3),m_Player->m_Character.m_Name);
 
 		
 	//在场景中加入遥杆
@@ -175,64 +175,85 @@ void FightScene::updatePlayerAttack(float nowTime)
 	}
 }
 
-void FightScene::startContactListen()
-{
-	m_ContactListener = EventListenerPhysicsContact::create();
-
-	m_ContactListener->onContactBegin = CC_CALLBACK_1(FightScene::onContactBegin,this);
-}
-
-bool FightScene::onContactBegin(cocos2d::PhysicsContact& contact)
+void FightScene::updatePlayerAce()
 {
 
-	Node* nodeA = contact.getShapeA()->getBody()->getNode();
-
-	Node* nodeB = contact.getShapeB()->getBody()->getNode();
-
-	/* 检测到碰撞时需要处理的情况 */
-	if (nodeA && nodeB)
+	/* 可以更新绝招状态的条件：攒积的普攻次数达到一定值或上一次绝招仍然没有失效  */
+	if (m_Player->canAceNow()||m_Player->m_TimeCounter->getTime()<m_Player->m_Character.m_Dutration)
 	{
-		/* 两个武器碰撞 */
-		if (nodeA->getName() == "Weapon" && nodeB->getName() == "Weapon")
+		m_FightControllerLayer->m_AttackLayer->setAceRockerEnable();
+
+		if (m_FightControllerLayer->m_AttackLayer->isAceTime())
 		{
-			if(nodeA != nullptr)
-				nodeA->removeFromParentAndCleanup(true);
-			if(nodeB != nullptr)
-				nodeB->removeFromParentAndCleanup(true);
-		}
-		/* 角色被武器击中 */
-		else if (nodeA->getName() == "Weapon" && nodeB->getName()=="PLayer")
-		{
-			/* 获取武器的使用者 */
-			Weapon* weapon = (Weapon*)nodeA;
-			Hero* Attacker = weapon->getOwner();
+			m_Player->Ace(m_FightControllerLayer->m_AttackLayer->getAceRockerAngle());
 
-			/* 将武器从场景中移除 */
-			if(weapon!=nullptr)
-				weapon->removeFromParentAndCleanup(true);
-
-			Hero* Injured = (Hero*)nodeB;
-
-			Injured->BeAttacked(Attacker->m_Character.m_NormalAttackDamage);
-
-			Attacker->AttackSomething();
-		}
-		/* 角色被武器击中 */
-		else if (nodeB->getName()=="Weapon" && nodeA->getName()=="PLayer")
-		{
-			Weapon* weapon = (Weapon*)nodeB;
-			Hero* Attacker = weapon->getOwner();
-
-			/* 将武器从场景中移除 */
-			if (weapon != nullptr)
-				weapon->removeFromParentAndCleanup(true);
-
-			Hero* Injured = (Hero*)nodeA;
-
-			Injured->BeAttacked(Attacker->m_Character.m_NormalAttackDamage);
-
-			Attacker->AttackSomething();
+			m_FightControllerLayer->m_AttackLayer->setAceRockerDisable();
 		}
 	}
-	return true;
 }
+//
+//void FightScene::startContactListen()
+//{
+//	m_ContactListener = EventListenerPhysicsContact::create();
+//
+//	m_ContactListener->onContactBegin = CC_CALLBACK_1(FightScene::onContactBegin,this);
+//
+//	Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(m_ContactListener, 2);
+//}
+
+//
+//bool FightScene::onContactBegin(cocos2d::PhysicsContact& contact)
+//{
+//
+//	Node* nodeA = contact.getShapeA()->getBody()->getNode();
+//
+//	Node* nodeB = contact.getShapeB()->getBody()->getNode();
+//
+//	/* 检测到碰撞时需要处理的情况 */
+//	if (nodeA && nodeB)
+//	{
+//		/* 两个武器碰撞 */
+//		if (nodeA->getName() == "Weapon" && nodeB->getName() == "Weapon")
+//		{
+//			if(nodeA != nullptr)
+//				nodeA->removeFromParentAndCleanup(true);
+//			if(nodeB != nullptr)
+//				nodeB->removeFromParentAndCleanup(true);
+//		}
+//		/* 角色被武器击中 */
+//		else if (nodeA->getName() == "Weapon" && nodeB->getName()=="PLayer")
+//		{
+//			/* 获取武器的使用者 */
+//			Weapon* weapon = (Weapon*)nodeA;
+//			Hero* Attacker = weapon->getOwner();
+//
+//			/* 将武器从场景中移除 */
+//			if(weapon!=nullptr)
+//				weapon->removeFromParentAndCleanup(true);
+//
+//			Hero* Injured = (Hero*)nodeB;
+//
+//			Injured->BeAttacked(Attacker->m_Character.m_NormalAttackDamage);
+//
+//			Attacker->AttackSomething();
+//		}
+//		/* 角色被武器击中 */
+//		else if (nodeB->getName()=="Weapon" && nodeA->getName()=="PLayer")
+//		{
+//			Weapon* weapon = (Weapon*)nodeB;
+//			Hero* Attacker = weapon->getOwner();
+//
+//			/* 将武器从场景中移除 */
+//			if (weapon != nullptr)
+//				weapon->removeFromParentAndCleanup(true);
+//
+//			Hero* Injured = (Hero*)nodeA;
+//
+//			Injured->BeAttacked(Attacker->m_Character.m_NormalAttackDamage);
+//
+//			Attacker->AttackSomething();
+//		}
+//	}
+//	return true;
+//}
+

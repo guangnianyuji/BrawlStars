@@ -13,28 +13,34 @@ public:
 	std::string m_Name;
 
 	/* 角色的初始速度 */
-	float m_Speed;
+	float m_Speed = 0;
 
 	/* 角色的初始血量 */
-	float m_BloodVolume;
+	float m_BloodVolume = 0;
 
 	/* 角色的普攻伤害值 */
-	int m_NormalAttackDamage;
+	int m_NormalAttackDamage = 0;
 
 	/* 角色的大招伤害值 */
-	int m_AceDamage;
+	int m_AceDamage = 0;
 
-	/* 大招冷却时间 */
-	int m_Cooldown;
+	/* 使用绝招所需要的普攻攒积次数 */
+	int m_Count = 0;
+
+	/* 距离可以使用绝招还需要发出的普通攻击次数 */
+	int m_RealCount = 0;
 
 	/* 角色的射程 */
-	int m_Range;
+	int m_Range = 0;
 
 	/* 普通攻击的间隔时间 */
-	float m_IntervalTime;
+	float m_IntervalTime = 0;
 
 	/* 上一次发出普通攻击的时间 */
-	float m_Time;
+	float m_Time = 0;
+
+	/* 绝招的可持续时间 */
+	float m_Dutration = 0;
 
 	//重写等于操作符
 	bool operator==(Character& aCharacter);

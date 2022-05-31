@@ -1,7 +1,7 @@
 #include "FightControllerLayer.h"
 #include "MathUtils.h"
 
-FightControllerLayer* FightControllerLayer::create(Vec2 positon)
+FightControllerLayer* FightControllerLayer::create(Vec2 positon,const std::string characterName)
 {
 	FightControllerLayer* pRet = new(std::nothrow)FightControllerLayer();
 
@@ -9,6 +9,8 @@ FightControllerLayer* FightControllerLayer::create(Vec2 positon)
 
 	pRet->m_AttackLayer = AttackLayer::create(Vec2(VisibleSize.x / 6 * 4.5, VisibleSize.y / 6),
 	Vec2(VisibleSize.x/8*7,VisibleSize.y/2));
+
+	pRet->m_AttackLayer->_characterName = characterName;
 
 	pRet->m_MoveRockerBackgroundPosition = positon;
 

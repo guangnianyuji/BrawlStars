@@ -12,11 +12,17 @@ public:
 
 	virtual bool init() override;
 
-	/* 设置技能摇杆为可用状态 */
-	void setRockerDisable(); 
+	/* 设置绝招技能摇杆为不可用状态 */
+	void setAceRockerDisable(); 
 
-	/* 设置技能摇杆为不可用状态 */
-	void setRockerEnable();
+	/* 设置绝招技能摇杆为可用状态 */
+	void setAceRockerEnable();
+
+	/* 设置普攻技能摇杆为可用状态 */
+	void setNormalAttackRockerEnable();
+
+	/* 设置普攻技能摇杆为不可用状态 */
+	void setNormalAttackRockerDisable();
 
 	/* 判断人物是否在进行普通攻击 */
 	inline const bool isAttackTime() { return _isAttackTime; }
@@ -56,6 +62,9 @@ private:
 
 	cocos2d::Sprite* aceRocker;
 
+	/* 操作摇杆时，显示的预发射路径*/
+	cocos2d::Sprite* Track;
+
 	/* 摇杆的半径 */
 	float RockerBackgroundRadius;
 
@@ -69,5 +78,7 @@ private:
 	bool _isAttackTime = false;
 
 	bool _isAceTime = false;
+
+	std::string _characterName = "Nothing";
 };
 #endif

@@ -13,7 +13,7 @@ class FightControllerLayer :public Layer
 	friend class AttackLayer;
 public:
 	//创建控制层
-	static FightControllerLayer* create(Vec2 position);
+	static FightControllerLayer* create(Vec2 position,const std::string characterName);
 
 	//启动移动摇杆（启动摇杆，监听键盘事件）
 	void startMoveRocker(bool isStop);

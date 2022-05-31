@@ -48,11 +48,13 @@ bool Hero::init()
 	/* 使Player的身体承载物理属性 */
 
 	auto physicsBody = PhysicsBody::createBox(m_Body->getContentSize(), PhysicsMaterial(0.0f, 0.0f, 0.0f));
-	physicsBody->setDynamic(false);
+	physicsBody->setDynamic(true);
 	physicsBody->setGravityEnable(false);
-	physicsBody->setContactTestBitmask(0xFFFFFFFF);
+	physicsBody->setContactTestBitmask(0x1F);
 	this->setName("Player");
-	m_Body->setPhysicsBody(physicsBody);
+	this->setPhysicsBody(physicsBody);
+
+	scheduleUpdate();
 
 	return true;
 }
@@ -105,6 +107,14 @@ void Hero::stopMoving()
 
 void Hero::NormalAttack(const float Angle,float nowTime)
 {
+
+	/* 每进行一次普通攻击，使用大招所需要攒积的攻击次数减一 */
+	m_Character.m_RealCount--;
+	if (m_Character.m_RealCount < 0)
+	{
+		m_Character.m_RealCount = 0;
+	}
+
 	if (isDead()) return;
 
 	m_Character.m_Time = nowTime;
@@ -268,6 +278,44 @@ void Hero::stopNormalAttack()
 	//m_Skill->runAction(AnimationUtils::createSkillAnimation(m_Character.m_Name));
 }
 
+void Hero::Ace(const float Angle)
+{
+	/* 使用一次绝招之后将需要攒积的次数改回原值 */
+	m_Character.m_RealCount = m_Character.m_Count;
+
+	if (m_Character.m_Name == "F")
+	{
+
+	}
+
+	else if (m_Character.m_Name == "Y")
+	{
+		m_Skill = Sprite::create("Y/Ace/1.png");
+
+		Point nowPosition = m_Body->getPosition();
+
+		m_Skill->setAnchorPoint(Vec2(0.5, 0.5));
+
+		m_Body->addChild(m_Skill);
+	}
+
+	else if (m_Character.m_Name == "J")
+	{
+		float realTimeBlood = m_Blood->getRealTimeBlood() * 1.50;
+
+		m_Blood->setRealTimeBlood(realTimeBlood);
+	}
+
+	else if (m_Character.m_Name == "L")
+	{
+
+	}
+}
+
+void Hero::stopAce()
+{
+}
+
 void Hero::AttackSomething()
 {
 	if (m_Character.m_Name == "J")
@@ -280,7 +328,7 @@ void Hero::AttackSomething()
 
 void Hero::BeAttacked(const float& Damage)
 {
-	if (isDead()) return;
+	if (isDead()||damageImmunity()) return;
 
 	float realTimeBlood = m_Blood->getRealTimeBlood() - Damage;
 

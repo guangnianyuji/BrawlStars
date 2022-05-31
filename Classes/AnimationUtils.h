@@ -17,6 +17,8 @@ public:
 
 	/* 创建角色处于非攻击状态下的技能动画 */
 	static Animate* createSkillAnimation(const std::string& name);
+
+	static Animate* createAceAnimation(const std::string& name);
 };
 
 #endif

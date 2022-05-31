@@ -14,6 +14,9 @@ public:
 	/* 开始计时 */
 	void startCounting();
 
+	/* 将时间归零 */
+	void resetTime();
+
 	/* 获取当前时间 */
 	float getTime();
 

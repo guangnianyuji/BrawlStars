@@ -17,6 +17,11 @@ void TimeCounter::startCounting()
 	this->scheduleUpdate();
 }
 
+void TimeCounter::resetTime()
+{
+	m_Time = 0;
+}
+
 float TimeCounter::getTime()
 {
 	return m_Time;

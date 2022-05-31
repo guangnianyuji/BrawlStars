@@ -48,9 +48,25 @@ bool AttackLayer::init()
 	scheduleUpdate();
 }
 
-void AttackLayer::setRockerDisable()
+void AttackLayer::setAceRockerDisable()
 {
+	aceRocker->setVisible(false);
+}
 
+void AttackLayer::setAceRockerEnable()
+{
+	aceRocker->setVisible(true);
+}
+
+void AttackLayer::setNormalAttackRockerEnable()
+{
+	normalAttackRocker->setVisible(true);
+}
+
+
+void AttackLayer::setNormalAttackRockerDisable()
+{
+	normalAttackRocker->setVisible(false);
 }
 
 void AttackLayer::initAceRocker()
