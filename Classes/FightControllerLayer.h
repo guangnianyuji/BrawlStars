@@ -3,6 +3,8 @@
 
 #include "cocos2d.h"
 #include "Math.h"
+#include "Character.h"
+#include "TimeCounter.h"
 
 using namespace cocos2d;
 
@@ -11,7 +13,7 @@ class FightControllerLayer :public Layer
 
 public:
 	//创建控制层
-	static FightControllerLayer* create();
+	static FightControllerLayer* create(Character PlayerCharacter);
 
 	//启动移动摇杆（启动摇杆，监听键盘事件）
 	void startAllRockers(bool isStop);
@@ -30,13 +32,13 @@ public:
 	bool getNormalAttackRockerIsMoving() const{ return m_NormalAttackRockerIsMoving; }
 
 	//得到普通攻击摇杆移动的方向角
-	float getNormalAttackRockerAngle() const{ return m_NormalAttackRockerIsMoving; }
+	float getNormalAttackRockerAngle() const{ return m_NormalAttackRockerAngle; }
 
 	//得到大招攻击摇杆是否在移动
 	bool getACERockerIsMoving() const { return m_ACERockerIsMoving; }
 
 	//得到大招攻击摇杆移动的方向角
-	float getACERockerAngle() const { return m_ACERockerIsMoving; }
+	float getACERockerAngle() const { return m_ACERockerAngle; }
 
 	//得到普通攻击状态
 	bool getNormalAttackState() const { return m_NormalAttackState; }
@@ -150,6 +152,13 @@ private:
 
 	//更新移动摇杆所指角度
 	void updateMoveRad( );
+
+	//记录上一次普攻的时间
+	float m_LastTime;
+
+	TimeCounter* m_TimeCounter;
+
+	Character m_Character;
 
 };
 

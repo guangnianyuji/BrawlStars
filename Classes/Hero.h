@@ -25,7 +25,7 @@ public:
 	void stopMoving();
 
 	//普通攻击
-	void NormalAttack(const float Angle,float nowTime);
+	void NormalAttack(const float Angle);
 
 	//停止普通攻击
 	void stopNormalAttack();
@@ -46,9 +46,6 @@ public:
 	virtual void Death() override;
 
 	bool isDead() const;
-
-	//判断现在是否可以使用绝招了
-	bool canAceNow() const;
 
 	//英雄是否处于免疫状态
 	bool damageImmunity() const;
@@ -88,12 +85,6 @@ inline bool Hero::isDead() const
 {
 	return m_isDead;
 }
-
-inline bool Hero::canAceNow() const
-{
-	return m_Character.m_RealCount <= 0;
-}
-
 inline bool Hero::damageImmunity() const
 {
 	return m_damageImmunity;

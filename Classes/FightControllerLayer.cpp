@@ -1,14 +1,13 @@
 #include "FightControllerLayer.h"
 #include "MathUtils.h"
 
-FightControllerLayer* FightControllerLayer::create()
+FightControllerLayer* FightControllerLayer::create(Character PlayerCharacter)
 {
 	FightControllerLayer* pRet = new(std::nothrow)FightControllerLayer();
 
 	Vec2 VisibleSize = Director::getInstance()->getVisibleSize();
 
-	//pRet->m_AttackLayer = AttackLayer::create(Vec2(VisibleSize.x / 6 * 4.5, VisibleSize.y / 6),
-	//Vec2(VisibleSize.x/8*7,VisibleSize.y/2));
+	pRet->m_Character = PlayerCharacter;
 
 	pRet->m_MoveRockerBackgroundPosition = Vec2(VisibleSize.x/4, VisibleSize.y / 3);
     pRet->m_MoveRockerPosition = Vec2(VisibleSize.x / 4, VisibleSize.y / 3);
@@ -25,6 +24,9 @@ FightControllerLayer* FightControllerLayer::create()
 
 	pRet->m_NormalAttackState = false;
 	pRet->m_ACEState = false;
+
+	pRet->m_TimeCounter = TimeCounter::create();
+	pRet->m_LastTime = 0;
 
 	if (pRet && pRet->init())
 	{
@@ -106,14 +108,14 @@ void FightControllerLayer::initEventListener()
 		for (auto& touch : touches)
 		{
 			auto TouchPoint = touch->getLocation();
-			//int i=VisibleSize.x / 2;
+
 			if (TouchPoint.x < 780)
 			{
 				m_MoveRockerIsMoving = true;
 			}
 			else if ((MathUtils::isTouchEffective(TouchPoint, m_NormalAttackRockerBackgroundPosition, m_NormalAttackRockerBackgroundRadius)))
 			{
-				m_NormalAttackRockerIsMoving=true;
+				m_NormalAttackRockerIsMoving = true;
 			}
 			else if ((MathUtils::isTouchEffective(TouchPoint, m_ACERockerBackgroundPosition, m_ACERockerBackgroundRadius)))
 			{
@@ -150,7 +152,7 @@ void FightControllerLayer::initEventListener()
 					m_MoveRockerIsMoving = false;
 				}
 			}
-			else if(m_NormalAttackRockerIsMoving)
+			if(m_NormalAttackRockerIsMoving)
 			{
 				float Angle = MathUtils::getRad(m_NormalAttackRockerBackgroundPosition, TouchPoint);
 				if (m_NormalAttackRockerBackgroundPosition.distance(TouchPoint) >= m_NormalAttackRockerBackgroundRadius)
@@ -167,7 +169,7 @@ void FightControllerLayer::initEventListener()
 					m_NormalAttackRockerSprite->setPosition(m_NormalAttackRockerPosition);
 				}
 			}
-			else if (m_ACERockerIsMoving)
+			if (m_ACERockerIsMoving)
 			{
 				float Angle = MathUtils::getRad(m_ACERockerBackgroundPosition, TouchPoint);
 				if (m_ACERockerBackgroundPosition.distance(TouchPoint) >= m_ACERockerBackgroundRadius)
@@ -188,41 +190,44 @@ void FightControllerLayer::initEventListener()
 	};
 	m_TouchListener->onTouchesEnded = [&](const std::vector<Touch*>& touches, Event* event)
 	{
-		if (!m_MoveRockerIsMoving)
-		{
-			
-		}
-		else
+		if (m_MoveRockerIsMoving)
 		{
 			m_MoveRockerPosition = m_MoveRockerBackgroundPosition;
 			m_MoveRockerSprite->stopAllActions();
 			m_MoveRockerSprite->runAction(MoveTo::create(0.08f, m_MoveRockerPosition));
 			m_MoveRockerIsMoving = false;
 		}
-
-		if (!m_NormalAttackRockerIsMoving)
-		{
-			
-		}
 		else
 		{
+
+		}
+
+		if (m_NormalAttackRockerIsMoving)
+		{
+			float delta = m_TimeCounter->getTime() - m_LastTime;
+
 			//这个判断一定放在移回之前
-		   if (m_NormalAttackRockerBackgroundPosition != m_NormalAttackRockerPosition)
+		   if (delta>=m_Character.m_IntervalTime||!m_LastTime)
 			{ 
+			    m_LastTime = m_TimeCounter->getTime();
 				m_NormalAttackState = true;
 				m_NormalAttackRockerAngle = MathUtils::getRad(m_NormalAttackRockerBackgroundPosition, m_NormalAttackRockerPosition);
-			}	
+			}
+		   else
+		   {
+			   m_NormalAttackState = false;
+		   }
 		   m_NormalAttackRockerPosition = m_NormalAttackRockerBackgroundPosition;
 		   m_NormalAttackRockerSprite->stopAllActions();
 			m_NormalAttackRockerSprite->runAction(MoveTo::create(0.08f, m_NormalAttackRockerPosition));
 			m_NormalAttackRockerIsMoving = false;
 		}
-
-		if (!m_ACERockerIsMoving)
+		else
 		{
 
 		}
-		else
+
+		if (m_ACERockerIsMoving)
 		{
 			//这个判断一定放在移回之前
 			if (m_ACERockerBackgroundPosition != m_ACERockerPosition)
@@ -235,6 +240,10 @@ void FightControllerLayer::initEventListener()
 			m_ACERockerSprite->runAction(MoveTo::create(0.08f, m_ACERockerPosition));
 			m_ACERockerIsMoving = false;
 			
+		}
+		else
+		{
+
 		}
 
 	};
@@ -306,6 +315,7 @@ bool FightControllerLayer::init()
 	initMoveandAttackRocker();
 	initEventListener();
 	setTouchEnabled(true);
+	m_TimeCounter->startCounting();
 
 	return true;
 }

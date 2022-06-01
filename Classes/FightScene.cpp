@@ -25,11 +25,6 @@ FightScene* FightScene::create(std::vector<Character> CharacterVec)
 		AIi++;
 	}
 
-	pRet->m_FightControllerLayer = FightControllerLayer::create();
-
-	//pRet->m_AttackLayer = AttackLayer::create(Vec2(VisibleSize.x / 6 * 4.5, VisibleSize.y / 6),
-	//Vec2(VisibleSize.x/8*7,VisibleSize.y/2));
-
 
 	if (pRet && pRet->init())
 	{
@@ -94,7 +89,7 @@ bool FightScene::init()
 	}
 
 	//在场景中加入遥杆
-	m_FightControllerLayer = FightControllerLayer::create();
+	m_FightControllerLayer = FightControllerLayer::create(m_Player->m_Character);
 	
 	m_FightControllerLayer->startAllRockers(true);
 
@@ -140,8 +135,7 @@ void FightScene::update(float delta)
 	updateViewPointByPlayer();
 	updateToxicFog();
 	updateToxicFogDamage();
-	//updatePlayerAttack();
-	updatePlayerAttack(m_TimeCounter->getTime());
+	updatePlayerAttack();
 }
 
 void FightScene::updateViewPointByPlayer()
@@ -262,19 +256,14 @@ void FightScene::updateToxicFogDamage()
 	}
 }
 
-void FightScene::updatePlayerAttack(float nowTime)
+void FightScene::updatePlayerAttack()
 {
 	if (m_Player->isDead())
 		return;
 
-	float lastTime = m_Player->m_Character.m_Time;
-	float delta = nowTime - lastTime;
-
-
-	if (m_FightControllerLayer->getNormalAttackState()&&delta>=m_Player->m_Character.m_IntervalTime)
+	if (m_FightControllerLayer->getNormalAttackState())
 	{
-		m_Player->NormalAttack(m_FightControllerLayer->getNormalAttackRockerAngle(),nowTime);
-
+		m_Player->NormalAttack(m_FightControllerLayer->getNormalAttackRockerAngle());
 		m_FightControllerLayer->setNormalAttackState(false);
 	}
 	else

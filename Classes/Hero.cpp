@@ -105,19 +105,11 @@ void Hero::stopMoving()
 	}
 }
 
-void Hero::NormalAttack(const float Angle,float nowTime)
+void Hero::NormalAttack(const float Angle)
 {
-
-	/* 每进行一次普通攻击，使用大招所需要攒积的攻击次数减一 */
-	m_Character.m_RealCount--;
-	if (m_Character.m_RealCount < 0)
-	{
-		m_Character.m_RealCount = 0;
-	}
 
 	if (isDead()) return;
 
-	m_Character.m_Time = nowTime;
 	Point nowPosition = this->getPosition();
 	Node* Map = this->getParent();
 
@@ -280,8 +272,6 @@ void Hero::stopNormalAttack()
 
 void Hero::Ace(const float Angle)
 {
-	/* 使用一次绝招之后将需要攒积的次数改回原值 */
-	m_Character.m_RealCount = m_Character.m_Count;
 
 	if (m_Character.m_Name == "F")
 	{

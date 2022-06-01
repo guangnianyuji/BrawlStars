@@ -43,7 +43,7 @@ private:
 	//void updatePlayerAttack();
 
 	//更新玩家的技能发射
-	void updatePlayerAttack(float nowTime);
+	void updatePlayerAttack();
 
 	//更新玩家的绝招技能发射
 	void updatePlayerAce();
