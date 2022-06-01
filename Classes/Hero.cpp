@@ -346,8 +346,3 @@ void Hero::Death()
 	//this->removeFromParentAndCleanup(true);
 }
 
-float Hero::getSpeed()
-{
-	return m_Speed;
-}
-

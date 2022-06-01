@@ -25,18 +25,18 @@ public:
 	void setNormalAttackRockerDisable();
 
 	/* 判断人物是否在进行普通攻击 */
-	inline const bool isAttackTime() { return _isAttackTime; }
+	bool isAttackTime() const;
 
 	/* 判断人物是否在放大招 */
-	inline const bool isAceTime() { return _isAceTime; }
+	bool isAceTime() const;
 
-	inline void setAttackState(bool State) { _isAttackTime = State; }
+	void setAttackState(bool state);
 
 	/* 得到普攻摇杆方向角 */
-	inline const float getNormalRockerAngle() { return normalAttackRockerAngle; }
+	float getNormalRockerAngle() const;
 
 	/* 得到绝招摇杆方向角 */
-	inline const float getAceRockerAngle() { return aceRockerAngle; }
+	float getAceRockerAngle() const;
 
 private:
 
@@ -81,4 +81,14 @@ private:
 
 	std::string _characterName = "Nothing";
 };
+
+inline bool AttackLayer::isAceTime() const { return _isAceTime; }
+
+inline bool AttackLayer::isAttackTime() const { return _isAttackTime; }
+
+inline void AttackLayer::setAttackState(bool state) { _isAttackTime = state; }
+
+inline float AttackLayer::getAceRockerAngle() const { return aceRockerAngle; }
+
+inline float AttackLayer::getNormalRockerAngle() const { return normalAttackRockerAngle; }
 #endif

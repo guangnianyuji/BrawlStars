@@ -46,12 +46,13 @@ public:
 	virtual void Death() override;
 
 	//判断英雄是否还活着
-	inline bool isDead() { return m_isDead; }
+	bool isDead() const;
 
 	//判断现在是否可以使用绝招了
-	inline bool canAceNow() { return m_Character.m_RealCount <= 0; }
+	bool canAceNow() const;
 
-	inline bool damageImmunity() { return m_damageImmunity; }
+	//英雄是否处于免疫状态
+	bool damageImmunity() const;
 
 	//英雄的角色
 	Character m_Character;
@@ -59,7 +60,7 @@ public:
 	TimeCounter* m_TimeCounter;
 
 	//得到速度的接口
-	float getSpeed();
+	float getSpeed() const;
 
 private:
 
@@ -83,5 +84,25 @@ private:
 
 
 };
+
+inline bool Hero::isDead() const
+{
+	return m_isDead;
+}
+
+inline bool Hero::canAceNow() const
+{
+	return m_Character.m_RealCount <= 0;
+}
+
+inline bool Hero::damageImmunity() const
+{
+	return m_damageImmunity;
+}
+
+inline float Hero::getSpeed() const
+{
+	return m_Speed;
+}
 
 #endif
