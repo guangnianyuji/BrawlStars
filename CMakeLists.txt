@@ -23,6 +23,7 @@ endif()
 
 # add cross-platforms source files and header files 
 list(APPEND GAME_SOURCE
+     Classes/AI.cpp
      Classes/AnimationUtils.cpp
      Classes/AppDelegate.cpp
      Classes/BSScene/StartScene.cpp
@@ -45,6 +46,7 @@ list(APPEND GAME_SOURCE
      Classes/Weapon.cpp
      )
 list(APPEND GAME_HEADER
+     Classes/AI.h
      Classes/AnimationUtils.h
      Classes/AppDelegate.h
      Classes/BSScene/StartScene.h

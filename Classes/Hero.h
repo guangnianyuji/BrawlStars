@@ -45,8 +45,7 @@ public:
 	//死亡
 	virtual void Death() override;
 
-	//判断英雄是否还活着
-	bool isDead() const;
+	bool isDead() { return m_isDead; }
 
 	//判断现在是否可以使用绝招了
 	bool canAceNow() const;

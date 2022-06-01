@@ -178,8 +178,9 @@ bool RoomScene::init()
 			{
 				m_CharacterVec[0] = Fei();
 			}
-			Director::getInstance()->pushScene(FightScene::create(m_CharacterVec[0]));
+			Director::getInstance()->pushScene(FightScene::create(m_CharacterVec));
 		});
+	
 	PlayButton->setPosition(Vec2(visibleSize.x * 3 / 4, visibleSize.y / 6));
 	addChild(PlayButton);
 
