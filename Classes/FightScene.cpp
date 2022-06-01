@@ -93,14 +93,10 @@ bool FightScene::init()
 		m_TiledMap->addChild((*it), 4);
 	}
 
-	m_TiledMap->addChild(m_Player,4);
-
-	m_FightControllerLayer = FightControllerLayer::create(Vec2(VisibleSize.x / 4, VisibleSize.y / 3));
-
-
-		
 	//在场景中加入遥杆
-	m_FightControllerLayer->startMoveRocker(true);
+	m_FightControllerLayer = FightControllerLayer::create();
+	
+	m_FightControllerLayer->startAllRockers(true);
 
 	//开启场景碰撞监听
 	startContactListen();
@@ -181,20 +177,9 @@ void FightScene::updateViewPointByPlayer()
 	m_TiledMap->setPosition(CenterPosition - DestinationPosition);
 }
 
-
-Vec2 FightScene::PositionToTiled(const Vec2& position)
-{
-	int x = position.x / m_TiledMap->getTileSize().width;
-
-	int y = ((m_TiledMap->getMapSize().height * m_TiledMap->getTileSize().height) - position.y) /
-		m_TiledMap->getTileSize().height;
-
-	return Vec2(x, y);
-}
-
 void FightScene::updatePlayerMove( )
 {
-	if (m_FightControllerLayer->getisCanMove())
+	if (m_FightControllerLayer->getMoveRockerIsMoving())
 	{//判断要去的地方是否是障碍层
 		float MoveAngle;
 		MoveAngle = m_FightControllerLayer->getMoveRockerAngle();
@@ -286,11 +271,11 @@ void FightScene::updatePlayerAttack(float nowTime)
 	float delta = nowTime - lastTime;
 
 
-	if (m_FightControllerLayer->m_AttackLayer->isAttackTime()&&delta>=m_Player->m_Character.m_IntervalTime)
+	if (m_FightControllerLayer->getNormalAttackState()&&delta>=m_Player->m_Character.m_IntervalTime)
 	{
-		m_Player->NormalAttack(m_FightControllerLayer->m_AttackLayer->getNormalRockerAngle(),nowTime);
+		m_Player->NormalAttack(m_FightControllerLayer->getNormalAttackRockerAngle(),nowTime);
 
-		m_FightControllerLayer->m_AttackLayer->setAttackState(false);
+		m_FightControllerLayer->setNormalAttackState(false);
 	}
 	else
 	{

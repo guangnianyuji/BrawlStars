@@ -73,7 +73,7 @@ private:
 	//工具类函数
 	//让像素坐标转换为瓦片坐标
 	Vec2 PositionToTiled(const Vec2& position);
-	////让瓦片坐标转换为像素坐标
+	//让瓦片坐标转换为像素坐标
 	Vec2 TiledToPosition(const Vec2& position);
 };
 

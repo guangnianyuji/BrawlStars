@@ -38,7 +38,7 @@ public:
 	//ËÀÍö
 	virtual void Death() override;
 
-	inline bool isDead() { return m_isDead; }
+	bool isDead() { return m_isDead; }
 
 	//Ó¢ĞÛµÄ½ÇÉ«
 	Character m_Character;
