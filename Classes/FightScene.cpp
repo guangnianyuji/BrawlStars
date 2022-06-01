@@ -99,7 +99,7 @@ bool FightScene::init()
 	m_FightControllerLayer->startAllRockers(true);
 
 	//开启场景碰撞监听
-	startContactListen();
+	//startContactListen();
 	addChild(m_FightControllerLayer,2);
 
 	//为玩家节点设置名字，方便之后的碰撞检测
@@ -282,41 +282,6 @@ void FightScene::updatePlayerAttack(float nowTime)
 	}
 }
 
-void FightScene::updatePlayerAce()
-{
-
-	/* 可以更新绝招状态的条件：攒积的普攻次数达到一定值或上一次绝招仍然没有失效  */
-	if (m_Player->canAceNow()||m_Player->m_TimeCounter->getTime()<m_Player->m_Character.m_Dutration)
-	{
-		m_FightControllerLayer->m_AttackLayer->setAceRockerEnable();
-
-	Node* nodeA = contact.getShapeA()->getBody()->getNode();
-
-	Node* nodeB = contact.getShapeB()->getBody()->getNode();
-
-	/* 检测到碰撞时需要处理的情况 */
-	if (nodeA && nodeB)
-	{
-		/* 两个武器碰撞 */
-		if (nodeA->getName() == "Weapon" && nodeB->getName() == "Weapon")
-		{
-			if(nodeA != nullptr)
-				nodeA->removeFromParentAndCleanup(true);
-			if(nodeB != nullptr)
-				nodeB->removeFromParentAndCleanup(true);
-		}
-		/* 角色被武器击中 */
-		{
-			/* 获取武器的使用者 */
-			Weapon* weapon = (Weapon*)nodeA;
-			Hero* Attacker = weapon->getOwner();
-
-			m_FightControllerLayer->m_AttackLayer->setAceRockerDisable();
-		}
-		/* 角色被武器击中 */
-		{
-			Weapon* weapon = (Weapon*)nodeB;
-			Hero* Attacker = weapon->getOwner();
 
 //
 //bool FightScene::onContactBegin(cocos2d::PhysicsContact& contact)
@@ -374,11 +339,6 @@ void FightScene::updatePlayerAce()
 //	return true;
 //}
 
-			Attacker->AttackSomething();
-		}
-	}
-	return true;
-}
 
 
 Vec2 FightScene::PositionToTiled(const Vec2& position)
