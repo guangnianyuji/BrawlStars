@@ -218,7 +218,7 @@ void FightScene::updateToxicFog()
 		m_ToxicFogMap[Vec2(i, j)] = true;
 	}
 	//ªÊ÷∆…œ≤‡∂æŒÌ
-	j = m_ToxicFogLevel + 1;
+	j = m_ToxicFogLevel;
 	for (i = m_ToxicFogLevel + 1; i< m_TiledMap->getMapSize().width - m_ToxicFogLevel; i++)
 	{
 		m_ToxicFogSpriteVec.push_back(Sprite::create("fog.png"));

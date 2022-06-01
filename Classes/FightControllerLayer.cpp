@@ -285,6 +285,10 @@ void FightControllerLayer::initEventListener()
 				break;
 			}
 			m_MoveRockerSprite->setPosition(m_MoveRockerPosition);
+			if (m_MoveRockerBackgroundPosition == m_MoveRockerPosition)
+			{
+				m_MoveRockerIsMoving = false;
+			}
 	
 		});
 
