@@ -14,13 +14,6 @@ bool Hero::init()
 		return false;
 	}
 
-	//m_Skill = Sprite::create(m_Character.m_Name + "/" + "Skill/1.png");
-
-	//if (m_Skill == nullptr)
-	//{
-	//	log("hahahaha");
-	//}
-
 	m_Blood = ProgressView::create();
 
 	if (m_Blood == nullptr)
@@ -31,12 +24,7 @@ bool Hero::init()
 	m_Blood->setBloodVolume(m_Character.m_BloodVolume);
 
 	this->addChild(m_Body);
-
-	//m_Skill->setAnchorPoint(Vec2(1,-1));
-
 	m_Blood->setAnchorPoint(Vec2(0,0));
-
-	//m_Body->addChild(m_Skill);
 
 	m_Body->addChild(m_Blood);
 
@@ -59,9 +47,9 @@ bool Hero::init()
 	return true;
 }
 
-void Hero::beganToMove(const float& Angle)
+void Hero::beganToMove(const float& Angle,const float Speed)
 {
-	//m_Skill->runAction(AnimationUtils::createSkillAnimation(m_Character.m_Name));
+
 	if (this == nullptr)
 		return;
 
@@ -89,7 +77,7 @@ void Hero::beganToMove(const float& Angle)
 		m_Body->runAction(AnimationUtils::createAnimation(m_Character.m_Name, m_Direction));
 	}
 
-	runAction(MoveBy::create(0.1f, MathUtils::getVectorialSpeed(Angle, m_Speed /150)));
+	runAction(MoveBy::create(0.1f, MathUtils::getVectorialSpeed(Angle, Speed /150)));
 
 	m_isMoving = true;
 
@@ -105,7 +93,7 @@ void Hero::stopMoving()
 	}
 }
 
-void Hero::NormalAttack(const float Angle)
+void Hero::normalAttack(const float Angle)
 {
 
 	if (isDead()) return;
@@ -149,6 +137,7 @@ void Hero::NormalAttack(const float Angle)
 		auto actionRemove3 = RemoveSelf::create();
 		Fire3->runAction(Sequence::create((Spawn::create(actionShoot3, actionBurn3, nullptr)), actionRemove3, nullptr));
 
+		beAttacked(20.0f);
 	}
 
 	else if (m_Character.m_Name == "Y")
@@ -171,6 +160,8 @@ void Hero::NormalAttack(const float Angle)
 		auto actionRemove = RemoveSelf::create();
 
 		Water->runAction(Sequence::create(actionBurn, actionRemove, nullptr));
+
+		beAttacked(20.0f);
 	}
 
 	else if (m_Character.m_Name == "J")
@@ -202,6 +193,8 @@ void Hero::NormalAttack(const float Angle)
 		BezierTo* bezierTo = BezierTo::create(1.0f, bezier);
 
 		Bat->runAction(Sequence::create((Spawn::create(actionFly, bezierTo, nullptr)), actionRemove, nullptr));
+
+		beAttacked(20.0f);
 
 	}
 
@@ -289,7 +282,7 @@ void Hero::NormalAttack(const float Angle)
 		Light3->runAction(Sequence::create(actionBling->clone(), actionRemove->clone(), nullptr));
 		Light4->runAction(Sequence::create(actionBling->clone(), actionRemove->clone(), nullptr));
 
-	
+		beAttacked(20.0f);
 	}
 
 }
@@ -297,46 +290,114 @@ void Hero::NormalAttack(const float Angle)
 
 void Hero::stopNormalAttack()
 {
-	//m_Skill->runAction(AnimationUtils::createSkillAnimation(m_Character.m_Name));
 }
 
-void Hero::Ace(const float Angle)
+void Hero::ACE(const float Angle)
 {
+
+	Point nowPosition = this->getPosition();
+	Node* Map = this->getParent();
 
 	if (m_Character.m_Name == "F")
 	{
 
+		auto Fire1 = Weapon::create(m_Character.m_Name + "/" + "Ace/F_01.png", this);
+		auto Fire2 = Weapon::create(m_Character.m_Name + "/" + "Ace/F_01.png", this);
+		auto Fire3 = Weapon::create(m_Character.m_Name + "/" + "Ace/F_01.png", this);
+
+
+		Fire1->setPhyBody();
+		Fire1->setPosition(nowPosition);
+		Fire1->setAnchorPoint(Vec2(0.5, 0.5));
+		Fire1->setName("ACEWeapon");
+		Map->addChild(Fire1, 5);
+		auto actionShoot1 = MoveTo::create(1.5f, nowPosition + MathUtils::getVectorialSpeed(Angle - Pi / 6, m_Character.m_Range*2));
+		auto actionBurn1 = AnimationUtils::createACEAnimation(m_Character.m_Name, 3);
+		auto actionRemove1 = RemoveSelf::create();
+		Fire1->runAction(Sequence::create((Spawn::create(actionShoot1, actionBurn1, nullptr)), actionRemove1, nullptr));
+
+		Fire2->setPhyBody();
+		Fire2->setPosition(nowPosition);
+		Fire2->setAnchorPoint(Vec2(0.5, 0.5));
+		Fire2->setName("ACEWeapon");
+		Map->addChild(Fire2, 5);
+		auto actionShoot2 = MoveTo::create(1.5f, nowPosition + MathUtils::getVectorialSpeed(Angle, m_Character.m_Range*2));
+		auto actionBurn2 = AnimationUtils::createACEAnimation(m_Character.m_Name, 3);
+		auto actionRemove2 = RemoveSelf::create();
+		Fire2->runAction(Sequence::create((Spawn::create(actionShoot2, actionBurn2, nullptr)), actionRemove2, nullptr));
+
+		Fire3->setPhyBody();
+		Fire3->setPosition(nowPosition);
+		Fire3->setAnchorPoint(Vec2(0.5, 0.5));
+		Fire3->setName("ACEWeapon");
+		Map->addChild(Fire3, 5);
+		auto actionShoot3 = MoveTo::create(1.5f , nowPosition + MathUtils::getVectorialSpeed(Angle + Pi / 6, m_Character.m_Range*2));
+		auto actionBurn3 = AnimationUtils::createACEAnimation(m_Character.m_Name, 3);
+		auto actionRemove3 = RemoveSelf::create();
+		Fire3->runAction(Sequence::create((Spawn::create(actionShoot3, actionBurn3, nullptr)), actionRemove3, nullptr));
 	}
 
 	else if (m_Character.m_Name == "Y")
 	{
-		m_Skill = Sprite::create("Y/Ace/1.png");
+		m_damageImmunity = true;
+		Sprite* Protect = Sprite::create("ui/Protect.png");
+		Protect->setAnchorPoint(Vec2(0.5, 0.5));
+		Protect->setScale(0.8);
+		this->addChild(Protect, 5);
+		Protect->setName("Protect");
+		
 
-		Point nowPosition = m_Body->getPosition();
-
-		m_Skill->setAnchorPoint(Vec2(0.5, 0.5));
-
-		m_Body->addChild(m_Skill);
 	}
 
 	else if (m_Character.m_Name == "J")
 	{
-		float realTimeBlood = m_Blood->getRealTimeBlood() * 1.50;
+		Sprite* Smog = Sprite::create(m_Character.m_Name + "/" + "Ace/JAce(1).png");
+		Smog->setAnchorPoint(Vec2(0.5, 0.5));
+		Smog->setPosition(nowPosition);
+		Animate* actionBurn = AnimationUtils::createACEAnimation(m_Character.m_Name, 10);
+		auto actionRemove = RemoveSelf::create();
+		this->addChild(Smog);
+		Smog->runAction(Sequence::create(actionBurn, actionRemove, nullptr));
 
+
+		float realTimeBlood = m_Blood->getRealTimeBlood() * 1.50;
 		m_Blood->setRealTimeBlood(realTimeBlood);
+
 	}
 
 	else if (m_Character.m_Name == "L")
 	{
-
+		m_Speed = 4000;
 	}
 }
 
-void Hero::stopAce()
+void Hero::stopACE()
 {
+	if (m_Character.m_Name == "F")
+	{
+	}
+
+	else if (m_Character.m_Name == "Y")
+	{
+		m_damageImmunity = false;
+		Node* Protect = this->getChildByName("Protect");
+		if(Protect!=nullptr)
+			Protect->removeFromParentAndCleanup(true);
+	}
+
+	else if (m_Character.m_Name == "J")
+	{
+		
+	}
+
+	else if (m_Character.m_Name == "L")
+	{
+		m_Speed = m_Character.m_Speed;
+	}
 }
 
-void Hero::AttackSomething()
+
+void Hero::attackSomething()
 {
 	if (m_Character.m_Name == "J")
 	{
@@ -346,7 +407,7 @@ void Hero::AttackSomething()
 	}
 }
 
-void Hero::BeAttacked(const float& Damage)
+void Hero::beAttacked(const float& Damage)
 {
 	if (isDead()||damageImmunity()) return;
 

@@ -91,14 +91,13 @@ bool FightScene::init()
 	//在场景中加入遥杆
 	m_FightControllerLayer = FightControllerLayer::create(m_Player->m_Character);
 	
-	m_FightControllerLayer->startAllRockers(true);
+	m_FightControllerLayer->startAllRockers();
 
 	//开启场景碰撞监听
 	//startContactListen();
 	addChild(m_FightControllerLayer,2);
 
 	//为玩家节点设置名字，方便之后的碰撞检测
-
 	m_Player->setName("Player");
 
 	//毒圈计时器开始计时
@@ -117,13 +116,6 @@ bool FightScene::init()
 
 	this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
-	m_TimeCounter = TimeCounter::create();
-
-	addChild(m_TimeCounter);
-
-	m_TimeCounter->startCounting();
-
-
 	scheduleUpdate();
 	
 	return true;
@@ -136,6 +128,7 @@ void FightScene::update(float delta)
 	updateToxicFog();
 	updateToxicFogDamage();
 	updatePlayerAttack();
+	updatePlayerACE();
 }
 
 void FightScene::updateViewPointByPlayer()
@@ -184,7 +177,7 @@ void FightScene::updatePlayerMove( )
 		{
 			return;
 		}
-        m_Player->beganToMove(MoveAngle);
+        m_Player->beganToMove(MoveAngle,m_Player->getSpeed());
 	}
 	else
 	{
@@ -263,11 +256,33 @@ void FightScene::updatePlayerAttack()
 
 	if (m_FightControllerLayer->getNormalAttackState())
 	{
-		m_Player->NormalAttack(m_FightControllerLayer->getNormalAttackRockerAngle());
+		m_Player->normalAttack(m_FightControllerLayer->getNormalAttackRockerAngle());
+
+		if(!m_FightControllerLayer->getACERockerState())
+			m_FightControllerLayer->addCount();
+
 		m_FightControllerLayer->setNormalAttackState(false);
 	}
-	else
+}
+
+void FightScene::updatePlayerACE()
+{
+	if (m_Player->isDead())
+		return;
+
+	if (m_FightControllerLayer->getACEState())
 	{
+		m_Player->ACE(m_FightControllerLayer->getACERockerAngle());
+		m_FightControllerLayer->setACEState(false);
+	}
+	
+	if(!m_FightControllerLayer->getACERockerState())
+	{
+		if (m_Player->damageImmunity())
+			m_Player->stopACE();
+
+		if (m_Player->getSpeed() != m_Player->m_Character.m_Speed)
+			m_Player->stopACE();
 	}
 }
 
@@ -304,9 +319,9 @@ void FightScene::updatePlayerAttack()
 //
 //			Hero* Injured = (Hero*)nodeB;
 //
-//			Injured->BeAttacked(Attacker->m_Character.m_NormalAttackDamage);
+//			Injured->beAttacked(Attacker->m_Character.m_NormalAttackDamage);
 //
-//			Attacker->AttackSomething();
+//			Attacker->attackSomething();
 //		}
 //		/* 角色被武器击中 */
 //		else if (nodeB->getName()=="Weapon" && nodeA->getName()=="PLayer")
@@ -320,9 +335,9 @@ void FightScene::updatePlayerAttack()
 //
 //			Hero* Injured = (Hero*)nodeA;
 //
-//			Injured->BeAttacked(Attacker->m_Character.m_NormalAttackDamage);
+//			Injured->beAttacked(Attacker->m_Character.m_NormalAttackDamage);
 //
-//			Attacker->AttackSomething();
+//			Attacker->attackSomething();
 //		}
 //	}
 //	return true;

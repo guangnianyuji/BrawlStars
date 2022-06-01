@@ -36,6 +36,9 @@ public:
 	/* 绝招的可持续时间 */
 	float m_Dutration = 0;
 
+	/* 绝招的间隔时间 */
+	float m_ACEIntervalTime = 0;
+
 	//重写等于操作符
 	bool operator==(Character& aCharacter);
 };

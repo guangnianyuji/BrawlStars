@@ -46,7 +46,7 @@ private:
 	void updatePlayerAttack();
 
 	//更新玩家的绝招技能发射
-	void updatePlayerAce();
+	void updatePlayerACE();
 
 	//在场景中开启碰撞监听
 	//void startContactListen();
@@ -70,8 +70,6 @@ private:
 	std::vector<AI*> m_AIVec;
 
 	EventListenerPhysicsContact* m_ContactListener;
-
-	TimeCounter* m_TimeCounter;
 
 	//工具类函数
 	//让像素坐标转换为瓦片坐标

@@ -16,7 +16,7 @@ public:
 	static FightControllerLayer* create(Character PlayerCharacter);
 
 	//启动移动摇杆（启动摇杆，监听键盘事件）
-	void startAllRockers(bool isStop);
+	void startAllRockers();
 
 	//停止移动摇杆（隐藏摇杆，取消监听事件）
 	void stopAllRockers();
@@ -46,14 +46,20 @@ public:
 	//设置普通攻击状态
 	void setNormalAttackState(bool state) {  m_NormalAttackState=state; }
 
+	//设置大招状态
+	void setACEState(bool state) { m_ACEState = state; }
+
 	//得到大招攻击状态
 	bool getACEState() const { return m_ACEState; }
 
-	//设置大招攻击状态
-	void setACEState(bool state) { m_ACEState = state; }
+	//设置大招摇杆状态
+	void setACERockerState(bool state);
 
-	
+	//得到大招摇杆状态
+	bool getACERockerState() { return m_ACERockerSprite->isVisible(); }
 
+	//记录普攻次数 
+	void addCount() { m_Count++; }
 
 	
 
@@ -153,8 +159,20 @@ private:
 	//更新移动摇杆所指角度
 	void updateMoveRad( );
 
+	//更新大招按键的状态
+	void updateACERockerState();
+
 	//记录上一次普攻的时间
-	float m_LastTime;
+	float m_LastNormalAttackTime;
+
+	//记录大招开始时间
+	float m_StartACETime;
+
+	//记录上一次大招的时间
+	float m_LastACETime;
+
+	//记录普攻次数，积攒大招
+	int m_Count;
 
 	TimeCounter* m_TimeCounter;
 

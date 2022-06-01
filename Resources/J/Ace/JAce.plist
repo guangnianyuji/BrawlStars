@@ -4,7 +4,7 @@
     <dict>
         <key>frames</key>
         <dict>
-            <key>J_01.png</key>
+            <key>JAce (1).png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -19,127 +19,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>J_02.png</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{0,0}</string>
-                <key>spriteSize</key>
-                <string>{160,160}</string>
-                <key>spriteSourceSize</key>
-                <string>{160,160}</string>
-                <key>textureRect</key>
-                <string>{{160,0},{160,160}}</string>
-                <key>textureRotated</key>
-                <false/>
-            </dict>
-            <key>J_03.png</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{0,0}</string>
-                <key>spriteSize</key>
-                <string>{160,160}</string>
-                <key>spriteSourceSize</key>
-                <string>{160,160}</string>
-                <key>textureRect</key>
-                <string>{{320,0},{160,160}}</string>
-                <key>textureRotated</key>
-                <false/>
-            </dict>
-            <key>J_04.png</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{0,0}</string>
-                <key>spriteSize</key>
-                <string>{160,160}</string>
-                <key>spriteSourceSize</key>
-                <string>{160,160}</string>
-                <key>textureRect</key>
-                <string>{{480,0},{160,160}}</string>
-                <key>textureRotated</key>
-                <false/>
-            </dict>
-            <key>J_05.png</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{0,0}</string>
-                <key>spriteSize</key>
-                <string>{160,160}</string>
-                <key>spriteSourceSize</key>
-                <string>{160,160}</string>
-                <key>textureRect</key>
-                <string>{{640,0},{160,160}}</string>
-                <key>textureRotated</key>
-                <false/>
-            </dict>
-            <key>J_06.png</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{0,0}</string>
-                <key>spriteSize</key>
-                <string>{160,160}</string>
-                <key>spriteSourceSize</key>
-                <string>{160,160}</string>
-                <key>textureRect</key>
-                <string>{{800,0},{160,160}}</string>
-                <key>textureRotated</key>
-                <false/>
-            </dict>
-            <key>J_07.png</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{0,0}</string>
-                <key>spriteSize</key>
-                <string>{160,160}</string>
-                <key>spriteSourceSize</key>
-                <string>{160,160}</string>
-                <key>textureRect</key>
-                <string>{{0,160},{160,160}}</string>
-                <key>textureRotated</key>
-                <false/>
-            </dict>
-            <key>J_08.png</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{0,0}</string>
-                <key>spriteSize</key>
-                <string>{160,160}</string>
-                <key>spriteSourceSize</key>
-                <string>{160,160}</string>
-                <key>textureRect</key>
-                <string>{{160,160},{160,160}}</string>
-                <key>textureRotated</key>
-                <false/>
-            </dict>
-            <key>J_09.png</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{0,0}</string>
-                <key>spriteSize</key>
-                <string>{160,160}</string>
-                <key>spriteSourceSize</key>
-                <string>{160,160}</string>
-                <key>textureRect</key>
-                <string>{{320,160},{160,160}}</string>
-                <key>textureRotated</key>
-                <false/>
-            </dict>
-            <key>J_10.png</key>
+            <key>JAce (10).png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -154,7 +34,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>J_11.png</key>
+            <key>JAce (11).png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -169,7 +49,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>J_12.png</key>
+            <key>JAce (12).png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -184,7 +64,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>J_13.png</key>
+            <key>JAce (13).png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -199,7 +79,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>J_14.png</key>
+            <key>JAce (14).png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -214,7 +94,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>J_15.png</key>
+            <key>JAce (15).png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -229,7 +109,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>J_16.png</key>
+            <key>JAce (16).png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -244,6 +124,126 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
+            <key>JAce (2).png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{160,160}</string>
+                <key>spriteSourceSize</key>
+                <string>{160,160}</string>
+                <key>textureRect</key>
+                <string>{{160,0},{160,160}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>JAce (3).png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{160,160}</string>
+                <key>spriteSourceSize</key>
+                <string>{160,160}</string>
+                <key>textureRect</key>
+                <string>{{320,0},{160,160}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>JAce (4).png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{160,160}</string>
+                <key>spriteSourceSize</key>
+                <string>{160,160}</string>
+                <key>textureRect</key>
+                <string>{{480,0},{160,160}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>JAce (5).png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{160,160}</string>
+                <key>spriteSourceSize</key>
+                <string>{160,160}</string>
+                <key>textureRect</key>
+                <string>{{640,0},{160,160}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>JAce (6).png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{160,160}</string>
+                <key>spriteSourceSize</key>
+                <string>{160,160}</string>
+                <key>textureRect</key>
+                <string>{{800,0},{160,160}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>JAce (7).png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{160,160}</string>
+                <key>spriteSourceSize</key>
+                <string>{160,160}</string>
+                <key>textureRect</key>
+                <string>{{0,160},{160,160}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>JAce (8).png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{160,160}</string>
+                <key>spriteSourceSize</key>
+                <string>{160,160}</string>
+                <key>textureRect</key>
+                <string>{{160,160},{160,160}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>JAce (9).png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{160,160}</string>
+                <key>spriteSourceSize</key>
+                <string>{160,160}</string>
+                <key>textureRect</key>
+                <string>{{320,160},{160,160}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
         </dict>
         <key>metadata</key>
         <dict>
@@ -254,13 +254,13 @@
             <key>premultiplyAlpha</key>
             <false/>
             <key>realTextureFileName</key>
-            <string>Normal_Attack.png</string>
+            <string>JAce.png</string>
             <key>size</key>
             <string>{960,480}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:6797c828694bae4a82b247c7cae0db11:287f5d4022cef675b805db1340603c42:7ad94e643b8b896ac190d560da883367$</string>
+            <string>$TexturePacker:SmartUpdate:eedb144ab7e797cdea01e4822398fb13:0866eae8b1d7177a7b89ff3851e87771:b17cc67a0418e631649a04349424e686$</string>
             <key>textureFileName</key>
-            <string>Normal_Attack.png</string>
+            <string>JAce.png</string>
         </dict>
     </dict>
 </plist>

@@ -11,11 +11,13 @@ private:
 public:
 	static PhysicsManager* getInstance();
 
+	void startContactListen();
 
+	void onContactBegin();
 
 private:
 
-	PhysicsManager* m_Instance = nullptr;
+	static PhysicsManager* m_Instance;
 
 	cocos2d::EventListenerPhysicsContact* m_ContactListener = nullptr;
 };

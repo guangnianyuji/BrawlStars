@@ -26,7 +26,9 @@ FightControllerLayer* FightControllerLayer::create(Character PlayerCharacter)
 	pRet->m_ACEState = false;
 
 	pRet->m_TimeCounter = TimeCounter::create();
-	pRet->m_LastTime = 0;
+	pRet->m_LastNormalAttackTime = 0;
+	pRet->m_LastACETime = 0;
+	pRet->m_StartACETime = 0;
 
 	if (pRet && pRet->init())
 	{
@@ -58,7 +60,6 @@ void FightControllerLayer::initMoveandAttackRocker()
 	m_MoveRockerSprite->setOpacity(180);
 	m_MoveRockerSprite->setScale(2);
 	addChild(m_MoveRockerSprite, 1);
-	//m_MoveRockerSprite->retain();
 
 	m_MoveRockerBackgroundRadius = m_MoveRockerBackgroundSprite->getContentSize().width * 0.5;
 
@@ -150,8 +151,8 @@ void FightControllerLayer::initEventListener()
 
 				}
 
-				/* 触摸点在绝招摇杆范围内 */
-				else if (MathUtils::isTouchEffective(TouchPoint, m_ACERockerBackgroundPosition, m_ACERockerBackgroundRadius))
+				/* 触摸点在绝招摇杆范围内且此时可以使用绝招 */
+				else if (MathUtils::isTouchEffective(TouchPoint, m_ACERockerBackgroundPosition, m_ACERockerBackgroundRadius)&&m_ACERockerSprite->isVisible())
 				{
 					m_ACERockerIsMoving = true;
 
@@ -179,12 +180,12 @@ void FightControllerLayer::initEventListener()
 
 		if (m_NormalAttackRockerIsMoving)
 		{
-			float delta = m_TimeCounter->getTime() - m_LastTime;
+			float delta = m_TimeCounter->getTime() - m_LastNormalAttackTime;
 
 			//这个判断一定放在移回之前
-		   if (delta>=m_Character.m_IntervalTime||(!m_LastTime))
+		   if (delta>=m_Character.m_IntervalTime||(!m_LastNormalAttackTime))
 			{ 
-			    m_LastTime = m_TimeCounter->getTime();
+			    m_LastNormalAttackTime = m_TimeCounter->getTime();
 				m_NormalAttackState = true;
 				m_NormalAttackRockerAngle = MathUtils::getRad(m_NormalAttackRockerBackgroundPosition, m_NormalAttackRockerPosition);
 			}
@@ -204,17 +205,23 @@ void FightControllerLayer::initEventListener()
 
 		if (m_ACERockerIsMoving)
 		{
+			float delta = m_TimeCounter->getTime() - m_LastACETime;
+
 			//这个判断一定放在移回之前
-			if (m_ACERockerBackgroundPosition != m_ACERockerPosition)
+			if (delta >= m_Character.m_ACEIntervalTime||!m_LastACETime)
 			{
+				m_LastACETime = m_TimeCounter->getTime();
 				m_ACEState = true;
-				m_ACERockerAngle = MathUtils::getRad(m_NormalAttackRockerBackgroundPosition, m_NormalAttackRockerPosition);
+				m_ACERockerAngle = MathUtils::getRad(m_ACERockerBackgroundPosition, m_ACERockerPosition);
+			}
+			else
+			{
+				m_ACEState = false;
 			}
 			m_ACERockerPosition = m_ACERockerBackgroundPosition;
 			m_ACERockerSprite->stopAllActions();
 			m_ACERockerSprite->runAction(MoveTo::create(0.08f, m_ACERockerPosition));
 			m_ACERockerIsMoving = false;
-			
 		}
 		else
 		{
@@ -279,6 +286,49 @@ void FightControllerLayer::initEventListener()
 	scheduleUpdate();
 }
 
+void FightControllerLayer::setACERockerState(bool state)
+{	
+	m_ACERockerSprite->setVisible(state);
+
+	if (state == true)
+	{
+		if (m_Character.m_Name == "F")
+		{
+			Label* m_Label = Label::create("Attack ++", "fonts\Maker Felt.ttf", 30);
+			m_Label->setAnchorPoint(Vec2(0, 0));
+			m_Label->setName("Label");
+			m_ACERockerSprite->addChild(m_Label);
+		}
+		else if (m_Character.m_Name == "Y")
+		{
+			Label* m_Label = Label::create("Protect", "fonts\Maker Felt.ttf", 30);
+			m_Label->setAnchorPoint(Vec2(0, 0));
+			m_Label->setName("Label");
+			m_ACERockerSprite->addChild(m_Label);
+		}
+		else if (m_Character.m_Name == "J")
+		{
+			Label* m_Label = Label::create("Blood ++", "fonts\Maker Felt.ttf", 30);
+			m_Label->setAnchorPoint(Vec2(0, 0));
+			m_Label->setName("Label");
+			m_ACERockerSprite->addChild(m_Label);
+		}
+		else if (m_Character.m_Name == "L")
+		{
+			Label* m_Label = Label::create("Speed ++", "fonts\Maker Felt.ttf", 30);
+			m_Label->setAnchorPoint(Vec2(0, 0));
+			m_Label->setName("Label");
+			m_ACERockerSprite->addChild(m_Label);
+		}
+	}
+	else
+	{
+		Node* m_Label = getChildByName("Label");
+		if(m_Label!=nullptr)
+			m_Label->removeFromParentAndCleanup(true);
+	}
+}
+
 bool FightControllerLayer::init()
 {
 	if (!Layer::init())
@@ -292,12 +342,11 @@ bool FightControllerLayer::init()
 	setTouchEnabled(true);
 	this->addChild(m_TimeCounter);
 	m_TimeCounter->startCounting();
-
 	return true;
 }
 
 
-void FightControllerLayer::startAllRockers(bool isStop)
+void FightControllerLayer::startAllRockers()
 {
 	m_MoveRockerSprite->setVisible(true);
 
@@ -307,7 +356,7 @@ void FightControllerLayer::startAllRockers(bool isStop)
 
 	m_NormalAttackRockerBackgroundSprite->setVisible(true);
 
-	m_ACERockerSprite->setVisible(true);
+	m_ACERockerSprite->setVisible(false);
 
 	m_ACERockerBackgroundSprite->setVisible(true);
 
@@ -338,6 +387,7 @@ void FightControllerLayer::stopAllRockers()
 void  FightControllerLayer::update(float delta)
 {
 	updateMoveRad();
+	updateACERockerState();
 }
 
 void FightControllerLayer::updateMoveRad( )
@@ -348,3 +398,21 @@ void FightControllerLayer::updateMoveRad( )
 	}
 	
 }
+
+void FightControllerLayer::updateACERockerState()
+{
+	if (m_Count >= m_Character.m_Count)
+	{
+		m_StartACETime = m_TimeCounter->getTime();
+		setACERockerState(true);
+		m_Count = 0;
+	}
+
+	/* 绝招的持续时间已经过去了 */
+	if (m_TimeCounter->getTime() - m_StartACETime >= m_Character.m_Dutration)
+	{
+		m_StartACETime = 0;
+		setACERockerState(false);
+	}
+}
+

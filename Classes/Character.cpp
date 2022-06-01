@@ -15,7 +15,9 @@ Fei::Fei() : Character()
 	m_Range = 200;
 	m_IntervalTime = 0.5f;
 	m_Count = 3;
-	m_Dutration = 0;
+	m_Dutration = 30.0f;
+	m_ACEIntervalTime = 5.0f;
+	m_AceDamage = 50.0f;
 }
 Yu::Yu() : Character()
 {
@@ -26,7 +28,9 @@ Yu::Yu() : Character()
 	m_Range = 300;
 	m_IntervalTime = 1.50f;
 	m_Count = 3;
-	m_Dutration = 10.0f;
+	m_Dutration = 18.0f;
+	m_ACEIntervalTime = 20.0f;
+	m_AceDamage = 50.0f;
 }
 Jide::Jide() : Character()
 {
@@ -37,6 +41,9 @@ Jide::Jide() : Character()
 	m_Range = 500;
 	m_IntervalTime = 2.0f;
 	m_Count = 3;
+	m_Dutration = 30.0f;
+	m_ACEIntervalTime = 30.0f;
+	m_AceDamage = 50.0f;
 }
 Lin::Lin() : Character()
 {
@@ -47,7 +54,9 @@ Lin::Lin() : Character()
 	m_Range = 300;
 	m_IntervalTime = 5.0f;
 	m_Count = 3;
-	m_Dutration = 2.0f;
+	m_Dutration = 30.0f;
+	m_ACEIntervalTime = 5.0f;
+	m_AceDamage = 50.0f;
 }
 
 Nothing::Nothing():Character()

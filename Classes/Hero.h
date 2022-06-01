@@ -19,28 +19,28 @@ public:
 
 
 	//动画播放，角色开始行走
-	void beganToMove(const float& Angle);
+	void beganToMove(const float& Angle,const float Speed);
 
 	//停止动画播放，角色静止
 	void stopMoving();
 
 	//普通攻击
-	void NormalAttack(const float Angle);
+	void normalAttack(const float Angle);
 
 	//停止普通攻击
 	void stopNormalAttack();
 
 	//使用绝招
-	void Ace(const float Angle);
+	void ACE(const float Angle);
 
 	//停止绝招
-	void stopAce();
+	void stopACE();
 
 	//打击到了某些东西
-	virtual void AttackSomething() override;
+	virtual void attackSomething() override;
 
 	//被攻击到了
-	virtual void BeAttacked(const float& Damage) override;
+	virtual void beAttacked(const float& Damage) override;
 
 	//死亡
 	virtual void Death() override;
@@ -53,15 +53,11 @@ public:
 	//英雄的角色
 	Character m_Character;
 
-	TimeCounter* m_TimeCounter;
-
 	//得到速度的接口
 	float getSpeed() const;
 
 private:
 
-	//英雄的技能
-	Sprite* m_Skill;
 
 	//英雄的速度
 	float m_Speed;
