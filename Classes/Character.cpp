@@ -47,7 +47,7 @@ Lin::Lin() : Character()
 	m_Range = 300;
 	m_IntervalTime = 5.0f;
 	m_Count = 3;
-	m_Dutration = 6.0f;
+	m_Dutration = 2.0f;
 }
 
 Nothing::Nothing():Character()

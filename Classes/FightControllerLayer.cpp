@@ -105,33 +105,19 @@ void FightControllerLayer::initEventListener()
 
 	m_TouchListener->onTouchesBegan = [&](const std::vector<Touch*>& touches, Event* event)
 	{
-		for (auto& touch : touches)
-		{
-			auto TouchPoint = touch->getLocation();
-
-			if (TouchPoint.x < 780)
-			{
-				m_MoveRockerIsMoving = true;
-			}
-			else if ((MathUtils::isTouchEffective(TouchPoint, m_NormalAttackRockerBackgroundPosition, m_NormalAttackRockerBackgroundRadius)))
-			{
-				m_NormalAttackRockerIsMoving = true;
-			}
-			else if ((MathUtils::isTouchEffective(TouchPoint, m_ACERockerBackgroundPosition, m_ACERockerBackgroundRadius)))
-			{
-				m_ACERockerIsMoving = true;
-			}
-		}
 		
 	};
 	m_TouchListener->onTouchesMoved = [&](const std::vector<Touch*>& touches, Event* event)
 	{
-		/* 遍历所有触摸事件 */
-		for (auto& touch : touches)
+		for (auto touch : touches)
 		{
+			/* 遍历所有触摸事件 */
 			auto TouchPoint = touch->getLocation();
-			if(m_MoveRockerIsMoving)
+
+			/* 如果触摸点在屏幕的左半部分 */
+			if (TouchPoint.x < 780)
 			{
+				m_MoveRockerIsMoving = true;
 
 				float Angle = MathUtils::getRad(m_MoveRockerBackgroundPosition, TouchPoint);
 				if (m_MoveRockerBackgroundPosition.distance(TouchPoint) >= m_MoveRockerBackgroundRadius)
@@ -147,43 +133,32 @@ void FightControllerLayer::initEventListener()
 
 					m_MoveRockerSprite->setPosition(m_MoveRockerPosition);
 				}
-				if (m_MoveRockerBackgroundPosition == m_MoveRockerPosition)
-				{
-					m_MoveRockerIsMoving = false;
-				}
 			}
-			if(m_NormalAttackRockerIsMoving)
+			/* 如果触摸点在屏幕的右半部分 */
+			else
 			{
-				float Angle = MathUtils::getRad(m_NormalAttackRockerBackgroundPosition, TouchPoint);
-				if (m_NormalAttackRockerBackgroundPosition.distance(TouchPoint) >= m_NormalAttackRockerBackgroundRadius)
-				{
-					m_NormalAttackRockerPosition = m_NormalAttackRockerBackgroundPosition +
-						MathUtils::PolarToRectangular(m_NormalAttackRockerBackgroundRadius, Angle);
 
-					m_NormalAttackRockerSprite->setPosition(m_NormalAttackRockerPosition);
-				}
-				else
+				/* 触摸点在普攻摇杆范围内 */
+				if (MathUtils::isTouchEffective(TouchPoint, m_NormalAttackRockerBackgroundPosition, m_NormalAttackRockerBackgroundRadius))
 				{
+					m_NormalAttackRockerIsMoving = true;
+
 					m_NormalAttackRockerPosition = TouchPoint;
 
-					m_NormalAttackRockerSprite->setPosition(m_NormalAttackRockerPosition);
-				}
-			}
-			if (m_ACERockerIsMoving)
-			{
-				float Angle = MathUtils::getRad(m_ACERockerBackgroundPosition, TouchPoint);
-				if (m_ACERockerBackgroundPosition.distance(TouchPoint) >= m_ACERockerBackgroundRadius)
-				{
-					m_ACERockerPosition = m_ACERockerBackgroundPosition +
-						MathUtils::PolarToRectangular(m_ACERockerBackgroundRadius, Angle);
+					m_NormalAttackRockerSprite->setPosition(TouchPoint);
 
-					m_ACERockerSprite->setPosition(m_ACERockerPosition);
+
 				}
-				else
+
+				/* 触摸点在绝招摇杆范围内 */
+				else if (MathUtils::isTouchEffective(TouchPoint, m_ACERockerBackgroundPosition, m_ACERockerBackgroundRadius))
 				{
+					m_ACERockerIsMoving = true;
+
 					m_ACERockerPosition = TouchPoint;
 
-					m_ACERockerSprite->setPosition(m_ACERockerPosition);
+					m_ACERockerSprite->setPosition(TouchPoint);
+
 				}
 			}
 		}
@@ -207,7 +182,7 @@ void FightControllerLayer::initEventListener()
 			float delta = m_TimeCounter->getTime() - m_LastTime;
 
 			//这个判断一定放在移回之前
-		   if (delta>=m_Character.m_IntervalTime||!m_LastTime)
+		   if (delta>=m_Character.m_IntervalTime||(!m_LastTime))
 			{ 
 			    m_LastTime = m_TimeCounter->getTime();
 				m_NormalAttackState = true;
@@ -219,8 +194,8 @@ void FightControllerLayer::initEventListener()
 		   }
 		   m_NormalAttackRockerPosition = m_NormalAttackRockerBackgroundPosition;
 		   m_NormalAttackRockerSprite->stopAllActions();
-			m_NormalAttackRockerSprite->runAction(MoveTo::create(0.08f, m_NormalAttackRockerPosition));
-			m_NormalAttackRockerIsMoving = false;
+		   m_NormalAttackRockerSprite->runAction(MoveTo::create(0.08f, m_NormalAttackRockerPosition));
+		   m_NormalAttackRockerIsMoving = false;
 		}
 		else
 		{
@@ -315,6 +290,7 @@ bool FightControllerLayer::init()
 	initMoveandAttackRocker();
 	initEventListener();
 	setTouchEnabled(true);
+	this->addChild(m_TimeCounter);
 	m_TimeCounter->startCounting();
 
 	return true;

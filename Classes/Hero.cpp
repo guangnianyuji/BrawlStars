@@ -48,7 +48,7 @@ bool Hero::init()
 
 	/* 使Hero的身体承载物理属性 */
 	auto physicsBody = PhysicsBody::createBox(m_Body->getContentSize(), PhysicsMaterial(0.0f, 0.0f, 0.0f));
-	physicsBody->setDynamic(true);
+	physicsBody->setDynamic(false);
 	physicsBody->setGravityEnable(false);
 	physicsBody->setContactTestBitmask(0x1F);
 	this->setName("Player");
@@ -124,7 +124,7 @@ void Hero::NormalAttack(const float Angle)
 		Fire1->setAnchorPoint(Vec2(0.5, 0.5));
 		Fire1->setName("Weapon");
 		Map->addChild(Fire1,5);
-		auto actionShoot1 = MoveTo::create(1.0f / 5, nowPosition + MathUtils::getVectorialSpeed(Angle / 3 * 4, m_Character.m_Range));
+		auto actionShoot1 = MoveTo::create(1.0f / 5, nowPosition + MathUtils::getVectorialSpeed(Angle - Pi/6, m_Character.m_Range));
 		auto actionBurn1 = AnimationUtils::createNormalAttackAnimation(m_Character.m_Name, 1);
 		auto actionRemove1 = RemoveSelf::create();
 		Fire1->runAction(Sequence::create((Spawn::create(actionShoot1, actionBurn1, nullptr)), actionRemove1, nullptr));
@@ -144,12 +144,11 @@ void Hero::NormalAttack(const float Angle)
 		Fire3->setAnchorPoint(Vec2(0.5, 0.5));
 		Fire3->setName("Weapon");
 		Map->addChild(Fire3,5);
-		auto actionShoot3 = MoveTo::create(1.0f / 5, nowPosition + MathUtils::getVectorialSpeed(Angle/3*2, m_Character.m_Range));
+		auto actionShoot3 = MoveTo::create(1.0f / 5, nowPosition + MathUtils::getVectorialSpeed(Angle + Pi/6, m_Character.m_Range));
 		auto actionBurn3 = AnimationUtils::createNormalAttackAnimation(m_Character.m_Name, 1);
 		auto actionRemove3 = RemoveSelf::create();
 		Fire3->runAction(Sequence::create((Spawn::create(actionShoot3, actionBurn3, nullptr)), actionRemove3, nullptr));
 
-		this->BeAttacked(1.0f);
 	}
 
 	else if (m_Character.m_Name == "Y")
@@ -172,8 +171,6 @@ void Hero::NormalAttack(const float Angle)
 		auto actionRemove = RemoveSelf::create();
 
 		Water->runAction(Sequence::create(actionBurn, actionRemove, nullptr));
-
-		this->BeAttacked(1.0f);
 	}
 
 	else if (m_Character.m_Name == "J")
@@ -206,7 +203,6 @@ void Hero::NormalAttack(const float Angle)
 
 		Bat->runAction(Sequence::create((Spawn::create(actionFly, bezierTo, nullptr)), actionRemove, nullptr));
 
-		this->BeAttacked(100.0f);
 	}
 
 	else if (m_Character.m_Name == "L")
@@ -226,17 +222,53 @@ void Hero::NormalAttack(const float Angle)
 		Light3->setAnchorPoint(Vec2(0.5, 0.5));
 		Light4->setAnchorPoint(Vec2(0.5, 0.5));
 
-		Light1->setPosition(nowPosition.x+ MathUtils::getVectorialSpeed(Angle, m_Character.m_Range).x,
-			nowPosition.y+ MathUtils::getVectorialSpeed(Angle, m_Character.m_Range).y / 4);
+		float x = MathUtils::getVectorialSpeed(Angle, m_Character.m_Range).x;
+		float y = MathUtils::getVectorialSpeed(Angle, m_Character.m_Range).y;
 
-		Light2->setPosition(nowPosition.x + MathUtils::getVectorialSpeed(Angle, m_Character.m_Range).x/4*3,
-			nowPosition.y + MathUtils::getVectorialSpeed(Angle, m_Character.m_Range).y / 2);
+		if (fabs(x) < 100.0f)
+		{
 
-		Light3->setPosition(nowPosition.x + MathUtils::getVectorialSpeed(Angle, m_Character.m_Range).x/2,
-			nowPosition.y + MathUtils::getVectorialSpeed(Angle, m_Character.m_Range).y / 4*3);
+			Light1->setPosition(nowPosition.x + x - 75.0f,
+				nowPosition.y + y);
 
-		Light4->setPosition(nowPosition.x + MathUtils::getVectorialSpeed(Angle, m_Character.m_Range).x/4,
-			nowPosition.y + MathUtils::getVectorialSpeed(Angle, m_Character.m_Range).y );
+			Light2->setPosition(nowPosition.x + x - 25.0f,
+				nowPosition.y + y);
+
+			Light3->setPosition(nowPosition.x + x + 25.0f,
+				nowPosition.y + y);
+
+			Light4->setPosition(nowPosition.x + x + 75.0f,
+				nowPosition.y + y);
+		}
+		else if (fabs(y) < 100.0f)
+		{
+
+			Light1->setPosition(nowPosition.x + x,
+				nowPosition.y + y - 75.0f);
+
+			Light2->setPosition(nowPosition.x + x,
+				nowPosition.y + y - 25.0f);
+
+			Light3->setPosition(nowPosition.x + x,
+				nowPosition.y + y + 25.0f);
+
+			Light4->setPosition(nowPosition.x + x,
+				nowPosition.y + y + 75.0f);
+		}
+		else
+		{
+			Light1->setPosition(nowPosition.x + x/4,
+				nowPosition.y + y);
+
+			Light2->setPosition(nowPosition.x + x/2,
+				nowPosition.y + y/4*3 );
+
+			Light3->setPosition(nowPosition.x + x/4*3,
+				nowPosition.y + y/2);
+
+			Light4->setPosition(nowPosition.x + x,
+				nowPosition.y + y/4 );
+		}
 
 		Light1->setName("Weapon");
 		Light2->setName("Weapon");
@@ -257,9 +289,7 @@ void Hero::NormalAttack(const float Angle)
 		Light3->runAction(Sequence::create(actionBling->clone(), actionRemove->clone(), nullptr));
 		Light4->runAction(Sequence::create(actionBling->clone(), actionRemove->clone(), nullptr));
 
-		
-
-		this->BeAttacked(10.0f);
+	
 	}
 
 }
