@@ -59,7 +59,7 @@ bool FightScene::init()
 	m_FightControllerLayer->startMoveRocker(true);
 
 	//开启场景碰撞监听
-	startContactListen();
+	//startContactListen();
 
 	//为玩家节点设置名字，方便之后的碰撞检测
 	m_Player->setName("Person");	

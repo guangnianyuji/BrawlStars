@@ -137,7 +137,7 @@ void FightControllerLayer::initEventListener()
 			m_isCanMove = false;
 		}
 
-		if (m_AttackLayer->isAttackTime()||m_AttackLayer->normalAttackRockerBGPosition==m_AttackLayer->normalAttackRockerPosition )
+		if (/*m_AttackLayer->isAttackTime() || */m_AttackLayer->normalAttackRockerBGPosition == m_AttackLayer->normalAttackRockerPosition)
 		{
 			
 		}
@@ -153,7 +153,7 @@ void FightControllerLayer::initEventListener()
 			m_AttackLayer->_isAttackTime = true;
 		}
 
-		if (m_AttackLayer->isAceTime()||m_AttackLayer->aceRockerBGPosition==m_AttackLayer->aceRockerPosition)
+		if (/*m_AttackLayer->isAceTime() || */m_AttackLayer->aceRockerBGPosition == m_AttackLayer->aceRockerPosition)
 		{
 
 		}

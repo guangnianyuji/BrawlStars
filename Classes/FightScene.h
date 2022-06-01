@@ -37,10 +37,10 @@ private:
 	void updatePlayerAce();
 
 	//在场景中开启碰撞监听
-	void startContactListen();
+	//void startContactListen();
 
 	//监听到两物体开始碰撞的回调函数
-	bool onContactBegin(cocos2d::PhysicsContact& contact);
+	//bool onContactBegin(cocos2d::PhysicsContact& contact);
 
 
 	TMXTiledMap* m_TiledMap;
