@@ -66,6 +66,8 @@ private:
 	Player* m_Player;
 	std::vector<AI*> m_AIVec;
 
+
+
 	EventListenerPhysicsContact* m_ContactListener;
 
 	TimeCounter* m_TimeCounter;

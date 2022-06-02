@@ -273,6 +273,7 @@ void FightScene::updatePlayerAttack(float nowTime)
 
 	if (m_FightControllerLayer->getNormalAttackState()&&delta>=m_Player->m_Character.m_IntervalTime)
 	{
+		float i = m_FightControllerLayer->getNormalAttackRockerAngle();
 		m_Player->NormalAttack(m_FightControllerLayer->getNormalAttackRockerAngle(),nowTime);
 
 		m_FightControllerLayer->setNormalAttackState(false);

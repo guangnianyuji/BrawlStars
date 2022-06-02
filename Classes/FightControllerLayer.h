@@ -30,13 +30,13 @@ public:
 	bool getNormalAttackRockerIsMoving() const{ return m_NormalAttackRockerIsMoving; }
 
 	//得到普通攻击摇杆移动的方向角
-	float getNormalAttackRockerAngle() const{ return m_NormalAttackRockerIsMoving; }
+	float getNormalAttackRockerAngle() const{ return m_NormalAttackRockerAngle; }
 
 	//得到大招攻击摇杆是否在移动
 	bool getACERockerIsMoving() const { return m_ACERockerIsMoving; }
 
 	//得到大招攻击摇杆移动的方向角
-	float getACERockerAngle() const { return m_ACERockerIsMoving; }
+	float getACERockerAngle() const { return m_ACERockerAngle; }
 
 	//得到普通攻击状态
 	bool getNormalAttackState() const { return m_NormalAttackState; }
