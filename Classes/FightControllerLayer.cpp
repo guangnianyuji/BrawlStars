@@ -409,7 +409,7 @@ void FightControllerLayer::updateACERockerState()
 	}
 
 	/* 绝招的持续时间已经过去了 */
-	if (m_TimeCounter->getTime() - m_StartACETime >= m_Character.m_Dutration)
+	if (m_TimeCounter->getTime() - m_StartACETime >= m_Character.m_Duration)
 	{
 		m_StartACETime = 0;
 		setACERockerState(false);

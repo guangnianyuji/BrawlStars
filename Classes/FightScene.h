@@ -49,14 +49,15 @@ private:
 	void updatePlayerACE();
 
 	//在场景中开启碰撞监听
-	//void startContactListen();
+	void startContactListen();
 
 	//监听到两物体开始碰撞的回调函数
-	//bool onContactBegin(cocos2d::PhysicsContact& contact);
+	bool onContactBegin(cocos2d::PhysicsContact& contact);
 
 
 	TMXTiledMap* m_TiledMap;
 	TMXLayer* m_WallLayer;
+	std::vector<Sprite*> m_WallTield;
 
 	std::map < Vec2, bool > m_ToxicFogMap;//记录某一瓦片位置是否有毒雾
 	TimeCounter* m_ToxicFogTimeCounter;//增大毒雾范围的计时器

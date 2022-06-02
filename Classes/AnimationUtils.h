@@ -15,6 +15,7 @@ public:
 	/* 创建普通攻击动画 */
 	static Animate* createNormalAttackAnimation(const std::string& name,const int loops);
 
+	/* 创建绝招动画 */
 	static Animate* createACEAnimation(const std::string& name,int loops);
 };
 

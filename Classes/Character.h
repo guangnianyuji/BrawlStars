@@ -34,7 +34,7 @@ public:
 	float m_IntervalTime = 0;
 
 	/* 绝招的可持续时间 */
-	float m_Dutration = 0;
+	float m_Duration = 0;
 
 	/* 绝招的间隔时间 */
 	float m_ACEIntervalTime = 0;

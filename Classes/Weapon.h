@@ -15,9 +15,15 @@ public:
 
 	void setPhyBody();
 
+	int getDamage() const { return m_Damage; }
+
+	void setDamage(int Damage) { m_Damage = Damage; }
 
 private:
 	Hero* m_Owner;
+
+	/* ÎäÆ÷µÄÉËº¦Öµ */
+	int m_Damage;
 };
 #endif
 

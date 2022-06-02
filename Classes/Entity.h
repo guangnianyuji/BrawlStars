@@ -14,8 +14,6 @@ public:
 	bool init() override;
 
 	virtual void beAttacked(const float& Damage) = 0;
-		
-	virtual void attackSomething() = 0;
 
 	virtual void Death() = 0;
 

@@ -74,7 +74,7 @@ Animate* AnimationUtils::createACEAnimation(const std::string& name,int loops)
 	SpriteFrame* frame = nullptr;
 	for (int ix = 1; ix <= 16; ix++)
 	{
-		frame = cache->getSpriteFrameByName(name + "Ace" + "(" + Value(ix).asString() + ")" + ".png ");
+		frame = cache->getSpriteFrameByName(name + "Ace" + " " + "(" + Value(ix).asString() + ")" + ".png ");
 	
 		if (frame == nullptr)
 			break;

@@ -24,7 +24,7 @@ bool Hero::init()
 	m_Blood->setBloodVolume(m_Character.m_BloodVolume);
 
 	this->addChild(m_Body);
-	m_Blood->setAnchorPoint(Vec2(0,0));
+	//m_Blood->setAnchorPoint(Vec2(0, 0));
 
 	m_Body->addChild(m_Blood);
 
@@ -33,14 +33,6 @@ bool Hero::init()
 	m_isMoving = false;
 	m_Direction = "a";//随意初始化无意义
 
-
-	/* 使Hero的身体承载物理属性 */
-	auto physicsBody = PhysicsBody::createBox(m_Body->getContentSize(), PhysicsMaterial(0.0f, 0.0f, 0.0f));
-	physicsBody->setDynamic(false);
-	physicsBody->setGravityEnable(false);
-	physicsBody->setContactTestBitmask(0x1F);
-	this->setName("Player");
-	this->setPhysicsBody(physicsBody);
 
 	scheduleUpdate();
 
@@ -111,6 +103,7 @@ void Hero::normalAttack(const float Angle)
 		Fire1->setPosition(nowPosition);
 		Fire1->setAnchorPoint(Vec2(0.5, 0.5));
 		Fire1->setName("Weapon");
+		Fire1->setDamage(m_Character.m_NormalAttackDamage);
 		Map->addChild(Fire1,5);
 		auto actionShoot1 = MoveTo::create(1.0f / 5, nowPosition + MathUtils::getVectorialSpeed(Angle - Pi/6, m_Character.m_Range));
 		auto actionBurn1 = AnimationUtils::createNormalAttackAnimation(m_Character.m_Name, 1);
@@ -121,6 +114,7 @@ void Hero::normalAttack(const float Angle)
 		Fire2->setPosition(nowPosition);
 		Fire2->setAnchorPoint(Vec2(0.5, 0.5));
 		Fire2->setName("Weapon");
+		Fire2->setDamage(m_Character.m_NormalAttackDamage);
 		Map->addChild(Fire2,5);
 		auto actionShoot2 = MoveTo::create(1.0f / 5, nowPosition + MathUtils::getVectorialSpeed(Angle, m_Character.m_Range));
 		auto actionBurn2 = AnimationUtils::createNormalAttackAnimation(m_Character.m_Name,1);
@@ -131,13 +125,12 @@ void Hero::normalAttack(const float Angle)
 		Fire3->setPosition(nowPosition);
 		Fire3->setAnchorPoint(Vec2(0.5, 0.5));
 		Fire3->setName("Weapon");
+		Fire2->setDamage(m_Character.m_NormalAttackDamage);
 		Map->addChild(Fire3,5);
 		auto actionShoot3 = MoveTo::create(1.0f / 5, nowPosition + MathUtils::getVectorialSpeed(Angle + Pi/6, m_Character.m_Range));
 		auto actionBurn3 = AnimationUtils::createNormalAttackAnimation(m_Character.m_Name, 1);
 		auto actionRemove3 = RemoveSelf::create();
 		Fire3->runAction(Sequence::create((Spawn::create(actionShoot3, actionBurn3, nullptr)), actionRemove3, nullptr));
-
-		beAttacked(20.0f);
 	}
 
 	else if (m_Character.m_Name == "Y")
@@ -153,6 +146,8 @@ void Hero::normalAttack(const float Angle)
 
 		Water->setName("Weapon");
 
+		Water->setDamage(m_Character.m_NormalAttackDamage);
+
 		Map->addChild(Water,5);
 
 		auto actionBurn = AnimationUtils::createNormalAttackAnimation(m_Character.m_Name,2);
@@ -161,7 +156,6 @@ void Hero::normalAttack(const float Angle)
 
 		Water->runAction(Sequence::create(actionBurn, actionRemove, nullptr));
 
-		beAttacked(20.0f);
 	}
 
 	else if (m_Character.m_Name == "J")
@@ -175,6 +169,8 @@ void Hero::normalAttack(const float Angle)
 		Bat->setPosition(nowPosition);
 
 		Bat->setName("Weapon");
+
+		Bat->setDamage(m_Character.m_NormalAttackDamage);
 
 		Map->addChild(Bat, 5);
 
@@ -194,7 +190,6 @@ void Hero::normalAttack(const float Angle)
 
 		Bat->runAction(Sequence::create((Spawn::create(actionFly, bezierTo, nullptr)), actionRemove, nullptr));
 
-		beAttacked(20.0f);
 
 	}
 
@@ -214,6 +209,16 @@ void Hero::normalAttack(const float Angle)
 		Light2->setAnchorPoint(Vec2(0.5, 0.5));
 		Light3->setAnchorPoint(Vec2(0.5, 0.5));
 		Light4->setAnchorPoint(Vec2(0.5, 0.5));
+
+		Light1->setName("Weapon");
+		Light2->setName("Weapon");
+		Light3->setName("Weapon");
+		Light4->setName("Weapon");
+
+		Light1->setDamage(m_Character.m_NormalAttackDamage);
+		Light2->setDamage(m_Character.m_NormalAttackDamage);
+		Light3->setDamage(m_Character.m_NormalAttackDamage);
+		Light4->setDamage(m_Character.m_NormalAttackDamage);
 
 		float x = MathUtils::getVectorialSpeed(Angle, m_Character.m_Range).x;
 		float y = MathUtils::getVectorialSpeed(Angle, m_Character.m_Range).y;
@@ -282,7 +287,6 @@ void Hero::normalAttack(const float Angle)
 		Light3->runAction(Sequence::create(actionBling->clone(), actionRemove->clone(), nullptr));
 		Light4->runAction(Sequence::create(actionBling->clone(), actionRemove->clone(), nullptr));
 
-		beAttacked(20.0f);
 	}
 
 }
@@ -301,15 +305,16 @@ void Hero::ACE(const float Angle)
 	if (m_Character.m_Name == "F")
 	{
 
-		auto Fire1 = Weapon::create(m_Character.m_Name + "/" + "Ace/F_01.png", this);
-		auto Fire2 = Weapon::create(m_Character.m_Name + "/" + "Ace/F_01.png", this);
-		auto Fire3 = Weapon::create(m_Character.m_Name + "/" + "Ace/F_01.png", this);
+		auto Fire1 = Weapon::create(m_Character.m_Name + "/" + "Ace/FAce (1).png", this);
+		auto Fire2 = Weapon::create(m_Character.m_Name + "/" + "Ace/FAce (1).png", this);
+		auto Fire3 = Weapon::create(m_Character.m_Name + "/" + "Ace/FAce (1).png", this);
 
 
 		Fire1->setPhyBody();
 		Fire1->setPosition(nowPosition);
 		Fire1->setAnchorPoint(Vec2(0.5, 0.5));
-		Fire1->setName("ACEWeapon");
+		Fire1->setName("Weapon");
+		Fire1->setDamage(m_Character.m_AceDamage);
 		Map->addChild(Fire1, 5);
 		auto actionShoot1 = MoveTo::create(1.5f, nowPosition + MathUtils::getVectorialSpeed(Angle - Pi / 6, m_Character.m_Range*2));
 		auto actionBurn1 = AnimationUtils::createACEAnimation(m_Character.m_Name, 3);
@@ -319,7 +324,8 @@ void Hero::ACE(const float Angle)
 		Fire2->setPhyBody();
 		Fire2->setPosition(nowPosition);
 		Fire2->setAnchorPoint(Vec2(0.5, 0.5));
-		Fire2->setName("ACEWeapon");
+		Fire2->setName("Weapon");
+		Fire2->setDamage(m_Character.m_AceDamage);
 		Map->addChild(Fire2, 5);
 		auto actionShoot2 = MoveTo::create(1.5f, nowPosition + MathUtils::getVectorialSpeed(Angle, m_Character.m_Range*2));
 		auto actionBurn2 = AnimationUtils::createACEAnimation(m_Character.m_Name, 3);
@@ -329,7 +335,8 @@ void Hero::ACE(const float Angle)
 		Fire3->setPhyBody();
 		Fire3->setPosition(nowPosition);
 		Fire3->setAnchorPoint(Vec2(0.5, 0.5));
-		Fire3->setName("ACEWeapon");
+		Fire3->setName("Weapon");
+		Fire3->setDamage(m_Character.m_AceDamage);
 		Map->addChild(Fire3, 5);
 		auto actionShoot3 = MoveTo::create(1.5f , nowPosition + MathUtils::getVectorialSpeed(Angle + Pi / 6, m_Character.m_Range*2));
 		auto actionBurn3 = AnimationUtils::createACEAnimation(m_Character.m_Name, 3);
@@ -351,12 +358,11 @@ void Hero::ACE(const float Angle)
 
 	else if (m_Character.m_Name == "J")
 	{
-		Sprite* Smog = Sprite::create(m_Character.m_Name + "/" + "Ace/JAce(1).png");
+		Sprite* Smog = Sprite::create(m_Character.m_Name + "/" + "Ace/JAce (1).png");
 		Smog->setAnchorPoint(Vec2(0.5, 0.5));
-		Smog->setPosition(nowPosition);
+		this->addChild(Smog);
 		Animate* actionBurn = AnimationUtils::createACEAnimation(m_Character.m_Name, 10);
 		auto actionRemove = RemoveSelf::create();
-		this->addChild(Smog);
 		Smog->runAction(Sequence::create(actionBurn, actionRemove, nullptr));
 
 
@@ -417,13 +423,24 @@ void Hero::beAttacked(const float& Damage)
 
 	if (realTimeBlood <= 0)
 	{
-		m_isDead = true;
 		this->Death();
 	}
 }
 
 void Hero::Death()
 {
-	//this->removeFromParentAndCleanup(true);
+	m_isDead = true;
+	if (this->getName() == "Player")
+	{
+		Label* m_Label = Label::create("GAME OVER!", "fonts\Maker Felt.ttf", 40);
+
+		Size visibleSize = Director::getInstance()->getVisibleSize();
+		Point origin = Director::getInstance()->getVisibleOrigin();
+	}
+	if (this != nullptr)
+	{
+		this->retain();
+		this->removeFromParent();
+	}
 }
 

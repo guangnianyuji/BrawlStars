@@ -69,7 +69,12 @@ bool FightScene::init()
 			{
 				auto boxPhysicsBody = PhysicsBody::createBox(WallTiled->getContentSize());//设置PhysicsBody组件
 				boxPhysicsBody->setDynamic(false);
+				boxPhysicsBody->setCategoryBitmask(0x0001);
+				boxPhysicsBody->setCollisionBitmask(0x0001);
+				boxPhysicsBody->setContactTestBitmask(0x0001);
 				WallTiled->setPhysicsBody(boxPhysicsBody);//给瓦片添加上PhysicsBody组件
+				WallTiled->setName("Wall");
+				m_WallTield.push_back(WallTiled);
 			}
 		}
 	}
@@ -85,6 +90,7 @@ bool FightScene::init()
 	for (std::vector<AI*>::iterator it= m_AIVec.begin(); it!= m_AIVec.end(); it++)
 	{
 		(*it)->setOriginalPositionInMap(m_TiledMap, (*it)->getName()+"BirthPlace");
+		(*it)->setName("AI");
 		m_TiledMap->addChild((*it), 4);
 	}
 
@@ -94,7 +100,7 @@ bool FightScene::init()
 	m_FightControllerLayer->startAllRockers();
 
 	//开启场景碰撞监听
-	//startContactListen();
+	startContactListen();
 	addChild(m_FightControllerLayer,2);
 
 	//为玩家节点设置名字，方便之后的碰撞检测
@@ -238,13 +244,16 @@ void FightScene::updateToxicFogDamage()
 {
 	if(m_ToxicFogMap[PositionToTiled(m_Player->getPosition())])
 	{
-		//m_Player->BeAttcked(20);
+		m_Player->beAttacked(20);
 	}
 	for (auto oneAI : m_AIVec)
 	{
-		if (m_ToxicFogMap[PositionToTiled(oneAI->getPosition())])
+		if (oneAI->getParent() != nullptr)
 		{
-			//oneAI->BeAttcked(20);
+			if (m_ToxicFogMap[PositionToTiled(oneAI->getPosition())])
+			{
+				oneAI->beAttacked(20);
+			}
 		}
 	}
 }
@@ -286,64 +295,98 @@ void FightScene::updatePlayerACE()
 	}
 }
 
+void FightScene::startContactListen()
+{
+	m_ContactListener = EventListenerPhysicsContact::create();
+	m_ContactListener->onContactBegin = CC_CALLBACK_1(FightScene::onContactBegin, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(m_ContactListener, this);
+}
 
-//
-//bool FightScene::onContactBegin(cocos2d::PhysicsContact& contact)
-//{
-//
-//	Node* nodeA = contact.getShapeA()->getBody()->getNode();
-//
-//	Node* nodeB = contact.getShapeB()->getBody()->getNode();
-//
-//	/* 检测到碰撞时需要处理的情况 */
-//	if (nodeA && nodeB)
-//	{
-//		/* 两个武器碰撞 */
-//		if (nodeA->getName() == "Weapon" && nodeB->getName() == "Weapon")
-//		{
-//			if(nodeA != nullptr)
-//				nodeA->removeFromParentAndCleanup(true);
-//			if(nodeB != nullptr)
-//				nodeB->removeFromParentAndCleanup(true);
-//		}
-//		/* 角色被武器击中 */
-//		else if (nodeA->getName() == "Weapon" && nodeB->getName()=="PLayer")
-//		{
-//			/* 获取武器的使用者 */
-//			Weapon* weapon = (Weapon*)nodeA;
-//			Hero* Attacker = weapon->getOwner();
-//
-//			/* 将武器从场景中移除 */
-//			if(weapon!=nullptr)
-//				weapon->removeFromParentAndCleanup(true);
-//
-//			Hero* Injured = (Hero*)nodeB;
-//
-//			Injured->beAttacked(Attacker->m_Character.m_NormalAttackDamage);
-//
-//			Attacker->attackSomething();
-//		}
-//		/* 角色被武器击中 */
-//		else if (nodeB->getName()=="Weapon" && nodeA->getName()=="PLayer")
-//		{
-//			Weapon* weapon = (Weapon*)nodeB;
-//			Hero* Attacker = weapon->getOwner();
-//
-//			/* 将武器从场景中移除 */
-//			if (weapon != nullptr)
-//				weapon->removeFromParentAndCleanup(true);
-//
-//			Hero* Injured = (Hero*)nodeA;
-//
-//			Injured->beAttacked(Attacker->m_Character.m_NormalAttackDamage);
-//
-//			Attacker->attackSomething();
-//		}
-//	}
-//	return true;
-//}
+bool FightScene::onContactBegin(cocos2d::PhysicsContact& contact)
+{
+	Player* player = nullptr; 
+	AI* ai = nullptr;
+	Weapon* weapon1 = nullptr;
+	Weapon* weapon2 = nullptr;
+	Sprite* wall = nullptr;
+
+	Node* nodeA = contact.getShapeA()->getBody()->getNode();
+	Node* nodeB = contact.getShapeB()->getBody()->getNode();
+
+	if (nodeA && nodeB)
+	{
+
+		if (nodeA->getName() == "Wall") wall = (Sprite*)nodeA;
+		else if (nodeB->getName() == "Wall") wall = (Sprite*)nodeB;
+
+		if (nodeA->getName() == "Player") player = (Player*)nodeA;
+		else if (nodeB->getName() == "Player") player = (Player*)nodeB;
+
+		if (nodeA->getName() == "AI") 
+		{
+			ai = (AI*)nodeA; log("hahaha");
+		}
+		else if (nodeB->getName() == "AI")
+		{
+			ai = (AI*)nodeB; log("hahaha"); 
+		}
+
+		if (nodeA->getName() == "Weapon") weapon1 = (Weapon*)nodeA;
+		if (nodeB->getName() == "Weapon" && !weapon1) weapon1 = (Weapon*)nodeB;
+		if (nodeB->getName() == "Weapon" && weapon1) weapon2 = (Weapon*)nodeB;
 
 
+		if (weapon1 && weapon2)
+		{
+			if (weapon1->getOwner() != weapon2->getOwner())
+			{
+				if (weapon1)
+					weapon1->removeFromParentAndCleanup(true);
+				if (weapon2)
+					weapon2->removeFromParentAndCleanup(true);
+			}
+		}
+		if (weapon1 && wall)
+		{
+			if (weapon1)
+				weapon1->removeFromParentAndCleanup(true);
+		}
+		if (ai && weapon1)
+		{
+			Hero* attacker = weapon1->getOwner();
+
+			if (attacker != ai)
+			{
+				if (ai)
+				{
+					ai->beAttacked(weapon1->getDamage());
+				}
+				if (attacker)
+				{
+					attacker->attackSomething();
+				}
+			}
+
+		}
+		if (player && weapon1)
+		{
+			Hero* attacker = weapon1->getOwner();
+
+			if (attacker != player)
+			{
+				if (player)
+				{
+					player->beAttacked(weapon1->getDamage());
+				}
+				if (attacker)
+				{
+					attacker->attackSomething();
+				}
+			}
+		}
+	}
+	return true;
+}
 
 Vec2 FightScene::PositionToTiled(const Vec2& position)
 {
