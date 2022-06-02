@@ -5,7 +5,7 @@
 
 class Box :public Entity
 {
-
+	static Box* create();
 	//箱子的身体
 
 };
