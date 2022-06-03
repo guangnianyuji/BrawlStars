@@ -37,7 +37,7 @@ public:
 	void stopACE();
 
 	//打击到了某些东西
-	virtual void attackSomething() override;
+	virtual void attackSomething();
 
 	//被攻击到了
 	virtual void beAttacked(const float& Damage) override;
@@ -45,16 +45,18 @@ public:
 	//死亡
 	virtual void Death() override;
 
-	bool isDead() const;
+	bool isDead() const {return m_isDead;}
 
 	//英雄是否处于免疫状态
-	bool damageImmunity() const;
+	bool damageImmunity() const {return m_damageImmunity;}
 
 	//英雄的角色
 	Character m_Character;
 
 	//得到速度的接口
-	float getSpeed() const;
+	float getSpeed() const {return m_Speed;}
+	//为击毁宝箱增加速度的函数
+	void addSpeed(float offerSpeed) { m_Speed += offerSpeed; }
 
 private:
 
@@ -77,18 +79,5 @@ private:
 
 };
 
-inline bool Hero::isDead() const
-{
-	return m_isDead;
-}
-inline bool Hero::damageImmunity() const
-{
-	return m_damageImmunity;
-}
-
-inline float Hero::getSpeed() const
-{
-	return m_Speed;
-}
 
 #endif

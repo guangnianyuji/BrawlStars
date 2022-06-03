@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 #include "Player.h"
 #include "AI.h"
+#include "Box.h"
 #include "BSScene\BaseScene.h"
 #include "FightControllerLayer.h"
 #include "AttackLayer.h"
@@ -51,6 +52,9 @@ private:
 	//在场景中开启碰撞监听
 	void startContactListen();
 
+	//更新宝箱
+	void updateBox();
+
 	//监听到两物体开始碰撞的回调函数
 	bool onContactBegin(cocos2d::PhysicsContact& contact);
 
@@ -70,7 +74,8 @@ private:
 	Player* m_Player;
 	std::vector<AI*> m_AIVec;
 
-
+	std::vector<Box*> m_BoxVec;
+     std::map<Vec2, bool> m_canPutBox;
 
 	EventListenerPhysicsContact* m_ContactListener;
 
@@ -79,6 +84,8 @@ private:
 	Vec2 PositionToTiled(const Vec2& position);
 	//让瓦片坐标转换为像素坐标
 	Vec2 TiledToPosition(const Vec2& position);
+	//为宝箱产生随机位置
+	Vec2 RandomTiledforBox();
 };
 
 #endif // ! __FIGHTSCENE_H__

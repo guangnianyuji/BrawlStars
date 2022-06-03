@@ -28,6 +28,7 @@ list(APPEND GAME_SOURCE
      Classes/AppDelegate.cpp
      Classes/BSScene/StartScene.cpp
      Classes/BSScene/BaseScene.cpp
+     Classes/Box.cpp
      Classes/BrawlStarsMenu.cpp
      Classes/ODSocket/ODSocket.cpp
      Classes/Network/SocketManager.cpp
@@ -51,6 +52,7 @@ list(APPEND GAME_HEADER
      Classes/AppDelegate.h
      Classes/BSScene/StartScene.h
      Classes/BSScene/BaseScene.h
+     Classes/Box.h
      Classes/BrawlStarsMenu.h
      Classes/ODSocket/ODSocket.h
      Classes/Network/SocketManager.h
