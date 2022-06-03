@@ -50,7 +50,7 @@ bool Box::init()
 
 
 	m_offerBlood = 200;
-	m_offerSpeed = 200;
+	m_offerDamage = 20;
 
 }
 

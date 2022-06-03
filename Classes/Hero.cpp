@@ -33,6 +33,8 @@ bool Hero::init()
 	m_isMoving = false;
 	m_Direction = "a";//随意初始化无意义
 
+	m_NormalAttackDamage = m_Character.m_NormalAttackDamage;
+	m_AceDamage = m_Character.m_AceDamage;
 
 	scheduleUpdate();
 

@@ -424,7 +424,7 @@ bool FightScene::onContactBegin(cocos2d::PhysicsContact& contact)
 			if (box->isDead())
 			{
 				attacker->beAttacked(-box->getofferBlood());
-				attacker->addSpeed(box->getofferSpeed());
+				attacker->addNormalAttackDamage(box->getofferDamage());
 			}
 			weapon1->removeFromParentAndCleanup(true);
 		}
@@ -437,7 +437,7 @@ bool FightScene::onContactBegin(cocos2d::PhysicsContact& contact)
 			if (box->isDead())
 			{
 				attacker->beAttacked(-box->getofferBlood());
-				attacker->addSpeed(box->getofferSpeed());
+				attacker->addNormalAttackDamage(box->getofferDamage());
 			}
 			weapon2->removeFromParentAndCleanup(true);
 		}

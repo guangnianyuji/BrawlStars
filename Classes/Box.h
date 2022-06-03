@@ -16,7 +16,7 @@ public:
 
 	virtual void Death()override;
 
-	float getofferSpeed() const { return m_offerSpeed; }
+	float getofferDamage() const { return m_offerDamage; }
 
 	float getofferBlood() const { return m_offerBlood; }
 
@@ -28,7 +28,7 @@ private:
 
 	bool m_isDead;
 
-	float m_offerSpeed;
+	float m_offerDamage;
 
 	float m_offerBlood;
 };
