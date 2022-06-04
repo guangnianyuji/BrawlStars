@@ -10,6 +10,7 @@
 #include "AttackLayer.h"
 #include "Character.h"
 #include "TimeCounter.h"
+#include "PauseScene.h"
 #include  <typeinfo>
 
 using namespace cocos2d;

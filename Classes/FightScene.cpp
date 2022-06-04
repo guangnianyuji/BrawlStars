@@ -133,6 +133,37 @@ bool FightScene::init()
 		}
 	 }
 
+	auto PauseButton = Button::create("ui/Pause.png");
+	PauseButton->setScale(0.6);
+	PauseButton->setPosition(Vec2(VisibleSize.x - PauseButton->getContentSize().width / 2,
+		PauseButton->getContentSize().height / 2));
+	addChild(PauseButton, 1);
+	PauseButton->addTouchEventListener([&](Ref* psender, Widget::TouchEventType type)
+		{
+			Vec2 size = Director::getInstance()->getVisibleSize();
+			auto renderTexture = RenderTexture::create(size.x, size.y);
+			//遍历当前类的所有子节点信息，画入renderTexture中。
+            //这里类似截图。
+			if (renderTexture != nullptr)
+			{
+                renderTexture->begin();
+				if (this != nullptr)
+				{
+                     this->visit();
+				}
+				
+			    renderTexture->end();
+			}
+		
+			auto PauseScene = PauseScene::create(renderTexture);
+			//将游戏界面暂停，压入场景堆栈。并切换到Pause界面
+			if (PauseScene != nullptr)
+			{
+				Director::getInstance()->pushScene(PauseScene);
+			}
+			
+		});
+
 
 	this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 

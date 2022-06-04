@@ -1,10 +1,20 @@
 #include "StartScene.h"
 
 
-cocos2d::Scene* StartScene::createScene()
+cocos2d::Scene* StartScene::create()
 {
-    auto scene = StartScene::create();
-    return scene;
+    StartScene* pRet = new(std::nothrow) StartScene(); 
+       if (pRet && pRet->init()) 
+       { 
+           pRet->autorelease(); 
+           return pRet; 
+        } 
+       else 
+        { 
+           delete pRet; 
+           pRet = nullptr; 
+           return nullptr; 
+       } 
 }
 
 bool StartScene::init()
@@ -23,7 +33,12 @@ bool StartScene::init()
     auto RoomButton = Button::create("ui/Play.png");
 	RoomButton->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type)
 		{
-			Director::getInstance()->replaceScene(RoomScene::create());
+            auto roomscene = RoomScene::create();
+            if (roomscene != nullptr)
+            {
+                Director::getInstance()->pushScene(roomscene);
+            }
+			
 		});
 	RoomButton->setPosition(Vec2(visibleSize.x/2, visibleSize.y / 6));
 	addChild(RoomButton);

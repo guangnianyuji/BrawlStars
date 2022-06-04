@@ -18,7 +18,8 @@ FightControllerLayer* FightControllerLayer::create(Character PlayerCharacter)
 	pRet->m_ACERockerBackgroundPosition = Vec2(VisibleSize.x / 8 * 7, VisibleSize.y / 2);
 	pRet->m_ACERockerPosition = Vec2(VisibleSize.x / 8 * 7, VisibleSize.y / 2);
 
-	pRet->m_MoveRockerIsMoving = false;
+	pRet->m_keyboardMoveRockerIsMoving = false;
+	pRet->m_touchMoveRockerIsMoving = false;
 	pRet->m_NormalAttackRockerIsMoving = false;
 	pRet->m_ACERockerIsMoving = false;
 
@@ -118,7 +119,7 @@ void FightControllerLayer::initEventListener()
 			/* 如果触摸点在屏幕的左半部分 */
 			if (TouchPoint.x < 780)
 			{
-				m_MoveRockerIsMoving = true;
+				m_touchMoveRockerIsMoving = true;
 
 				float Angle = MathUtils::getRad(m_MoveRockerBackgroundPosition, TouchPoint);
 				if (m_MoveRockerBackgroundPosition.distance(TouchPoint) >= m_MoveRockerBackgroundRadius)
@@ -166,12 +167,12 @@ void FightControllerLayer::initEventListener()
 	};
 	m_TouchListener->onTouchesEnded = [&](const std::vector<Touch*>& touches, Event* event)
 	{
-		if (m_MoveRockerIsMoving)
+		if (m_touchMoveRockerIsMoving)
 		{
 			m_MoveRockerPosition = m_MoveRockerBackgroundPosition;
 			m_MoveRockerSprite->stopAllActions();
 			m_MoveRockerSprite->runAction(MoveTo::create(0.08f, m_MoveRockerPosition));
-			m_MoveRockerIsMoving = false;
+			m_touchMoveRockerIsMoving = false;
 		}
 		else
 		{
@@ -242,16 +243,16 @@ void FightControllerLayer::initEventListener()
 			switch (keycode)
 			{
 			case EventKeyboard::KeyCode::KEY_A:m_MoveRockerPosition.x
-				-= m_MoveRockerBackgroundRadius; m_MoveRockerIsMoving = true;
+				-= m_MoveRockerBackgroundRadius; m_keyboardMoveRockerIsMoving = true;
 				break;
 			case EventKeyboard::KeyCode::KEY_D:m_MoveRockerPosition.x
-				+= m_MoveRockerBackgroundRadius; m_MoveRockerIsMoving = true;
+				+= m_MoveRockerBackgroundRadius; m_keyboardMoveRockerIsMoving = true;
 				break;
 			case EventKeyboard::KeyCode::KEY_W:m_MoveRockerPosition.y
-				+= m_MoveRockerBackgroundRadius; m_MoveRockerIsMoving = true;
+				+= m_MoveRockerBackgroundRadius; m_keyboardMoveRockerIsMoving = true;
 				break;
 			case EventKeyboard::KeyCode::KEY_S:m_MoveRockerPosition.y
-				-= m_MoveRockerBackgroundRadius; m_MoveRockerIsMoving = true;
+				-= m_MoveRockerBackgroundRadius; m_keyboardMoveRockerIsMoving = true;
 				break;
 			}
 			m_MoveRockerSprite->setPosition(m_MoveRockerPosition);
@@ -278,7 +279,7 @@ void FightControllerLayer::initEventListener()
 			m_MoveRockerSprite->setPosition(m_MoveRockerPosition);
 			if (m_MoveRockerBackgroundPosition == m_MoveRockerPosition)
 			{
-				m_MoveRockerIsMoving = false;
+				m_keyboardMoveRockerIsMoving = false;
 			}
 	
 		});
@@ -392,7 +393,7 @@ void  FightControllerLayer::update(float delta)
 
 void FightControllerLayer::updateMoveRad( )
 {
-	if(m_MoveRockerIsMoving&& m_MoveRockerBackgroundPosition != m_MoveRockerPosition)
+	if((m_keyboardMoveRockerIsMoving||m_touchMoveRockerIsMoving)&& m_MoveRockerBackgroundPosition != m_MoveRockerPosition)
 	{
         m_MoveRockerAngle = MathUtils::getRad(m_MoveRockerBackgroundPosition, m_MoveRockerPosition);
 	}

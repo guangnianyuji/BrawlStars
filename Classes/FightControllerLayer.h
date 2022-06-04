@@ -23,7 +23,7 @@ public:
 
 
 	//得到移动摇杆是否在移动
-	bool getMoveRockerIsMoving() const { return m_MoveRockerIsMoving; }
+	bool getMoveRockerIsMoving() const { return m_keyboardMoveRockerIsMoving||m_touchMoveRockerIsMoving; }
 
 	//得到移动摇杆移动的方向角
 	float getMoveRockerAngle() const { return m_MoveRockerAngle; }
@@ -99,8 +99,11 @@ private:
 	//移动摇杆得到的方向角
 	float m_MoveRockerAngle;
 
-    //移动摇杆是否移动
-	bool m_MoveRockerIsMoving;
+    //键盘控制移动摇杆是否移动
+	bool m_keyboardMoveRockerIsMoving;
+
+	//触摸控制移动摇杆是否移动
+	bool m_touchMoveRockerIsMoving;
 
 	//普通攻击摇杆
 	
