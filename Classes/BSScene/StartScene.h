@@ -8,11 +8,11 @@
 class StartScene :public BaseScene
 {
 public:
-	static cocos2d::Scene* createScene();
+	static cocos2d::Scene* create();
 
 	virtual bool init() override;
 
-	CREATE_FUNC(StartScene);
+	
 };
 
 #endif

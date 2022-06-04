@@ -99,7 +99,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     register_all_packages();
 
-  auto scene = StartScene::createScene();
+  auto scene = StartScene::create();
 
     // create a scene. it's an autorelease object
  //auto scene = FightScene::create(Jide());

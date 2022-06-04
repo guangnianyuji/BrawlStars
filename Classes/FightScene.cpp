@@ -6,7 +6,7 @@ FightScene* FightScene::create(std::vector<Character> CharacterVec)
 
 	Vec2 VisibleSize = Director::getInstance()->getVisibleSize();
 
-	pRet->m_TiledMap = TMXTiledMap::create("map.tmx");
+	pRet->m_TiledMap = TMXTiledMap::create("map2.tmx");
 
 	pRet->m_Player = Player::create(CharacterVec[0]);
 
@@ -94,6 +94,20 @@ bool FightScene::init()
 		m_TiledMap->addChild((*it), 4);
 	}
 
+	for (int i = 0; i < 10; i++)
+	{
+		m_BoxVec.push_back(Box::create());
+		Vec2 TiledPosition = RandomTiledforBox();
+		m_canPutBox[TiledPosition] = false;
+		if (m_BoxVec[i] == nullptr)
+		{
+			continue;
+		}
+		m_BoxVec[i]->setName("Box");
+		m_BoxVec[i]->setPosition(TiledToPosition(TiledPosition));
+		m_TiledMap->addChild(m_BoxVec[i], 4);
+	}
+
 	//在场景中加入遥杆
 	m_FightControllerLayer = FightControllerLayer::create(m_Player->m_Character);
 	
@@ -119,6 +133,37 @@ bool FightScene::init()
 		}
 	 }
 
+	auto PauseButton = Button::create("ui/Pause.png");
+	PauseButton->setScale(0.6);
+	PauseButton->setPosition(Vec2(VisibleSize.x - PauseButton->getContentSize().width / 2,
+		PauseButton->getContentSize().height / 2));
+	addChild(PauseButton, 1);
+	PauseButton->addTouchEventListener([&](Ref* psender, Widget::TouchEventType type)
+		{
+			Vec2 size = Director::getInstance()->getVisibleSize();
+			auto renderTexture = RenderTexture::create(size.x, size.y);
+			//遍历当前类的所有子节点信息，画入renderTexture中。
+            //这里类似截图。
+			if (renderTexture != nullptr)
+			{
+                renderTexture->begin();
+				if (this != nullptr)
+				{
+                     this->visit();
+				}
+				
+			    renderTexture->end();
+			}
+		
+			auto PauseScene = PauseScene::create(renderTexture);
+			//将游戏界面暂停，压入场景堆栈。并切换到Pause界面
+			if (PauseScene != nullptr)
+			{
+				Director::getInstance()->pushScene(PauseScene);
+			}
+			
+		});
+
 
 	this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
@@ -133,6 +178,7 @@ void FightScene::update(float delta)
 	updateViewPointByPlayer();
 	updateToxicFog();
 	updateToxicFogDamage();
+	updateBox();
 	updatePlayerAttack();
 	updatePlayerACE();
 }
@@ -178,7 +224,7 @@ void FightScene::updatePlayerMove( )
 		MoveAngle = m_FightControllerLayer->getMoveRockerAngle();
 		int TiledGid = m_WallLayer->getTileGIDAt(PositionToTiled
 		(Vec2(m_Player->getPosition()
-			+ MathUtils::getVectorialSpeed(MoveAngle, m_Player->getSpeed()/20))));
+			+ MathUtils::getVectorialSpeed(MoveAngle, m_Player->getSpeed()/60))));
 		if (TiledGid)
 		{
 			return;
@@ -246,7 +292,7 @@ void FightScene::updateToxicFogDamage()
 	{
 		m_Player->beAttacked(5);
 	}
-	for (auto oneAI : m_AIVec)
+	for (auto& oneAI : m_AIVec)
 	{
 		if (oneAI->getParent() != nullptr)
 		{
@@ -254,6 +300,24 @@ void FightScene::updateToxicFogDamage()
 			{
 				oneAI->beAttacked(5);
 			}
+		}
+	}
+}
+
+void FightScene::updateBox()
+{
+	for (auto& oneBox : m_BoxVec)
+	{
+		if (oneBox == nullptr)
+		{
+			continue;
+		}
+		if (oneBox->isDead())
+		{
+			Vec2 TiledPosition = PositionToTiled(oneBox->getPosition());
+			oneBox->setPosition(TiledToPosition(RandomTiledforBox()));
+			m_canPutBox[TiledPosition] = true;
+			oneBox->setisDead(false);
 		}
 	}
 }
@@ -309,6 +373,7 @@ bool FightScene::onContactBegin(cocos2d::PhysicsContact& contact)
 	Weapon* weapon1 = nullptr;
 	Weapon* weapon2 = nullptr;
 	Sprite* wall = nullptr;
+	Box* box = nullptr;
 
 	Node* nodeA = contact.getShapeA()->getBody()->getNode();
 	Node* nodeB = contact.getShapeB()->getBody()->getNode();
@@ -322,15 +387,12 @@ bool FightScene::onContactBegin(cocos2d::PhysicsContact& contact)
 		if (nodeA->getName() == "Player") player = (Player*)nodeA;
 		else if (nodeB->getName() == "Player") player = (Player*)nodeB;
 
-		if (nodeA->getName() == "AI") 
-		{
-			ai = (AI*)nodeA; log("hahaha");
-		}
-		else if (nodeB->getName() == "AI")
-		{
-			ai = (AI*)nodeB; log("hahaha"); 
-		}
+		if (nodeA->getName() == "Box") box = (Box*)nodeA;
+		else if (nodeB->getName() == "Box") box = (Box*)nodeB;
 
+		if (nodeA->getName() == "AI") ai = (AI*)nodeA;
+		else if (nodeB->getName() == "AI")ai = (AI*)nodeB;
+	
 		if (nodeA->getName() == "Weapon") weapon1 = (Weapon*)nodeA;
 		if (nodeB->getName() == "Weapon" && !weapon1) weapon1 = (Weapon*)nodeB;
 		if (nodeB->getName() == "Weapon" && weapon1) weapon2 = (Weapon*)nodeB;
@@ -384,6 +446,19 @@ bool FightScene::onContactBegin(cocos2d::PhysicsContact& contact)
 				}
 			}
 		}
+		if (box && weapon1)
+		{
+			Hero* attacker = weapon1->getOwner();
+
+			box->beAttacked(weapon1->getDamage());
+
+			if (box->isDead())
+			{
+				attacker->beAttacked(-box->getofferBlood());
+				attacker->addNormalAttackDamage(box->getofferDamage());
+			}
+			weapon1->removeFromParentAndCleanup(true);
+		}
 	}
 	return true;
 }
@@ -404,5 +479,24 @@ Vec2 FightScene::TiledToPosition(const Vec2& position)
 	
 	int y = (m_TiledMap->getMapSize().height - position.y) * m_TiledMap->getTileSize().height - 0.5 * m_TiledMap->getTileSize().height;
 	
+	return Vec2(x, y);
+}
+
+Vec2 FightScene::RandomTiledforBox()
+{
+	int x, y;
+	do
+	{
+		x = rand() % int(m_TiledMap->getMapSize().width);
+		y = rand() % int(m_TiledMap->getMapSize().height);
+		if (m_canPutBox.find(Vec2(x, y)) == m_canPutBox.end() || m_canPutBox[Vec2(x, y)])
+		{
+			if (!m_WallLayer->getTileGIDAt(Vec2(x, y)))
+			{
+				break;
+			}
+		}
+	} while (1);
+
 	return Vec2(x, y);
 }

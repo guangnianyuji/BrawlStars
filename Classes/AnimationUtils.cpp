@@ -3,7 +3,7 @@
 
 using namespace cocos2d;
 
-/* 创建角色F四向行走时的动画 */
+/* 创建角色四向行走时的动画 */
 Animate* AnimationUtils::createAnimation(const std::string& name, const std::string& direction)
 {
 	SpriteFrameCache* cache = SpriteFrameCache::getInstance();
@@ -73,8 +73,8 @@ Animate* AnimationUtils::createACEAnimation(const std::string& name,int loops)
 	Vector<SpriteFrame*> frameVec;
 	SpriteFrame* frame = nullptr;
 	for (int ix = 1; ix <= 16; ix++)
-	{
-		frame = cache->getSpriteFrameByName(name + "Ace" + " " + "(" + Value(ix).asString() + ")" + ".png ");
+	{                                                        
+		frame = cache->getSpriteFrameByName(name+"Ace"+"("+Value(ix).asString()+").png");
 	
 		if (frame == nullptr)
 			break;
