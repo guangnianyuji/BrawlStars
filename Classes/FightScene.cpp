@@ -244,7 +244,7 @@ void FightScene::updateToxicFogDamage()
 {
 	if(m_ToxicFogMap[PositionToTiled(m_Player->getPosition())])
 	{
-		m_Player->beAttacked(20);
+		m_Player->beAttacked(5);
 	}
 	for (auto oneAI : m_AIVec)
 	{
@@ -252,7 +252,7 @@ void FightScene::updateToxicFogDamage()
 		{
 			if (m_ToxicFogMap[PositionToTiled(oneAI->getPosition())])
 			{
-				oneAI->beAttacked(20);
+				oneAI->beAttacked(5);
 			}
 		}
 	}

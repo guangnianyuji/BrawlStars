@@ -37,7 +37,7 @@ public:
 	void stopACE();
 
 	//打击到了某些东西
-	virtual void attackSomething() override;
+	virtual void attackSomething() ;
 
 	//被攻击到了
 	virtual void beAttacked(const float& Damage) override;
