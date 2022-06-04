@@ -4,7 +4,7 @@
     <dict>
         <key>frames</key>
         <dict>
-            <key>JAce (1).png</key>
+            <key>JAce(1).png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -19,7 +19,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>JAce (10).png</key>
+            <key>JAce(10).png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -34,7 +34,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>JAce (11).png</key>
+            <key>JAce(11).png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -49,7 +49,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>JAce (12).png</key>
+            <key>JAce(12).png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -64,7 +64,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>JAce (13).png</key>
+            <key>JAce(13).png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -79,7 +79,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>JAce (14).png</key>
+            <key>JAce(14).png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -94,7 +94,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>JAce (15).png</key>
+            <key>JAce(15).png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -109,7 +109,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>JAce (16).png</key>
+            <key>JAce(16).png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -124,7 +124,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>JAce (2).png</key>
+            <key>JAce(2).png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -139,7 +139,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>JAce (3).png</key>
+            <key>JAce(3).png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -154,7 +154,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>JAce (4).png</key>
+            <key>JAce(4).png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -169,7 +169,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>JAce (5).png</key>
+            <key>JAce(5).png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -184,7 +184,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>JAce (6).png</key>
+            <key>JAce(6).png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -199,7 +199,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>JAce (7).png</key>
+            <key>JAce(7).png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -214,7 +214,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>JAce (8).png</key>
+            <key>JAce(8).png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -229,7 +229,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>JAce (9).png</key>
+            <key>JAce(9).png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -258,7 +258,7 @@
             <key>size</key>
             <string>{960,480}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:eedb144ab7e797cdea01e4822398fb13:0866eae8b1d7177a7b89ff3851e87771:b17cc67a0418e631649a04349424e686$</string>
+            <string>$TexturePacker:SmartUpdate:5b17aaa578760682a8cd9d13237e01d9:0866eae8b1d7177a7b89ff3851e87771:b17cc67a0418e631649a04349424e686$</string>
             <key>textureFileName</key>
             <string>JAce.png</string>
         </dict>

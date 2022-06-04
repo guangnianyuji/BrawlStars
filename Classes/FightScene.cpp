@@ -6,7 +6,7 @@ FightScene* FightScene::create(std::vector<Character> CharacterVec)
 
 	Vec2 VisibleSize = Director::getInstance()->getVisibleSize();
 
-	pRet->m_TiledMap = TMXTiledMap::create("map.tmx");
+	pRet->m_TiledMap = TMXTiledMap::create("map2.tmx");
 
 	pRet->m_Player = Player::create(CharacterVec[0]);
 
@@ -458,19 +458,6 @@ bool FightScene::onContactBegin(cocos2d::PhysicsContact& contact)
 				attacker->addNormalAttackDamage(box->getofferDamage());
 			}
 			weapon1->removeFromParentAndCleanup(true);
-		}
-		if (box && weapon2)
-		{
-			Hero* attacker = weapon2->getOwner();
-
-			box->beAttacked(weapon2->getDamage());
-
-			if (box->isDead())
-			{
-				attacker->beAttacked(-box->getofferBlood());
-				attacker->addNormalAttackDamage(box->getofferDamage());
-			}
-			weapon2->removeFromParentAndCleanup(true);
 		}
 	}
 	return true;

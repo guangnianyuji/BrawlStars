@@ -4,7 +4,7 @@
     <dict>
         <key>frames</key>
         <dict>
-            <key>FAce (1).png</key>
+            <key>FAce(1).png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -19,7 +19,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>FAce (10).png</key>
+            <key>FAce(10).png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -34,7 +34,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>FAce (11).png</key>
+            <key>FAce(11).png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -49,7 +49,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>FAce (12).png</key>
+            <key>FAce(12).png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -64,7 +64,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>FAce (13).png</key>
+            <key>FAce(13).png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -79,7 +79,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>FAce (14).png</key>
+            <key>FAce(14).png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -94,7 +94,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>FAce (15).png</key>
+            <key>FAce(15).png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -109,7 +109,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>FAce (16).png</key>
+            <key>FAce(16).png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -124,7 +124,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>FAce (2).png</key>
+            <key>FAce(2).png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -139,7 +139,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>FAce (3).png</key>
+            <key>FAce(3).png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -154,7 +154,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>FAce (4).png</key>
+            <key>FAce(4).png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -169,7 +169,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>FAce (5).png</key>
+            <key>FAce(5).png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -184,7 +184,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>FAce (6).png</key>
+            <key>FAce(6).png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -199,7 +199,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>FAce (7).png</key>
+            <key>FAce(7).png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -214,7 +214,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>FAce (8).png</key>
+            <key>FAce(8).png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -229,7 +229,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>FAce (9).png</key>
+            <key>FAce(9).png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -258,7 +258,7 @@
             <key>size</key>
             <string>{210,840}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:ca03324322f99e27de1a5829bfdac23e:6708e31086a3ad2dd19a8886bd2a97ec:f70cddd498118e85077a1e2f1790ebe9$</string>
+            <string>$TexturePacker:SmartUpdate:936d1bffd9ff3c92f33eedc7d7088d04:6708e31086a3ad2dd19a8886bd2a97ec:f70cddd498118e85077a1e2f1790ebe9$</string>
             <key>textureFileName</key>
             <string>FAce.png</string>
         </dict>
