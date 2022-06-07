@@ -23,7 +23,14 @@ bool Player::init()
 	{
 		return false;
 	}
+	
+	setPhyBody();
 
+	return true;
+}
+
+void Player::setPhyBody()
+{
 	/* 使Player的身体承载物理属性 */
 	auto physicsBody = PhysicsBody::createBox(m_Body->getContentSize(), PhysicsMaterial(0.0f, 0.0f, 0.0f));
 	physicsBody->setDynamic(false);
@@ -33,8 +40,4 @@ bool Player::init()
 	physicsBody->setContactTestBitmask(0x0001);
 	this->setName("Player");
 	this->setPhysicsBody(physicsBody);
-
-
-	
-	return true;
 }

@@ -11,8 +11,10 @@
 #include "Character.h"
 #include "TimeCounter.h"
 #include "PauseScene.h"
+#include "MathUtils.h"
+#include "PathFinding.h"
+#include "NotifyUtil.h"
 #include  <typeinfo>
-
 using namespace cocos2d;
 
 class FightScene:public BaseScene
@@ -40,9 +42,6 @@ private:
 
 	//更新毒雾伤害
 	void updateToxicFogDamage();
-
-	//播放技能动画函数
-	//void updatePlayerAttack();
 
 	//更新玩家的技能发射
 	void updatePlayerAttack();
@@ -73,18 +72,13 @@ private:
 	FightControllerLayer* m_FightControllerLayer;
 
 	Player* m_Player;
-	std::vector<AI*> m_AIVec;
 
+	std::vector<AI*> m_AIVec;
 	std::vector<Box*> m_BoxVec;
      std::map<Vec2, bool> m_canPutBox;
 
 	EventListenerPhysicsContact* m_ContactListener;
-
-	//工具类函数
-	//让像素坐标转换为瓦片坐标
-	Vec2 PositionToTiled(const Vec2& position);
-	//让瓦片坐标转换为像素坐标
-	Vec2 TiledToPosition(const Vec2& position);
+	
 	//为宝箱产生随机位置
 	Vec2 RandomTiledforBox();
 };

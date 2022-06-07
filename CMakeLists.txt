@@ -46,6 +46,9 @@ list(APPEND GAME_SOURCE
      Classes/Player.cpp 
      Classes/RoomScene.cpp
      Classes/Weapon.cpp
+     Classes/FSM.cpp
+     Classes/PathFinding.cpp
+     Classes/NotifyUtil.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AI.h
@@ -69,8 +72,11 @@ list(APPEND GAME_HEADER
      Classes/MathUtils.h
      Classes/Player.h
      Classes/PauseScene.h
-    Classes/RoomScene.h
-    Classes/Weapon.h
+     Classes/RoomScene.h
+     Classes/Weapon.h
+     Classes/FSM.h
+     Classes/PathFinding.h
+     Classes/NotifyUtil.h
      )
 
 if(ANDROID)

@@ -21,6 +21,9 @@ public:
 	float getofferBlood() const { return m_offerBlood; }
 
 private:
+
+	void setPhyBody();
+
 	//箱子的身体
 	Sprite* m_Body;
 

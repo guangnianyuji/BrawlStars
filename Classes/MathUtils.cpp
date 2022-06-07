@@ -30,3 +30,22 @@ float MathUtils::getRad(const Vec2& StartPoint, const Vec2& EndPoint)
 	 return (centre.distance(TouchPoint) < radius);
 
  }
+
+ Vec2 MathUtils::PositionToTiled(const Vec2& position, TMXTiledMap* map)
+ {
+	 int x = position.x / map->getTileSize().width;
+
+	 int y = ((map->getMapSize().height * map->getTileSize().height) - position.y) /
+		 map->getTileSize().height;
+
+	 return Vec2(x, y);
+ }
+
+ Vec2 MathUtils::TiledToPosition(const Vec2& position, TMXTiledMap* map)
+ {
+	 int x = position.x * map->getTileSize().width + 0.5 * map->getTileSize().width;
+
+	 int y = (map->getMapSize().height - position.y) * map->getTileSize().height - 0.5 * map->getTileSize().height;
+
+	 return Vec2(x, y);
+ }

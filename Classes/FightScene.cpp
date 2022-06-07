@@ -53,6 +53,8 @@ bool FightScene::init()
 	}
 	Vec2 VisibleSize = Director::getInstance()->getVisibleSize();
 
+	PathFinding::getInstance()->getMap(m_TiledMap);
+
 	//加入地图
 	addChild(m_TiledMap,-1);
 
@@ -67,6 +69,8 @@ bool FightScene::init()
 			Sprite* WallTiled = m_WallLayer->tileAt(ccp(i, j));//获取wall层里的瓦片，瓦片是精灵，可以放在这个数组中
 			if (WallTiled)//并不是所有位置都有瓦片，如果没有瓦片就是空
 			{
+				PathFinding::getInstance()->updateUnsafePlace(Point(i, j));
+
 				auto boxPhysicsBody = PhysicsBody::createBox(WallTiled->getContentSize());//设置PhysicsBody组件
 				boxPhysicsBody->setDynamic(false);
 				boxPhysicsBody->setCategoryBitmask(0x0001);
@@ -104,7 +108,7 @@ bool FightScene::init()
 			continue;
 		}
 		m_BoxVec[i]->setName("Box");
-		m_BoxVec[i]->setPosition(TiledToPosition(TiledPosition));
+		m_BoxVec[i]->setPosition(MathUtils::TiledToPosition(TiledPosition,m_TiledMap));
 		m_TiledMap->addChild(m_BoxVec[i], 4);
 	}
 
@@ -167,6 +171,8 @@ bool FightScene::init()
 
 	this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
+	NotifyUtil::getInstance()->postNotification("game start", (Ref*)"nothing");
+
 	scheduleUpdate();
 	
 	return true;
@@ -222,14 +228,15 @@ void FightScene::updatePlayerMove( )
 	{//判断要去的地方是否是障碍层
 		float MoveAngle;
 		MoveAngle = m_FightControllerLayer->getMoveRockerAngle();
-		int TiledGid = m_WallLayer->getTileGIDAt(PositionToTiled
+		int TiledGid = m_WallLayer->getTileGIDAt(MathUtils::PositionToTiled
 		(Vec2(m_Player->getPosition()
-			+ MathUtils::getVectorialSpeed(MoveAngle, m_Player->getSpeed()/60))));
+			+ MathUtils::getVectorialSpeed(MoveAngle, m_Player->getSpeed()/60)),
+				m_TiledMap));
 		if (TiledGid)
 		{
 			return;
 		}
-        m_Player->beganToMove(MoveAngle,m_Player->getSpeed());
+        m_Player->beganToMove(MoveAngle,m_Player->getSpeed(),Vec2(0,0));
 	}
 	else
 	{
@@ -252,43 +259,51 @@ void FightScene::updateToxicFog()
 	for ( j = m_ToxicFogLevel;j < m_TiledMap->getMapSize().height - m_ToxicFogLevel; j++)
 	{
 		m_ToxicFogSpriteVec.push_back(Sprite::create("fog.png"));
-		m_ToxicFogSpriteVec.back()->setPosition(TiledToPosition(Vec2(i, j)));
+		m_ToxicFogSpriteVec.back()->setPosition(MathUtils::TiledToPosition(Vec2(i, j),m_TiledMap));
 		m_TiledMap->addChild(m_ToxicFogSpriteVec.back(),5);
 		m_ToxicFogMap[Vec2(i, j)] = true;
+
+		PathFinding::getInstance()->updateUnsafePlace(Vec2(i, j));
 	}
 	//绘制上侧毒雾
 	j = m_ToxicFogLevel;
 	for (i = m_ToxicFogLevel + 1; i< m_TiledMap->getMapSize().width - m_ToxicFogLevel; i++)
 	{
 		m_ToxicFogSpriteVec.push_back(Sprite::create("fog.png"));
-		m_ToxicFogSpriteVec.back()->setPosition(TiledToPosition(Vec2(i, j)));
+		m_ToxicFogSpriteVec.back()->setPosition(MathUtils::TiledToPosition(Vec2(i, j),m_TiledMap));
 		m_TiledMap->addChild(m_ToxicFogSpriteVec.back(), 5);
 		m_ToxicFogMap[Vec2(i, j)] = true;
+
+		PathFinding::getInstance()->updateUnsafePlace(Vec2(i, j));
 	}
 	//绘制下侧毒雾
 	j = m_TiledMap->getMapSize().height - m_ToxicFogLevel-1;
 	for (i = m_ToxicFogLevel + 1; i< m_TiledMap->getMapSize().width - m_ToxicFogLevel; i++)
 	{
 		m_ToxicFogSpriteVec.push_back(Sprite::create("fog.png"));
-		m_ToxicFogSpriteVec.back()->setPosition(TiledToPosition(Vec2(i, j)));
+		m_ToxicFogSpriteVec.back()->setPosition(MathUtils::TiledToPosition(Vec2(i, j),m_TiledMap));
 		m_TiledMap->addChild(m_ToxicFogSpriteVec.back(), 5);
 		m_ToxicFogMap[Vec2(i, j)] = true;
+
+		PathFinding::getInstance()->updateUnsafePlace(Vec2(i, j));
 	}
 	//绘制右侧毒雾
 	i = m_TiledMap->getMapSize().width- m_ToxicFogLevel - 1;
 	for (j = m_ToxicFogLevel; j < m_TiledMap->getMapSize().height - m_ToxicFogLevel; j++)
 	{
 		m_ToxicFogSpriteVec.push_back(Sprite::create("fog.png"));
-		m_ToxicFogSpriteVec.back()->setPosition(TiledToPosition(Vec2(i, j)));
+		m_ToxicFogSpriteVec.back()->setPosition(MathUtils::TiledToPosition(Vec2(i, j),m_TiledMap));
 		m_TiledMap->addChild(m_ToxicFogSpriteVec.back(), 5);
 		m_ToxicFogMap[Vec2(i, j)] = true;
+
+		PathFinding::getInstance()->updateUnsafePlace(Vec2(i, j));
 	}
 	
 };
 
 void FightScene::updateToxicFogDamage()
 {
-	if(m_ToxicFogMap[PositionToTiled(m_Player->getPosition())])
+	if(m_ToxicFogMap[MathUtils::PositionToTiled(m_Player->getPosition(),m_TiledMap)])
 	{
 		m_Player->beAttacked(5);
 	}
@@ -296,7 +311,7 @@ void FightScene::updateToxicFogDamage()
 	{
 		if (oneAI->getParent() != nullptr)
 		{
-			if (m_ToxicFogMap[PositionToTiled(oneAI->getPosition())])
+			if (m_ToxicFogMap[MathUtils::PositionToTiled(oneAI->getPosition(),m_TiledMap)])
 			{
 				oneAI->beAttacked(5);
 			}
@@ -314,10 +329,16 @@ void FightScene::updateBox()
 		}
 		if (oneBox->isDead())
 		{
-			Vec2 TiledPosition = PositionToTiled(oneBox->getPosition());
-			oneBox->setPosition(TiledToPosition(RandomTiledforBox()));
+			Vec2 TiledPosition = MathUtils::PositionToTiled(oneBox->getPosition(),m_TiledMap);
+			oneBox->setPosition(MathUtils::TiledToPosition(RandomTiledforBox(),m_TiledMap));
 			m_canPutBox[TiledPosition] = true;
 			oneBox->setisDead(false);
+
+			int nowArea = PathFinding::getInstance()->findArea(MathUtils::PositionToTiled(oneBox->getPosition(), m_TiledMap));
+
+			oneBox->setArea(nowArea);
+
+			NotifyUtil::getInstance()->postNotification("new box", MathUtils::PositionToTiled(oneBox->getPosition(), m_TiledMap));
 		}
 	}
 }
@@ -358,6 +379,8 @@ void FightScene::updatePlayerACE()
 			m_Player->stopACE();
 	}
 }
+
+	
 
 void FightScene::startContactListen()
 {
@@ -463,24 +486,6 @@ bool FightScene::onContactBegin(cocos2d::PhysicsContact& contact)
 	return true;
 }
 
-Vec2 FightScene::PositionToTiled(const Vec2& position)
-{
-	int x = position.x / m_TiledMap->getTileSize().width;
-
-	int y = ((m_TiledMap->getMapSize().height * m_TiledMap->getTileSize().height) - position.y) /
-		m_TiledMap->getTileSize().height;
-
-	return Vec2(x, y);
-}
-
-Vec2 FightScene::TiledToPosition(const Vec2& position)
-{
-	int x= position.x* m_TiledMap->getTileSize().width+ 0.5* m_TiledMap->getTileSize().width;
-	
-	int y = (m_TiledMap->getMapSize().height - position.y) * m_TiledMap->getTileSize().height - 0.5 * m_TiledMap->getTileSize().height;
-	
-	return Vec2(x, y);
-}
 
 Vec2 FightScene::RandomTiledforBox()
 {

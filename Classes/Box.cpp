@@ -18,6 +18,16 @@ Box* Box::create()
 	}
 }
 
+void Box::setPhyBody()
+{
+	auto physicsBody = PhysicsBody::createBox(m_Body->getContentSize(), PhysicsMaterial(0.0f, 0.0f, 0.0f));
+	physicsBody->setDynamic(false);
+	physicsBody->setGravityEnable(false);
+	physicsBody->setContactTestBitmask(0x1F);
+	this->setName("Box");
+	this->setPhysicsBody(physicsBody);
+}
+
 bool Box::init()
 {
 	if (!Entity::init())
@@ -27,13 +37,6 @@ bool Box::init()
 
 	m_Body = Sprite::create("woodbox.png");
 
-	auto physicsBody = PhysicsBody::createBox(m_Body->getContentSize(), PhysicsMaterial(0.0f, 0.0f, 0.0f));
-	physicsBody->setDynamic(false);
-	physicsBody->setGravityEnable(false);
-	physicsBody->setContactTestBitmask(0x1F);
-	this->setName("Box");
-	this->setPhysicsBody(physicsBody);
-
 	m_Blood = ProgressView::create();
 
 	if (m_Blood == nullptr)
@@ -41,16 +44,19 @@ bool Box::init()
 		return false;
 	}
 
+	setPhyBody();
+
 	m_Blood->setBloodVolume(650);
 
 	this->addChild(m_Body);
-	//m_Blood->setAnchorPoint(Vec2(0, 0));
 
 	m_Body->addChild(m_Blood);
 
 
 	m_offerBlood = 200;
 	m_offerDamage = 20;
+
+	return true;
 
 }
 

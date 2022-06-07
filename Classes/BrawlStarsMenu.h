@@ -49,16 +49,16 @@ private:
 	void musicSliderCallback(cocos2d::Ref* ref, cocos2d::ui::Slider::EventType type);
 	void soundEffectsSliderCallback(cocos2d::Ref* ref, cocos2d::ui::Slider::EventType type);
 
-	cocos2d::Sprite* menuSprite = nullptr;
-	cocos2d::Label* menuLabel = nullptr;
+	cocos2d::Sprite* menuSprite;
+	cocos2d::Label* menuLabel;
 
-	cocos2d::Menu* exitButton=nullptr;
-	cocos2d::Menu* DNDButton=nullptr;
-	cocos2d::Menu* closeButton = nullptr;
-	cocos2d::ui::CheckBox* musicButton=nullptr;
-	cocos2d::ui::CheckBox* soundEffectsButton=nullptr;
-	cocos2d::ui::Slider* musicSlider = nullptr;
-	cocos2d::ui::Slider* soundEffectsSlider = nullptr;
+	cocos2d::Menu* exitButton;
+	cocos2d::Menu* DNDButton;
+	cocos2d::Menu* closeButton;
+	cocos2d::ui::CheckBox* musicButton;
+	cocos2d::ui::CheckBox* soundEffectsButton;
+	cocos2d::ui::Slider* musicSlider;
+	cocos2d::ui::Slider* soundEffectsSlider;
 
 	int bgMusicID;
 };

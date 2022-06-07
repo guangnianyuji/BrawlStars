@@ -41,12 +41,13 @@ bool Hero::init()
 	return true;
 }
 
-void Hero::beganToMove(const float& Angle,const float Speed)
+void Hero::beganToMove(const float& Angle,const float Speed,Point EndPosition)
 {
 
 	if (this == nullptr)
 		return;
-
+	if (this->getPosition() == EndPosition)
+		return;
 	std::string tempDirection;
 	if (Angle > -3 * Pi / 4 && Angle < -Pi / 4)
 	{

@@ -13,6 +13,10 @@ public:
 
 	bool init() override;
 
+	int getArea() const { return m_Area; }
+
+	void setArea(int Area) { m_Area = Area; }
+
 	virtual void beAttacked(const float& Damage) = 0;
 
 	virtual void Death() = 0;
@@ -21,6 +25,9 @@ public:
 
 protected:
 	Sprite* m_Body;
+
+	/* ËùÊôÇøÓò */
+	int m_Area = 0;
 };
 
 #endif

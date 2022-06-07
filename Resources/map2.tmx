@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.3468" orientation="orthogonal" renderorder="right-down" width="60" height="60" tilewidth="64" tileheight="64" infinite="0" nextlayerid="5" nextobjectid="28">
+<map version="1.2" tiledversion="1.3.4037" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="60" height="60" tilewidth="64" tileheight="64" infinite="0" nextlayerid="5" nextobjectid="53">
  <tileset firstgid="1" name="1" tilewidth="64" tileheight="64" tilecount="48" columns="8">
   <image source="1.png" width="512" height="384"/>
  </tileset>
  <layer id="1" name="floor" width="60" height="60">
   <data encoding="base64" compression="zlib">
-   eJztwwEJAAAMBKEr9P3rrcdQcNVUVVVVVVVVVVVVVVVV1VcPF0F47w==
+   eAHt0kENAAAMhDAMnX9787H0gQHSVZMHDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMvDJwF0F47w==
   </data>
  </layer>
  <layer id="2" name="wall" width="60" height="60">
   <data encoding="base64" compression="zlib">
-   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
+   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
   </data>
  </layer>
  <objectgroup id="4" name="objects">
@@ -42,6 +42,75 @@
    <point/>
   </object>
   <object id="27" name="AI9BirthPlace" x="3144" y="2836">
+   <point/>
+  </object>
+  <object id="28" name="Waypoint1" x="540" y="660">
+   <point/>
+  </object>
+  <object id="29" name="Waypoint2" x="1244" y="532">
+   <point/>
+  </object>
+  <object id="30" name="Waypoint3" x="2012" y="540">
+   <point/>
+  </object>
+  <object id="31" name="Waypoint4" x="2016" y="1044">
+   <point/>
+  </object>
+  <object id="32" name="Waypoint5" x="3228" y="1044">
+   <point/>
+  </object>
+  <object id="33" name="Waypoint6" x="3356" y="1380">
+   <point/>
+  </object>
+  <object id="34" name="Waypoint7" x="3356" y="1760">
+   <point/>
+  </object>
+  <object id="35" name="Waypoint8" x="2912" y="1808">
+   <point/>
+  </object>
+  <object id="36" name="Waypoint9" x="2912" y="2004">
+   <point/>
+  </object>
+  <object id="37" name="Waypoint10" x="2460" y="2004">
+   <point/>
+  </object>
+  <object id="38" name="Waypoint11" x="2404" y="1632">
+   <point/>
+  </object>
+  <object id="39" name="Waypoint12" x="2076" y="1624">
+   <point/>
+  </object>
+  <object id="40" name="Waypoint13" x="2080" y="2280">
+   <point/>
+  </object>
+  <object id="41" name="Waypoint14" x="984" y="2200">
+   <point/>
+  </object>
+  <object id="42" name="Waypoint15" x="668" y="2204">
+   <point/>
+  </object>
+  <object id="43" name="Waypoint16" x="668" y="2840">
+   <point/>
+  </object>
+  <object id="45" name="Waypoint17" x="988" y="2824">
+   <point/>
+  </object>
+  <object id="46" name="Waypoint18" x="860" y="3092">
+   <point/>
+  </object>
+  <object id="47" name="Waypoint19" x="616" y="3228">
+   <point/>
+  </object>
+  <object id="48" name="Waypoint20" x="864" y="3556">
+   <point/>
+  </object>
+  <object id="49" name="Waypoint21" x="1500" y="3536">
+   <point/>
+  </object>
+  <object id="50" name="Waypoint22" x="1508" y="3672">
+   <point/>
+  </object>
+  <object id="51" name="Waypoint23" x="2848" y="3616">
    <point/>
   </object>
  </objectgroup>

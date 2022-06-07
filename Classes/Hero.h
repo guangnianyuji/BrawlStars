@@ -19,7 +19,7 @@ public:
 
 
 	//动画播放，角色开始行走
-	void beganToMove(const float& Angle,const float Speed);
+	void beganToMove(const float& Angle,const float Speed,Point EndPosition);
 
 	//停止动画播放，角色静止
 	void stopMoving();
@@ -55,7 +55,8 @@ public:
 
 	//得到速度的接口
 	float getSpeed() const {return m_Speed;}
-	//为击毁宝箱增加速度的
+
+	//为击毁宝箱增加速度
 	void addSpeed(float offerSpeed) { m_Speed += offerSpeed; }
 
 	//得到普攻攻击力接口

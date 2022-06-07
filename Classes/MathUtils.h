@@ -20,6 +20,11 @@ public:
 	/* 判断触摸点是否在有效范围内 */
 	static bool isTouchEffective(const Vec2& TouchPoint, const Vec2& centre, const float radius);
 
+	//让像素坐标转换为瓦片坐标
+	static Vec2 PositionToTiled(const Vec2& position, TMXTiledMap* map);
+
+	//让瓦片坐标转换为像素坐标
+	static Vec2 TiledToPosition(const Vec2& position, TMXTiledMap* map);
 	
 };
 
