@@ -86,16 +86,21 @@ bool FightScene::init()
 
 	//设置玩家初始位置
 	m_Player->setOriginalPositionInMap(m_TiledMap,"PlayerBirthPlace");
+
+
 	//将玩家加入到地图中
+	m_Player->setArea(PathFinding::getInstance()->findArea(m_Player->getPosition()));
 
 	m_TiledMap->addChild(m_Player,4);	
 
 
-	for (std::vector<AI*>::iterator it= m_AIVec.begin(); it!= m_AIVec.end(); it++)
+	for (std::vector<AI*>::iterator it = m_AIVec.begin(); it != m_AIVec.end(); it++)
 	{
-		(*it)->setOriginalPositionInMap(m_TiledMap, (*it)->getName()+"BirthPlace");
+		(*it)->setOriginalPositionInMap(m_TiledMap, (*it)->getName() + "BirthPlace");
 		(*it)->setName("AI");
 		m_TiledMap->addChild((*it), 4);
+		//将玩家加入到地图中
+		(*it)->setArea(PathFinding::getInstance()->findArea((*it)->getPosition()));
 	}
 
 	for (int i = 0; i < 10; i++)
@@ -170,8 +175,6 @@ bool FightScene::init()
 
 
 	this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
-
-	NotifyUtil::getInstance()->postNotification("game start", (Ref*)"nothing");
 
 	scheduleUpdate();
 	
@@ -334,7 +337,7 @@ void FightScene::updateBox()
 			m_canPutBox[TiledPosition] = true;
 			oneBox->setisDead(false);
 
-			int nowArea = PathFinding::getInstance()->findArea(MathUtils::PositionToTiled(oneBox->getPosition(), m_TiledMap));
+			int nowArea = PathFinding::getInstance()->findArea(oneBox->getPosition());
 
 			oneBox->setArea(nowArea);
 
@@ -445,6 +448,8 @@ bool FightScene::onContactBegin(cocos2d::PhysicsContact& contact)
 				if (ai)
 				{
 					ai->beAttacked(weapon1->getDamage());
+
+					NotifyUtil::getInstance()->postNotification("being Attacked", attacker->getPosition());
 				}
 				if (attacker)
 				{
@@ -474,6 +479,10 @@ bool FightScene::onContactBegin(cocos2d::PhysicsContact& contact)
 			Hero* attacker = weapon1->getOwner();
 
 			box->beAttacked(weapon1->getDamage());
+
+			attacker->attackSomething();
+
+			NotifyUtil::getInstance()->postNotification("hit The Enemy", box->getPosition());
 
 			if (box->isDead())
 			{

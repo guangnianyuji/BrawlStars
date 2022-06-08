@@ -9,7 +9,7 @@ void StateWander::execute(AI* m_AI, EnumStateType state)
 	case WantToWander:
 
 		m_AI->wander();
-		m_AI->getFSM()->changeState(new StateWander());
+		m_AI->getFSM()->changeState(new (std::nothrow) StateWander());
 
 		break;
 	case WantToRunAway:
@@ -27,7 +27,7 @@ void StateWander::execute(AI* m_AI, EnumStateType state, cocos2d::Point position
 	case WantToTrace:
 
 		m_AI->trace(position);
-		m_AI->getFSM()->changeState(new StateTrace());
+		m_AI->getFSM()->changeState(new (std::nothrow) StateTrace());
 
 		break;
 	case WantToWander:
@@ -35,7 +35,7 @@ void StateWander::execute(AI* m_AI, EnumStateType state, cocos2d::Point position
 	case WantToRunAway:
 
 		m_AI->runAway(position);
-		m_AI->getFSM()->changeState(new StateRunAway());
+		m_AI->getFSM()->changeState(new (std::nothrow) StateRunAway());
 
 		break;
 	default:

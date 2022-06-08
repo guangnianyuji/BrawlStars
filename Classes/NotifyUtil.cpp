@@ -2,6 +2,11 @@
 
 NotifyUtil* NotifyUtil::m_Instance = nullptr;
 
+NotifyUtil::NotifyUtil()
+{
+
+}
+
 NotifyUtil::~NotifyUtil()
 {
 }

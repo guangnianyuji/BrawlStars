@@ -2,6 +2,15 @@
 
 PathFinding* PathFinding::m_Instance = nullptr;
 
+PathFinding::PathFinding()
+{
+
+}
+
+PathFinding::~PathFinding()
+{
+}
+
 PathFinding* PathFinding::getInstance()
 {
 	if (m_Instance == nullptr)
@@ -26,7 +35,8 @@ void PathFinding::getMap(TMXTiledMap* map)
 	/* 加入航点 */
 	while (index<=20)
 	{
-		auto PlaceValueMap = ObjectGroup->getObject("WayPoint" + Value(index).asString());
+		auto PlaceValueMap = ObjectGroup->getObject("Waypoint" + Value(index).asString());
+
 		float WayPointX = PlaceValueMap.at("x").asFloat();
 		float WayPointY = PlaceValueMap.at("y").asFloat();
 
@@ -42,10 +52,13 @@ bool PathFinding::AStarInArea(cocos2d::Point startPosition, Point endPosition,st
 	std::set <Point> inOpenList;
 	std::set <Point> inCloseList;
 
+	startPosition = MathUtils::PositionToTiled(startPosition, m_TiledMap);
+	endPosition = MathUtils::PositionToTiled(endPosition, m_TiledMap);
+
 	m_Node start;
-	start.position = MathUtils::PositionToTiled(startPosition,m_TiledMap);
+	start.position = startPosition;
 	start.g = 0;
-	start.f = start.g + h(start.position, MathUtils::PositionToTiled(endPosition,m_TiledMap));
+	start.f = start.g + h(start.position, endPosition);
 
 	/* 将起始节点加入到openList中 */
 	std::priority_queue <m_Node> openList;
@@ -64,10 +77,15 @@ bool PathFinding::AStarInArea(cocos2d::Point startPosition, Point endPosition,st
 		if (nowPosition.position == endPosition)
 		{
 			success = true;
-			while (nowPosition.preNode)
+			Path.push_back(MathUtils::TiledToPosition(nowPosition.position, m_TiledMap));
+
+			while (nowPosition.preNode != nullptr)
 			{
-				Path.push_back(MathUtils::TiledToPosition(nowPosition.position,m_TiledMap));
 				nowPosition = *nowPosition.preNode;
+				Path.push_back(MathUtils::TiledToPosition(nowPosition.position, m_TiledMap));
+
+				if (Path.size() >= 3600)
+					break;
 			}
 			break;
 		}
@@ -83,13 +101,14 @@ bool PathFinding::AStarInArea(cocos2d::Point startPosition, Point endPosition,st
 						nextPosition.position.x += deltax;
 						nextPosition.position.y += deltay;
 
-						if (inOpenList.find(nextPosition.position) != inOpenList.end()
-							&& inCloseList.find(nextPosition.position) != inCloseList.end()
+						if (inOpenList.find(nextPosition.position) == inOpenList.end()
+							&& inCloseList.find(nextPosition.position) == inCloseList.end()
 							&& !isNotSafety(nextPosition.position))
 						{
 							nextPosition.g++;
 							nextPosition.f = nextPosition.g + h(nextPosition.position, endPosition);
 							nextPosition.preNode = &nowPosition;
+							openList.push(nextPosition);
 							inOpenList.insert(nextPosition.position);
 						}
 					}
@@ -174,11 +193,17 @@ void PathFinding::addWayPoints(Point position)
 {
 	m_Waypoint waypoint;
 	waypoint.position = position;
-	if (!Waypoints.empty())
+	if (Waypoints.empty())
+	{
+		Waypoints.push_back(waypoint);
+	}
+	else
 	{
 		waypoint.preWaypoint = &Waypoints[Waypoints.size() - 1];
 
 		Waypoints[Waypoints.size() - 1].nxtWaypoint = &waypoint;
+
+		Waypoints.push_back(waypoint);
 	}
 	waypoint.area = findArea(waypoint.position);
 }
@@ -233,6 +258,8 @@ int PathFinding::findArea(Point position)
 			return 9;
 		}
 	}
+
+	return 0;
 }
 
 float PathFinding::h(Point nowPosition, Point endPosition)

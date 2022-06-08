@@ -21,8 +21,6 @@ FSM* FSM::createWithAI(AI* m_AI)
 	}
 
 	return fsm;
-
-	return fsm;
 }
 
 bool FSM::initWithAI(AI* m_AI)
@@ -30,12 +28,19 @@ bool FSM::initWithAI(AI* m_AI)
 
 	this->m_AI = m_AI;
 
+	this->m_State = nullptr;
+
 	NotifyUtil::getInstance()->addObserver("new Hero", std::bind(&FSM::newHeroInView,this,std::placeholders::_1));
 
 	NotifyUtil::getInstance()->addObserver("new Box", std::bind(&FSM::newBoxInView, this, std::placeholders::_1));
 
-	NotifyUtil::getInstance()->addObserver("hit the Enemy", std::bind(&FSM::hitTheEnemy, this, std::placeholders::_1));
+	NotifyUtil::getInstance()->addObserver("near Death", std::bind(&FSM::nearDeath, this, std::placeholders::_1));
 
+	NotifyUtil::getInstance()->addObserver("being Attacked", std::bind(&FSM::injured, this, std::placeholders::_1));
+
+	NotifyUtil::getInstance()->addObserver("hit The Enemy", std::bind(&FSM::hitTheEnemy, this, std::placeholders::_1));
+
+	return true;
 }
 
 void FSM::changeState(State* state)
@@ -47,93 +52,41 @@ void FSM::changeState(State* state)
 
 void FSM::newHeroInView(cocos2d::Point position)
 {
-	float RealTimeBlood = m_AI->m_Blood->getRealTimeBlood();
-
-	float BloodVolume = m_AI->m_Blood->getBloodVolume();
 
 	int ran = rand() % 10;
 
-	if (RealTimeBlood >= BloodVolume * 0.7)
+	if (ran >= 3)
 	{
-		if (ran >= 7)
-		{
-
-		}
-		else
-		{
-
-		}
-	}
-	else if (RealTimeBlood > BloodVolume * 0.4 && RealTimeBlood < BloodVolume * 0.7)
-	{
-		if (ran >= 6)
-		{
-
-		}
-		else
-		{
-
-		}
+			this->m_State->execute(m_AI, WantToTrace, position);
 	}
 	else
 	{
-
+			this->m_State->execute(m_AI, WantToRunAway, position);
 	}
 }
 
 void FSM::newBoxInView(cocos2d::Point position)
 {
-	float RealTimeBlood = m_AI->m_Blood->getRealTimeBlood();
 
-	float BloodVolume = m_AI->m_Blood->getBloodVolume();
-
-	int ran = rand() % 10;
-
-	if (RealTimeBlood  >= BloodVolume * 0.5)
-	{
-		//×·×Ù
-	}
+	this->m_State->execute(m_AI, WantToTrace, position);
 }
 
 void FSM::nearDeath(cocos2d::Ref* data)
 {
-	//ÌÓÅÜ
+	this->m_State->execute(m_AI, WantToRunAway, this->getPosition());
 }
 
 void FSM::hitTheEnemy(cocos2d::Point position)
 {
-	float RealTimeBlood = m_AI->m_Blood->getRealTimeBlood();
 
-	float BloodVolume = m_AI->m_Blood->getBloodVolume();
+	this->m_State->execute(m_AI, WantToTrace, position);
 
-	int ran = rand() % 10;
-
-	if (RealTimeBlood >= BloodVolume * 0.5)
-	{
-		//×·×Ù
-	}
-	else
-	{
-		//ÌÓÅÜ
-	}
 }
 
 void FSM::injured(cocos2d::Point position)
 {
-	float RealTimeBlood = m_AI->m_Blood->getRealTimeBlood();
 
-	float BloodVolume = m_AI->m_Blood->getBloodVolume();
-
-	int ran = rand() % 10;
-
-	if (RealTimeBlood >= BloodVolume * 0.7)
-	{
-		//×·×Ù
-	}
-	else
-	{
-		//ÌÓÅÜ
-	}
+	this->m_State->execute(m_AI, WantToTrace, position);
 }
 
 

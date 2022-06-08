@@ -5,16 +5,14 @@
 #include "Player.h"
 #include "AI.h"
 #include "Box.h"
-#include "BSScene\BaseScene.h"
 #include "FightControllerLayer.h"
-#include "AttackLayer.h"
-#include "Character.h"
 #include "TimeCounter.h"
 #include "PauseScene.h"
 #include "MathUtils.h"
-#include "PathFinding.h"
 #include "NotifyUtil.h"
+#include "PathFinding.h"
 #include  <typeinfo>
+
 using namespace cocos2d;
 
 class FightScene:public BaseScene

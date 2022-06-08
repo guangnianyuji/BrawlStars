@@ -8,6 +8,8 @@
 #include "ProgressView.h"
 #include "Weapon.h"
 #include "TimeCounter.h"
+#include "PathFinding.h"
+#include "NotifyUtil.h"
 
 using namespace cocos2d;
 

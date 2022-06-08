@@ -2,10 +2,9 @@
 #define __AI_H__
 
 #include "Hero.h"
-#include "Character.h"
-#include "PathFinding.h"
 #include "FSM.h"
-#include "ALLState.h"
+#include "StateWander.h"
+#include "PathFinding.h"
 
 
 class AI:public Hero
@@ -53,7 +52,7 @@ public:
 
 private:
     //初始化玩家
-    virtual bool init() override;
+    virtual bool init();
 
     //给AI设置物理属性
     void setPhyBody();
@@ -67,9 +66,9 @@ private:
     //更新AI的大招攒积状态
     void updateACE_CD_State();
 
-    void update(float delta) override;
+    void update(float delta) ;
 
-    void onExit() override;
+    //void onExit() ;
 
     //是否开始攻击
     bool m_NormalAttackState;

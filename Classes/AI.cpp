@@ -22,8 +22,8 @@ void AI::wander()
 	if (!Path.empty())
 		Path.clear();
 
-	int x = rand() % 100;
-	int y = rand() % 100;
+	int x = 50 + rand() % 100;
+	int y = 50 + rand() % 100;
 
 	Point endposition = this->getPosition();
 
@@ -44,15 +44,6 @@ void AI::wander()
 				float Angle = MathUtils::getRad(this->getPosition(), Path[ix]);
 
 				this->beganToMove(Angle, this->getSpeed(), endposition);
-
-
-				/* 判断是否已经移动出了当前区域，如果是，则发布通知 */
-				if (this->getArea() != PathFinding::getInstance()->findArea(this->getPosition()))
-				{
-					this->setArea(PathFinding::getInstance()->findArea(this->getPosition()));
-
-					NotifyUtil::getInstance()->postNotification("new Hero", this->getPosition());
-				}
 			}
 		}
 	}
@@ -69,8 +60,9 @@ bool AI::init()
 
 	m_FSM = FSM::createWithAI(this);
 	m_FSM->retain();
-	this->addChild(m_FSM);
-	//this->getFSM()->changeState(new StateWander());
+
+	this->getFSM()->changeState(new StateWander());
+
 
 	m_TimeCounter = TimeCounter::create();
 	this->addChild(m_TimeCounter);
@@ -112,6 +104,9 @@ void AI::updateACE_CD_State()
 void AI::update(float delta)
 {
 	updateACE_CD_State();
+
+	//if (!getACE_CD_State())
+		//this->stopACE();
 }
 
 void AI::updateACEState()
@@ -145,12 +140,22 @@ void AI::updateNormalAttackState()
 
 void AI::trace(cocos2d::Point position)
 {
+	/* 先停止原先的所有动作 */
+	//this->stopMoving();
+
+	int nowArea = this->getArea();
+
+	int nextArea = PathFinding::getInstance()->findArea(position);
+
+	//if (fabs(nowArea - nextArea) >= 3)
+		//return;
+
 	if (!Path.empty())
 		Path.clear();
 
 	if (PathFinding::getInstance()->AStarInArea(this->getPosition(), position,Path))
 	{
-		for (int ix = 0,cnt=0; ix <= Path.size() - 1&&cnt<=100; ix++,cnt++)
+		for (int ix = 0,cnt=0; ix <= Path.size() - 1&&cnt<=10000; ix++,cnt++)
 		{
 			if (ix && this->getPosition() != Path[ix - 1])
 			{
@@ -159,16 +164,7 @@ void AI::trace(cocos2d::Point position)
 
 			float Angle = MathUtils::getRad(this->getPosition(), Path[ix]);
 
-			this->beganToMove(Angle, this->getSpeed(), position);
-
-
-			/* 判断是否已经移动出了当前区域，如果是，则发布通知 */
-			if (this->getArea() != PathFinding::getInstance()->findArea(this->getPosition()))
-			{
-				this->setArea(PathFinding::getInstance()->findArea(this->getPosition()));
-
-				NotifyUtil::getInstance()->postNotification("new Hero", this->getPosition());
-			}
+			this->beganToMove(Angle, this->getSpeed()/20.0f, position);
 
 			/* 手动更新攻击状态 */
 			this->updateNormalAttackState();
@@ -192,26 +188,30 @@ void AI::trace(cocos2d::Point position)
 
 void AI::runAway(cocos2d::Point position)
 {
+
+	//先停止原先的所有动作
+	//this->stopMoving();
+
 	if (!Path.empty())
 		Path.clear();
 
 	int nowArea = this->getArea();
-	int nextArea;
+	int nextArea=nowArea;
 
-	if (nowArea + 1 >= 1 && nowArea <= 9)
+	if (nowArea + 1 >= 1 && nowArea + 1 <= 9)
 	{
 		nextArea = nowArea + 1;
 	}
 	else
 	{
-		nextArea + nowArea - 1;
+		nextArea = nowArea - 1;
 	}
 
 	m_Waypoint waypoint = PathFinding::getInstance()->findWayPointInArea(nextArea);
 
 	if (PathFinding::getInstance()->AStarInArea(this->getPosition(), waypoint.position, Path))
 	{
-		for (int ix = 0, cnt = 0; ix <= Path.size() - 1 && cnt <= 100; ix++, cnt++)
+		for (int ix = 0, cnt = 0; ix <= Path.size() - 1 && cnt <= 10000; ix++, cnt++)
 		{
 			if (ix && this->getPosition() != Path[ix - 1])
 			{
@@ -220,16 +220,10 @@ void AI::runAway(cocos2d::Point position)
 
 			float Angle = MathUtils::getRad(this->getPosition(), Path[ix]);
 
-			this->beganToMove(Angle, this->getSpeed(), position);
+			this->beganToMove(Angle, this->getSpeed()/20.0f, position);
 
-
-			/* 判断是否已经移动出了当前区域，如果是，则发布通知 */
-			if (this->getArea() != PathFinding::getInstance()->findArea(this->getPosition()))
-			{
-				this->setArea(PathFinding::getInstance()->findArea(this->getPosition()));
-
-				NotifyUtil::getInstance()->postNotification("new Hero", this->getPosition());
-			}
 		}
+	}
+
 }
 

@@ -49,6 +49,10 @@ list(APPEND GAME_SOURCE
      Classes/FSM.cpp
      Classes/PathFinding.cpp
      Classes/NotifyUtil.cpp
+     Classes/State.cpp
+     Classes/StateWander.cpp
+     Classes/StateTrace.cpp
+     Classes/StateRunAway.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AI.h
@@ -77,6 +81,11 @@ list(APPEND GAME_HEADER
      Classes/FSM.h
      Classes/PathFinding.h
      Classes/NotifyUtil.h
+     Classes/State.h
+     Classes/StateWander.h
+     Classes/StateTrace.h
+     Classes/StateRunAway.h
+     Classes/EnumStateType.h
      )
 
 if(ANDROID)

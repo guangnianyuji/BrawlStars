@@ -1,11 +1,8 @@
 #ifndef __PATH_FINDING__
 #define __PATH_FINDING__
 
-#include <new>
 #include "cocos2d.h"
-#include "Entity.h"
 #include "MathUtils.h"
-#include "AI.h"
 
 struct m_Node
 {
@@ -105,7 +102,7 @@ inline bool PathFinding::isNotSafety(Point position) const
 
 inline m_Waypoint PathFinding::findWayPointInArea(int area)
 {
-	for (int ix = 0; ix <= Waypoints.size() - 1; ix++)
+	for (unsigned int ix = 0; ix <= Waypoints.size() - 1; ix++)
 	{
 		if (Waypoints[ix].area == area)
 		{

@@ -3,12 +3,13 @@
 
 #include"cocos2d.h"
 #include "NotifyUtil.h"
-#include "PathFinding.h"
-#include "AI.h"
 #include "State.h"
+
+class AI;
 
 class FSM:public cocos2d::Node
 {
+
 public:
 	~FSM();
 	static FSM* createWithAI(AI* m_AI);
@@ -32,8 +33,6 @@ private:
 	void hitTheEnemy(cocos2d::Point position);
 
 	void injured(cocos2d::Point position);
-
-	void update(float delta) override;
 
 	/* 存放当前状态类 */
 	State* m_State;

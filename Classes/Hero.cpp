@@ -74,6 +74,14 @@ void Hero::beganToMove(const float& Angle,const float Speed,Point EndPosition)
 
 	runAction(MoveBy::create(0.1f, MathUtils::getVectorialSpeed(Angle, Speed /150)));
 
+	/* 判断是否已经移动出了当前区域，如果是，则发布通知 */
+	if (this->getArea() != PathFinding::getInstance()->findArea(this->getPosition()))
+	{
+		this->setArea(PathFinding::getInstance()->findArea(this->getPosition()));
+
+		NotifyUtil::getInstance()->postNotification("new Hero", this->getPosition());
+	}
+
 	m_isMoving = true;
 
 }

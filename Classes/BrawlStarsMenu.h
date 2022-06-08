@@ -7,7 +7,7 @@
 using namespace cocos2d::ui;
 
 /* 用全局静态变量控制背景音乐状态 */
-static bool whetherToPlaybgMusic = true;
+static bool whetherToPlaybgMusic = false;
 
 static bool isbgMusicPlaying = false;
 
