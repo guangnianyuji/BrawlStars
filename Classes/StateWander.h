@@ -4,6 +4,7 @@
 #include "AI.h"
 #include "StateRunAway.h"
 #include "StateTrace.h"
+#include "cocos2d.h"
 
 class StateWander:public State
 {

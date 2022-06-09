@@ -71,16 +71,7 @@ void Hero::beganToMove(const float& Angle,const float Speed,Point EndPosition)
 		m_Body->stopAllActions();
 		m_Body->runAction(AnimationUtils::createAnimation(m_Character.m_Name, m_Direction));
 	}
-
-	runAction(MoveBy::create(0.1f, MathUtils::getVectorialSpeed(Angle, Speed /150)));
-
-	/* 判断是否已经移动出了当前区域，如果是，则发布通知 */
-	if (this->getArea() != PathFinding::getInstance()->findArea(this->getPosition()))
-	{
-		this->setArea(PathFinding::getInstance()->findArea(this->getPosition()));
-
-		NotifyUtil::getInstance()->postNotification("new Hero", this);
-	}
+	runAction(MoveTo::create(0.2f, this->getPosition()+MathUtils::getVectorialSpeed(Angle, Speed /150)));
 
 	m_isMoving = true;
 

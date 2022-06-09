@@ -79,7 +79,7 @@ bool PathFinding::AStarInArea(cocos2d::Point startPosition, Point endPosition,st
 
 	int size = openList.size();
 
-	while (size!=0 && cnt<=200)
+	while (size!=0 && cnt<=10000)
 	{
 		cnt++;
 		m_Node* nowPosition = openList.top();
@@ -116,7 +116,7 @@ bool PathFinding::AStarInArea(cocos2d::Point startPosition, Point endPosition,st
 			{
 				for (int deltay = -1; deltay <= 1; deltay++)
 				{
-					if (deltax != 0 || deltay != 0)
+					if ((deltax == 0 || deltay == 0)&&(deltax+deltay!=0))
 					{
 						m_Node* nextPosition=new m_Node();
 						nextPosition->position = nowPosition->position;
@@ -166,7 +166,9 @@ bool PathFinding::AStarInArea(cocos2d::Point startPosition, Point endPosition,st
 		Path.push_back(Vec2(0, 0));
 		return false;
 	}
+
 }
+
 
 void PathFinding::BresenhamBetweenWaypoints(Point startPosition, Point endPosition, std::vector<Point>& Path)
 {

@@ -58,6 +58,8 @@ public:
 	//得到速度的接口
 	float getSpeed() const {return m_Speed;}
 
+	float getBlood() const { return m_Blood->getRealTimeBlood(); }
+
 	//为击毁宝箱增加速度
 	void addSpeed(float offerSpeed) { m_Speed += offerSpeed; }
 
@@ -66,8 +68,8 @@ public:
 
 	//为击毁宝箱提高普攻
 	void addNormalAttackDamage(float offerAttackDamage){ m_NormalAttackDamage+= offerAttackDamage; }
-private:
 
+protected:
 
 	//英雄的速度
 	float m_Speed;

@@ -18,6 +18,12 @@ public:
 	/* 切换状态 */
 	void changeState(State* state);
 
+	void setMark(const std::string m_Mark);
+
+	void addObservers();
+
+	std::string getMark() const { return m_AIMark; }
+
 private:
 
 	/* 检测到有新的Hero进入视野，即同一区域 */
@@ -32,13 +38,18 @@ private:
 	/* 击中敌人了 */
 	void hitTheEnemy(Hero*);
 
-	void injured(Hero*);
+	/* 被打到了 */
+	void injured(Hero*); 
+
+	void nothingToDo(cocos2d::Ref* data);
 
 	/* 存放当前状态类 */
 	State* m_State;
 
 	/* 关联的AI对象 */
 	AI* m_AI;
+
+	std::string m_AIMark;
 };
 
 #endif // !__FSM__

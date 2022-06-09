@@ -19,6 +19,14 @@ public:
     //获取状态机对象
     FSM* getFSM() const { return m_FSM; }
 
+    Hero* getTarget() const { return m_Target; }
+
+    Point getBoxPosition() const { return m_BoxPosition; }
+
+    void setTarget(Hero* target) { m_Target = target; }
+
+    void setBoxPosition(Point position) { m_BoxPosition = position; }
+  
     //得到普通攻击状态
     bool getNormalAttackState() const { return m_NormalAttackState; }
 
@@ -37,20 +45,19 @@ public:
     //记录普攻次数 
     void addCount() { m_Count++; }
 
-    void setTarget(Hero* target) { m_Target = target; }
-
-    void setBoxPosition(Point position) { m_BoxPosition = position; }
-
     void setState(EnumStateType state) { m_State = state; }
 
+    void move(Point endposition,float speed);
+
     //追踪
-    void trace(cocos2d::Point position);
+    void trace(float delta);
 
     //逃跑
-    void runAway(cocos2d::Point position);
+    void runAway(float delta);
 
     //散步
-    void wander();
+    void wander(float delta);
+
 
 private:
     //初始化玩家
@@ -70,11 +77,11 @@ private:
 
     void update(float delta);
 
-    void findPath();
+    /*void findPath();
 
     void findPathAsync();
 
-    void asynsUpdate(float delta);
+    void asynsUpdate(float delta);*/
 
     //void onExit() ;
 
@@ -100,15 +107,20 @@ private:
 
     TimeCounter* m_TimeCounter;
 
+    int stepForRunAway = 0;
+
+    int stepForWander = 0;
+
+    int stepForAttackBox = 0;
+
+    int stepForTrace = 0;
+
     EnumStateType m_State;
     FSM* m_FSM;
     Hero* m_Target;
     Point m_BoxPosition;
 
     std::vector<cocos2d::Point> Path;
-
-    Point startPosition;
-    Point endPosition;
 
     /* 在子线程里进行路径计算 */
     std::thread* m_FindPathThread;

@@ -30,16 +30,6 @@ bool FSM::initWithAI(AI* m_AI)
 
 	this->m_State = nullptr;
 
-	NotifyUtil::getInstance()->addObserver("new Hero", std::bind(&FSM::newHeroInView,this,std::placeholders::_1));
-
-	NotifyUtil::getInstance()->addObserver("new Box", std::bind(&FSM::newBoxInView, this, std::placeholders::_1));
-
-	NotifyUtil::getInstance()->addObserver("near Death", std::bind(&FSM::nearDeath, this, std::placeholders::_1));
-
-	NotifyUtil::getInstance()->addObserver("being Attacked", std::bind(&FSM::injured, this, std::placeholders::_1));
-
-	NotifyUtil::getInstance()->addObserver("hit The Enemy", std::bind(&FSM::hitTheEnemy, this, std::placeholders::_1));
-
 	return true;
 }
 
@@ -50,19 +40,41 @@ void FSM::changeState(State* state)
 	this->m_State = state;
 }
 
+void FSM::setMark(const std::string m_Mark)
+{
+	m_AIMark = m_Mark;
+}
+
+void FSM::addObservers()
+{
+
+	NotifyUtil::getInstance()->addObserver("new Hero" + m_AIMark, std::bind(&FSM::newHeroInView, this, std::placeholders::_1));
+
+	NotifyUtil::getInstance()->addObserver("new Box" + m_AIMark, std::bind(&FSM::newBoxInView, this, std::placeholders::_1));
+
+	NotifyUtil::getInstance()->addObserver("near Death" + m_AIMark, std::bind(&FSM::nearDeath, this, std::placeholders::_1));
+
+	NotifyUtil::getInstance()->addObserver("being Attacked" + m_AIMark, std::bind(&FSM::injured, this, std::placeholders::_1));
+
+	NotifyUtil::getInstance()->addObserver("hit The Enemy" + m_AIMark, std::bind(&FSM::hitTheEnemy, this, std::placeholders::_1));
+
+	NotifyUtil::getInstance()->addObserver("hahaha" + m_AIMark, std::bind(&FSM::nothingToDo, this, std::placeholders::_1));
+
+}
+
 void FSM::newHeroInView(Hero* target)
 {
 
 	int ran = rand() % 10;
 
-	//if (ran >= 3)
-	//{
-			this->m_State->execute(m_AI, WantToTrace, target);
-	//}
-	//else
-	//{
-			//this->m_State->execute(m_AI, WantToRunAway);
-	//}
+	if (ran >= 3)
+	{
+		this->m_State->execute(m_AI, WantToTrace, target);
+	}
+	else
+	{
+		this->m_State->execute(m_AI, WantToRunAway);
+	}
 }
 
 void FSM::newBoxInView(cocos2d::Point position)
@@ -85,8 +97,20 @@ void FSM::hitTheEnemy(Hero* target)
 
 void FSM::injured(Hero* target)
 {
+	int ran = rand() % 10;
+	if (ran > 5)
+	{
+		this->m_State->execute(m_AI, WantToTrace,target);
+	}
+	else
+	{
+		this->m_State->execute(m_AI, WantToRunAway,this->getPosition());
+	}
+}
 
-	this->m_State->execute(m_AI, WantToTrace);
+void FSM::nothingToDo(cocos2d::Ref* data)
+{
+	this->m_State->execute(m_AI, WantToWander);
 }
 
 

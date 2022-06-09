@@ -10,9 +10,8 @@ FightScene* FightScene::create(std::vector<Character> CharacterVec)
 
 	pRet->m_Player = Player::create(CharacterVec[0]);
 
-
 	//初始化AI数组
-	for (int i = 1,AIi=0; i < 10; i++)
+	for (int i = 1, AIi = 0; i < 10; i++)
 	{
 		if (CharacterVec[i] == Nothing())
 		{
@@ -57,7 +56,102 @@ bool FightScene::init()
 
 	//加入地图
 	addChild(m_TiledMap,-1);
+	//设置玩家初始位置
+	m_Player->setOriginalPositionInMap(m_TiledMap,"PlayerBirthPlace");
 
+	//将玩家加入到地图中
+	m_Player->setArea(PathFinding::getInstance()->findArea(m_Player->getPosition()));
+
+	m_TiledMap->addChild(m_Player,4);	
+
+	getWall();
+
+	addAI();
+
+	addBox();
+
+	initPauseButton();
+
+	//在场景中加入遥杆
+	m_FightControllerLayer = FightControllerLayer::create(m_Player->m_Character);
+	
+	m_FightControllerLayer->startAllRockers();
+
+	//开启场景碰撞监听
+	startContactListen();
+	addChild(m_FightControllerLayer,2);
+
+	//为玩家节点设置名字，方便之后的碰撞检测
+	m_Player->setName("Player");
+
+	startToxic();
+
+	this->schedule(schedule_selector(FightScene::updatePositionInformation), 0.5f);
+
+	this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+
+	schedule(schedule_selector(FightScene::updatePositionInformation), 1.5);
+	scheduleUpdate();
+	
+	return true;
+}
+
+void FightScene::initPauseButton()
+{
+	Vec2 VisibleSize = Director::getInstance()->getVisibleSize();
+
+	auto PauseButton = Button::create("ui/Pause.png");
+	PauseButton->setScale(0.6);
+	PauseButton->setPosition(Vec2(VisibleSize.x - PauseButton->getContentSize().width / 2,
+		PauseButton->getContentSize().height / 2));
+	addChild(PauseButton, 1);
+	PauseButton->addTouchEventListener([&](Ref* psender, Widget::TouchEventType type)
+		{
+			Vec2 size = Director::getInstance()->getVisibleSize();
+			auto renderTexture = RenderTexture::create(size.x, size.y);
+			//遍历当前类的所有子节点信息，画入renderTexture中。
+			//这里类似截图。
+			if (renderTexture != nullptr)
+			{
+				renderTexture->begin();
+				if (this != nullptr)
+				{
+					this->visit();
+				}
+
+				renderTexture->end();
+			}
+
+			auto PauseScene = PauseScene::create(renderTexture);
+			//将游戏界面暂停，压入场景堆栈。并切换到Pause界面
+			if (PauseScene != nullptr)
+			{
+				Director::getInstance()->pushScene(PauseScene);
+			}
+
+		});
+}
+
+void FightScene::startToxic()
+{
+	//毒圈计时器开始计时
+	m_ToxicFogTimeCounter = TimeCounter::create();
+	addChild(m_ToxicFogTimeCounter);
+	m_ToxicFogTimeCounter->startCounting();
+	m_ToxicFogLevel = -1;//初始化，无意义
+	for (int i = 0; i < m_TiledMap->getMapSize().width; i++)
+	{
+		for (int j = 0; j < m_TiledMap->getMapSize().width; j++)
+		{
+			m_ToxicFogMap[Vec2(i, j)] = false;
+		}
+	}
+
+
+}
+
+void FightScene::getWall()
+{
 	//获取障碍层
 	m_WallLayer = m_TiledMap->layerNamed("wall");//获取需要添加PhysicsBody的瓦片所在的图层
 	Size TiledNumber = m_TiledMap->getMapSize();
@@ -82,27 +176,34 @@ bool FightScene::init()
 			}
 		}
 	}
+}
 
-
-	//设置玩家初始位置
-	m_Player->setOriginalPositionInMap(m_TiledMap,"PlayerBirthPlace");
-
-
-	//将玩家加入到地图中
-	m_Player->setArea(PathFinding::getInstance()->findArea(m_Player->getPosition()));
-
-	m_TiledMap->addChild(m_Player,4);	
-
+void FightScene::addAI()
+{
+	int count = 1;
 
 	for (std::vector<AI*>::iterator it = m_AIVec.begin(); it != m_AIVec.end(); it++)
 	{
 		(*it)->setOriginalPositionInMap(m_TiledMap, (*it)->getName() + "BirthPlace");
 		(*it)->setName("AI");
 		m_TiledMap->addChild((*it), 4);
-		//将玩家加入到地图中
+		//将AI加入到地图中
 		(*it)->setArea(PathFinding::getInstance()->findArea((*it)->getPosition()));
+
+
+		/* 给AI的FSM加入编号，方便定向发布消息 */
+		(*it)->getFSM()->setMark(Value(count).asString());
+
+		/* 订阅消息 */
+		(*it)->getFSM()->addObservers();
+		count++;
 	}
 
+	
+}
+
+void FightScene::addBox()
+{
 	for (int i = 0; i < 10; i++)
 	{
 		m_BoxVec.push_back(Box::create());
@@ -113,72 +214,9 @@ bool FightScene::init()
 			continue;
 		}
 		m_BoxVec[i]->setName("Box");
-		m_BoxVec[i]->setPosition(MathUtils::TiledToPosition(TiledPosition,m_TiledMap));
+		m_BoxVec[i]->setPosition(MathUtils::TiledToPosition(TiledPosition, m_TiledMap));
 		m_TiledMap->addChild(m_BoxVec[i], 4);
 	}
-
-	//在场景中加入遥杆
-	m_FightControllerLayer = FightControllerLayer::create(m_Player->m_Character);
-	
-	m_FightControllerLayer->startAllRockers();
-
-	//开启场景碰撞监听
-	startContactListen();
-	addChild(m_FightControllerLayer,2);
-
-	//为玩家节点设置名字，方便之后的碰撞检测
-	m_Player->setName("Player");
-
-	//毒圈计时器开始计时
-	m_ToxicFogTimeCounter = TimeCounter::create();
-	addChild(m_ToxicFogTimeCounter);
-	m_ToxicFogTimeCounter->startCounting();
-	m_ToxicFogLevel = -1;//初始化，无意义
-	for (int i = 0; i < m_TiledMap->getMapSize().width; i++)
-	{
-		for (int j = 0; j < m_TiledMap->getMapSize().width; j++)
-		{
-			m_ToxicFogMap[Vec2(i, j)] = false;
-		}
-	 }
-
-	auto PauseButton = Button::create("ui/Pause.png");
-	PauseButton->setScale(0.6);
-	PauseButton->setPosition(Vec2(VisibleSize.x - PauseButton->getContentSize().width / 2,
-		PauseButton->getContentSize().height / 2));
-	addChild(PauseButton, 1);
-	PauseButton->addTouchEventListener([&](Ref* psender, Widget::TouchEventType type)
-		{
-			Vec2 size = Director::getInstance()->getVisibleSize();
-			auto renderTexture = RenderTexture::create(size.x, size.y);
-			//遍历当前类的所有子节点信息，画入renderTexture中。
-            //这里类似截图。
-			if (renderTexture != nullptr)
-			{
-                renderTexture->begin();
-				if (this != nullptr)
-				{
-                     this->visit();
-				}
-				
-			    renderTexture->end();
-			}
-		
-			auto PauseScene = PauseScene::create(renderTexture);
-			//将游戏界面暂停，压入场景堆栈。并切换到Pause界面
-			if (PauseScene != nullptr)
-			{
-				Director::getInstance()->pushScene(PauseScene);
-			}
-			
-		});
-
-
-	this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
-
-	scheduleUpdate();
-	
-	return true;
 }
 
 void FightScene::update(float delta)
@@ -346,6 +384,48 @@ void FightScene::updateBox()
 	}
 }
 
+void FightScene::updatePositionInformation(float delta)
+{
+	for (int ix = 0; ix <= m_AIVec.size() - 1; ix++)
+	{
+		Point position1 = m_Player->getPosition();
+		Point position2 = m_AIVec[ix]->getPosition();
+
+		if(position1.distance(position2)<=200)
+			NotifyUtil::getInstance()->postNotification("new Hero" + m_AIVec[ix]->getFSM()->getMark(), (Hero*)m_Player);
+		for (int jx = 0; jx <= ix; jx++)
+		{
+			if (ix != jx)
+			{
+				if (m_AIVec[ix]->isDead() || m_AIVec[jx]->isDead())
+					continue;
+				Point position1 = m_AIVec[ix]->getPosition();
+				Point position2 = m_AIVec[jx]->getPosition();
+				if (position1.distance(position2) <= 200)
+				{
+					NotifyUtil::getInstance()->postNotification("new Hero" + m_AIVec[ix]->getFSM()->getMark(),(Hero*)m_AIVec[jx]);
+
+					NotifyUtil::getInstance()->postNotification("new Hero" + m_AIVec[jx]->getFSM()->getMark(), (Hero*)m_AIVec[ix]);
+				}
+			}
+		}
+	}
+
+	for (int ix = 0; ix <= m_BoxVec.size() - 1; ix++)
+	{
+		for (int jx = 0; jx <= m_AIVec.size() - 1 ; jx++)
+		{
+			Point position1 = m_BoxVec[ix]->getPosition();
+			Point position2 = m_AIVec[jx]->getPosition();
+
+			if (position1.distance(position2) <= 200)
+			{
+				NotifyUtil::getInstance()->postNotification("new Box" + m_AIVec[jx]->getFSM()->getMark(), m_BoxVec[ix]->getPosition());
+			}
+		}
+	}
+}
+
 void FightScene::updatePlayerAttack()
 {
 	if (m_Player->isDead())
@@ -455,6 +535,7 @@ bool FightScene::onContactBegin(cocos2d::PhysicsContact& contact)
 				{
 					attacker->attackSomething();
 				}
+				NotifyUtil::getInstance()->postNotification("being Attacked" + ai->getFSM()->getMark(), attacker);
 			}
 
 		}
@@ -472,6 +553,7 @@ bool FightScene::onContactBegin(cocos2d::PhysicsContact& contact)
 				{
 					attacker->attackSomething();
 				}
+				NotifyUtil::getInstance()->postNotification("hit The Enemy" + ((AI*)attacker)->getFSM()->getMark(),player);
 			}
 		}
 		if (box && weapon1)

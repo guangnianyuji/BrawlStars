@@ -27,6 +27,20 @@ private:
 
 	//void onEnter() override;
 
+	void initPauseButton();
+
+	void startToxic();
+
+	void getWall();
+
+	void addAI();
+
+	//开始的时候将宝箱添加进场景
+	void addBox();
+
+
+
+
 	void update(float delta);
 
     //让地图随主角滚动
@@ -52,6 +66,9 @@ private:
 
 	//更新宝箱
 	void updateBox();
+
+	//更新Hero以及Box的位置信息，并发布通知
+	void updatePositionInformation(float delta);
 
 	//监听到两物体开始碰撞的回调函数
 	bool onContactBegin(cocos2d::PhysicsContact& contact);
