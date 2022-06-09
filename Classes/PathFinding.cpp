@@ -49,6 +49,9 @@ void PathFinding::getMap(TMXTiledMap* map)
 
 bool PathFinding::AStarInArea(cocos2d::Point startPosition, Point endPosition,std::vector<Point>& Path)
 {
+	if (!Path.empty())
+		Path.clear();
+
 	startPosition = MathUtils::PositionToTiled(startPosition, m_TiledMap);
 	endPosition = MathUtils::PositionToTiled(endPosition, m_TiledMap);
 
@@ -157,7 +160,12 @@ bool PathFinding::AStarInArea(cocos2d::Point startPosition, Point endPosition,st
 	}
 	if (success)
 		return true;
-	else return false;
+	else
+	{
+		/* 用于线程判断 */
+		Path.push_back(Vec2(0, 0));
+		return false;
+	}
 }
 
 void PathFinding::BresenhamBetweenWaypoints(Point startPosition, Point endPosition, std::vector<Point>& Path)

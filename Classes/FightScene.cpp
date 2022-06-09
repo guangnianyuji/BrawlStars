@@ -482,7 +482,6 @@ bool FightScene::onContactBegin(cocos2d::PhysicsContact& contact)
 
 			attacker->attackSomething();
 
-			NotifyUtil::getInstance()->postNotification("hit The Enemy", box->getPosition());
 
 			if (box->isDead())
 			{

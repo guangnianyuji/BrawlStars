@@ -11,6 +11,8 @@ public:
 	virtual void execute(AI* m_AI, EnumStateType state);
 
 	virtual void execute(AI* m_AI, EnumStateType state, cocos2d::Point position);
+
+	virtual void execute(AI* m_AI, EnumStateType state, Hero* target);
 };
 
 #endif

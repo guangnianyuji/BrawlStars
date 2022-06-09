@@ -19,34 +19,20 @@ AI* AI::create(Character character)
 
 void AI::wander()
 {
-	if (!Path.empty())
+	/*if (!Path.empty())
 		Path.clear();
 
-	int x = 50 + rand() % 100;
-	int y = 50 + rand() % 100;
+	int x = 10 + rand() % 100;
+	int y = 10 + rand() % 100;
 
 	Point endposition = this->getPosition();
 
 	endposition.x += x;
 	endposition.y += y;
 
-	if (!PathFinding::getInstance()->isNotSafety(MathUtils::PositionToTiled(endposition, (TMXTiledMap*)this->getParent())))
-	{
-		if (PathFinding::getInstance()->AStarInArea(this->getPosition(), endposition, Path))
-		{
-			for (int ix = 0, cnt = 0; ix <= Path.size() - 1 && cnt <= 100; ix++, cnt++)
-			{
-				if (ix && this->getPosition() != Path[ix - 1])
-				{
-					ix--;
-				}
+	float Angle = MathUtils::getRad(this->getPosition(), endposition);
 
-				float Angle = MathUtils::getRad(this->getPosition(), Path[ix]);
-
-				this->beganToMove(Angle, this->getSpeed(), endposition);
-			}
-		}
-	}
+	this->beganToMove(Angle, this->getSpeed(), endposition);*/
 }
 
 bool AI::init()
@@ -63,10 +49,15 @@ bool AI::init()
 
 	this->getFSM()->changeState(new StateWander());
 
+	this->setState(WantToWander);
 
 	m_TimeCounter = TimeCounter::create();
 	this->addChild(m_TimeCounter);
 	m_TimeCounter->startCounting();
+
+	m_FindPathThread = nullptr;
+
+	this->scheduleUpdate();
 
 	return true;
 }
@@ -114,6 +105,47 @@ void AI::update(float delta)
 			this->stopACE();
 	}
 		
+	switch (m_State)
+	{
+	case WantToTrace:
+		trace(m_Target->getPosition());
+		break;
+	case WantToRunAway:
+		runAway(this->getPosition());
+		break;
+	case WantToWander:
+		wander();
+		break;
+	default:
+		break;
+	}
+}
+
+void AI::findPath()
+{
+	if (m_FindPathThread == nullptr)
+	{
+		m_FindPathThread = new std::thread(&AI::findPathAsync, this);
+		auto scheduler = Director::getInstance()->getScheduler();
+		scheduler->schedule(schedule_selector(AI::asynsUpdate), this, 0, false);
+	}
+}
+
+void AI::findPathAsync()
+{
+	PathFinding::getInstance()->AStarInArea(this->startPosition, this->endPosition, this->Path);
+}
+
+void AI::asynsUpdate(float delta)
+{
+	if (!Path.empty())
+	{
+		auto scheduler = cocos2d::Director::getInstance()->getScheduler();
+		scheduler->unschedule(schedule_selector(AI::asynsUpdate), this);
+
+		m_FindPathThread->join();
+		CC_SAFE_DELETE(m_FindPathThread);
+	}
 }
 
 void AI::updateACEState()
@@ -147,48 +179,66 @@ void AI::updateNormalAttackState()
 
 void AI::trace(cocos2d::Point position)
 {
+	//this->endPosition = position;
+	//this->startPosition = this->getPosition();
+	//findPath();
 
-	if (!Path.empty())
-		Path.clear();
+	//if (Path[0]!=Vec2(0,0))
+	//{
+	//	for (int ix = Path.size()-1, cnt = 0; ix>=0 && cnt <= 1000; ix--, cnt++)
+	//	{
+	//		if (ix!=Path.size()-1 && this->getPosition() != Path[ix + 1])
+	//		{
+	//			ix++;
+	//		}
+	//		Point positon = Path[ix];
+	//		float Angle = MathUtils::getRad(this->getPosition(), position);
 
-	if (PathFinding::getInstance()->AStarInArea(this->getPosition(), position,Path))
+	//		this->beganToMove(Angle, this->getSpeed()/50, position);
+
+	//		/* 手动更新攻击状态 */
+	//		this->updateNormalAttackState();
+	//		if (getNormalAttackState())
+	//		{
+	//			this->normalAttack(Angle);
+	//			this->addCount();
+	//		}
+
+	//		if (this->getACE_CD_State())
+	//		{
+	//			this->updateACEState();
+	//			if (this->getACEState())
+	//			{
+	//				this->ACE(Angle);
+	//			}
+	//		}
+	//	}
+	//}
+	//float dis = (this->getPosition()).distance(position);
+	//if (dis >= 200.0f) return;
+
+	float Angle = MathUtils::getRad(this->getPosition(), position);
+	this->beganToMove(Angle, this->getSpeed(), position);
+
+	this->updateNormalAttackState();
+	if (getNormalAttackState())
 	{
-		for (int ix = Path.size()-1, cnt = 0; ix>=0 && cnt <= 1000; ix--, cnt++)
+		this->normalAttack(Angle);
+		this->addCount();
+	}
+
+	if (this->getACE_CD_State())
+	{
+		this->updateACEState();
+		if (this->getACEState())
 		{
-			//if (ix!=Path.size()-1 && this->getPosition() != Path[ix + 1])
-			//{
-				//ix++;
-			//}
-			Point positon = Path[ix];
-			float Angle = MathUtils::getRad(this->getPosition(), position);
-
-			this->beganToMove(Angle, this->getSpeed()/50, position);
-
-			/* 手动更新攻击状态 */
-			this->updateNormalAttackState();
-			if (getNormalAttackState())
-			{
-				this->normalAttack(Angle);
-				this->addCount();
-			}
-
-			if (this->getACE_CD_State())
-			{
-				this->updateACEState();
-				if (this->getACEState())
-				{
-					this->ACE(Angle);
-				}
-			}
+			this->ACE(Angle);
 		}
 	}
 }
 
 void AI::runAway(cocos2d::Point position)
 {
-
-	if (!Path.empty())
-		Path.clear();
 
 	int nowArea = this->getArea();
 	int nextArea=nowArea;
@@ -205,21 +255,17 @@ void AI::runAway(cocos2d::Point position)
 	m_Waypoint waypoint = PathFinding::getInstance()->findWayPointInArea(nextArea);
 
 	if (PathFinding::getInstance()->AStarInArea(this->getPosition(), waypoint.position, Path))
+
+	m_Waypoint waypoint = PathFinding::getInstance()->findWayPointInArea(nextArea);
+
+	//this->startPosition = this->getPosition();
+	//this->endPosition = waypoint.position;
+
+	//findPath();
+
+	if (Path[0] != Vec2(0, 0))
 	{
-		for (int ix = Path.size()-1, cnt = 0; ix >= 0 && cnt <= 10000; ix--, cnt++)
-		{
-			//if (ix!=Path.size()-1 && this->getPosition() != Path[ix + 1])
-			//{
-				//ix++;
-			//}
 
-			Point positon = Path[ix];
-
-			float Angle = MathUtils::getRad(this->getPosition()/50, positon);
-
-			this->beganToMove(Angle, this->getSpeed(), position);
-
-		}
 	}
 
 }

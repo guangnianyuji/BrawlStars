@@ -21,7 +21,7 @@ public:
 private:
 
 	/* 检测到有新的Hero进入视野，即同一区域 */
-	void newHeroInView(cocos2d::Point position);
+	void newHeroInView(Hero*);
 	
 	/* 检测到新的宝箱进入视野,即同一区域 */
 	void newBoxInView(cocos2d::Point position);
@@ -30,9 +30,9 @@ private:
 	void nearDeath(cocos2d::Ref* data);
 
 	/* 击中敌人了 */
-	void hitTheEnemy(cocos2d::Point position);
+	void hitTheEnemy(Hero*);
 
-	void injured(cocos2d::Point position);
+	void injured(Hero*);
 
 	/* 存放当前状态类 */
 	State* m_State;

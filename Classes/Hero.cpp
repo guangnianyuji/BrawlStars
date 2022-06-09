@@ -79,7 +79,7 @@ void Hero::beganToMove(const float& Angle,const float Speed,Point EndPosition)
 	{
 		this->setArea(PathFinding::getInstance()->findArea(this->getPosition()));
 
-		NotifyUtil::getInstance()->postNotification("new Hero", this->getPosition());
+		NotifyUtil::getInstance()->postNotification("new Hero", this);
 	}
 
 	m_isMoving = true;

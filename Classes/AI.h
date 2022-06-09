@@ -6,7 +6,6 @@
 #include "StateWander.h"
 #include "PathFinding.h"
 
-
 class AI:public Hero
 {
 public:
@@ -35,11 +34,14 @@ public:
     //更新AI普攻的状态
     void updateNormalAttackState();
 
-
     //记录普攻次数 
     void addCount() { m_Count++; }
 
+    void setTarget(Hero* target) { m_Target = target; }
 
+    void setBoxPosition(Point position) { m_BoxPosition = position; }
+
+    void setState(EnumStateType state) { m_State = state; }
 
     //追踪
     void trace(cocos2d::Point position);
@@ -66,7 +68,13 @@ private:
     //更新AI的大招攒积状态
     void updateACE_CD_State();
 
-    void update(float delta) ;
+    void update(float delta);
+
+    void findPath();
+
+    void findPathAsync();
+
+    void asynsUpdate(float delta);
 
     //void onExit() ;
 
@@ -92,9 +100,18 @@ private:
 
     TimeCounter* m_TimeCounter;
 
+    EnumStateType m_State;
     FSM* m_FSM;
+    Hero* m_Target;
+    Point m_BoxPosition;
 
     std::vector<cocos2d::Point> Path;
+
+    Point startPosition;
+    Point endPosition;
+
+    /* 在子线程里进行路径计算 */
+    std::thread* m_FindPathThread;
 };
 
 #endif // !__AI_H__

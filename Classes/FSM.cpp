@@ -50,18 +50,18 @@ void FSM::changeState(State* state)
 	this->m_State = state;
 }
 
-void FSM::newHeroInView(cocos2d::Point position)
+void FSM::newHeroInView(Hero* target)
 {
 
 	int ran = rand() % 10;
 
 	//if (ran >= 3)
 	//{
-			this->m_State->execute(m_AI, WantToTrace, position);
+			this->m_State->execute(m_AI, WantToTrace, target);
 	//}
 	//else
 	//{
-			//this->m_State->execute(m_AI, WantToRunAway, position);
+			//this->m_State->execute(m_AI, WantToRunAway);
 	//}
 }
 
@@ -76,17 +76,17 @@ void FSM::nearDeath(cocos2d::Ref* data)
 	this->m_State->execute(m_AI, WantToRunAway, this->getPosition());
 }
 
-void FSM::hitTheEnemy(cocos2d::Point position)
+void FSM::hitTheEnemy(Hero* target)
 {
 
-	this->m_State->execute(m_AI, WantToTrace, position);
+	this->m_State->execute(m_AI, WantToTrace);
 
 }
 
-void FSM::injured(cocos2d::Point position)
+void FSM::injured(Hero* target)
 {
 
-	this->m_State->execute(m_AI, WantToTrace, position);
+	this->m_State->execute(m_AI, WantToTrace);
 }
 
 
