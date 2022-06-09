@@ -55,14 +55,14 @@ void FSM::newHeroInView(cocos2d::Point position)
 
 	int ran = rand() % 10;
 
-	if (ran >= 3)
-	{
+	//if (ran >= 3)
+	//{
 			this->m_State->execute(m_AI, WantToTrace, position);
-	}
-	else
-	{
-			this->m_State->execute(m_AI, WantToRunAway, position);
-	}
+	//}
+	//else
+	//{
+			//this->m_State->execute(m_AI, WantToRunAway, position);
+	//}
 }
 
 void FSM::newBoxInView(cocos2d::Point position)

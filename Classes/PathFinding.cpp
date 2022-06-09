@@ -49,79 +49,115 @@ void PathFinding::getMap(TMXTiledMap* map)
 
 bool PathFinding::AStarInArea(cocos2d::Point startPosition, Point endPosition,std::vector<Point>& Path)
 {
-	std::set <Point> inOpenList;
-	std::set <Point> inCloseList;
-
 	startPosition = MathUtils::PositionToTiled(startPosition, m_TiledMap);
 	endPosition = MathUtils::PositionToTiled(endPosition, m_TiledMap);
 
-	m_Node start;
-	start.position = startPosition;
-	start.g = 0;
-	start.f = start.g + h(start.position, endPosition);
+	std::map<cocos2d::Point, int> InOpenList;
 
-	/* 将起始节点加入到openList中 */
-	std::priority_queue <m_Node> openList;
+	std::set<cocos2d::Point> InCloseList;
+
+	std::priority_queue <m_Node*> openList;
+
+	m_Node* start=new m_Node();
+
+	start->position = startPosition;
+
+	start->g = 0;
+
+	start->f = start->g + h(startPosition, endPosition);
+
 	openList.push(start);
-	inOpenList.insert(start.position);
+
+	InOpenList[startPosition] = start->f;
 
 	bool success = false;
 
-	while (!openList.empty())
-	{
-		/* 取出成本最低的节点 */
-		m_Node nowPosition = openList.top();
-		openList.pop();
-		inOpenList.erase(nowPosition.position);
+	int cnt = 0;
 
-		if (nowPosition.position == endPosition)
+	int size = openList.size();
+
+	while (size!=0 && cnt<=200)
+	{
+		cnt++;
+		m_Node* nowPosition = openList.top();
+		openList.pop();
+		size--;
+
+		/* 已经找到终点 */
+		if (nowPosition->position == endPosition)
 		{
 			success = true;
-			Path.push_back(MathUtils::TiledToPosition(nowPosition.position, m_TiledMap));
-
-			while (nowPosition.preNode != nullptr)
+			while (nowPosition != nullptr)
 			{
-				nowPosition = *nowPosition.preNode;
-				Path.push_back(MathUtils::TiledToPosition(nowPosition.position, m_TiledMap));
-
-				if (Path.size() >= 3600)
-					break;
+				Path.push_back(MathUtils::TiledToPosition(nowPosition->position,m_TiledMap));
+				m_Node* tmp = nowPosition;
+				nowPosition = nowPosition->preNode;
+				delete tmp;
 			}
+
+			while (!openList.empty())
+			{
+				m_Node* position = openList.top();
+				delete position;
+				openList.pop();
+			}
+
 			break;
 		}
 		else
 		{
-			inCloseList.insert(nowPosition.position);
-			for( int deltax =-1; deltax <= 1; deltax++)
+			InOpenList.erase(nowPosition->position);
+			InCloseList.insert(nowPosition->position);
+
+			for (int deltax = -1; deltax <= 1; deltax++)
+			{
 				for (int deltay = -1; deltay <= 1; deltay++)
 				{
-					if ((deltax || deltay))
+					if (deltax != 0 || deltay != 0)
 					{
-						m_Node nextPosition = nowPosition;
-						nextPosition.position.x += deltax;
-						nextPosition.position.y += deltay;
+						m_Node* nextPosition=new m_Node();
+						nextPosition->position = nowPosition->position;
+						nextPosition->g = nowPosition->g;
 
-						if (inOpenList.find(nextPosition.position) == inOpenList.end()
-							&& inCloseList.find(nextPosition.position) == inCloseList.end()
-							&& !isNotSafety(nextPosition.position))
+						nextPosition->position.x += deltax;
+						nextPosition->position.y += deltay;
+
+						if (InCloseList.find(nextPosition->position) != InCloseList.end()
+							|| isNotSafety(nextPosition->position))
 						{
-							nextPosition.g++;
-							nextPosition.f = nextPosition.g + h(nextPosition.position, endPosition);
-							nextPosition.preNode = &nowPosition;
+							delete nextPosition;
+							continue;
+						}
+
+						nextPosition->g++;
+						nextPosition->f = nextPosition->g + h(nextPosition->position, endPosition);
+
+						/* 如果不在openList 中*/
+						if (InOpenList.find(nextPosition->position) == InOpenList.end())
+						{
+							nextPosition->preNode = nowPosition;
+							InOpenList[nextPosition->position] = nextPosition->f;
 							openList.push(nextPosition);
-							inOpenList.insert(nextPosition.position);
+							size++;
+						}
+						else
+						{
+							if (nextPosition->f < InOpenList[nextPosition->position])
+							{
+								nextPosition->preNode = nowPosition;
+								InOpenList[nextPosition->position] = nextPosition->f;
+								openList.push(nextPosition);
+							}
 						}
 					}
 				}
+			}
+
 		}
 	}
-
-	if (!success)
-	{
-		return false;
-	}
-
-	return true;
+	if (success)
+		return true;
+	else return false;
 }
 
 void PathFinding::BresenhamBetweenWaypoints(Point startPosition, Point endPosition, std::vector<Point>& Path)

@@ -105,8 +105,15 @@ void AI::update(float delta)
 {
 	updateACE_CD_State();
 
-	//if (!getACE_CD_State())
-		//this->stopACE();
+	if (!getACE_CD_State())
+	{
+		if (this->damageImmunity())
+			this->stopACE();
+
+		if (this->getSpeed() != this->m_Character.m_Speed)
+			this->stopACE();
+	}
+		
 }
 
 void AI::updateACEState()
@@ -140,31 +147,22 @@ void AI::updateNormalAttackState()
 
 void AI::trace(cocos2d::Point position)
 {
-	/* 先停止原先的所有动作 */
-	//this->stopMoving();
-
-	int nowArea = this->getArea();
-
-	int nextArea = PathFinding::getInstance()->findArea(position);
-
-	//if (fabs(nowArea - nextArea) >= 3)
-		//return;
 
 	if (!Path.empty())
 		Path.clear();
 
 	if (PathFinding::getInstance()->AStarInArea(this->getPosition(), position,Path))
 	{
-		for (int ix = 0,cnt=0; ix <= Path.size() - 1&&cnt<=10000; ix++,cnt++)
+		for (int ix = Path.size()-1, cnt = 0; ix>=0 && cnt <= 1000; ix--, cnt++)
 		{
-			if (ix && this->getPosition() != Path[ix - 1])
-			{
-				ix--;
-			}
+			//if (ix!=Path.size()-1 && this->getPosition() != Path[ix + 1])
+			//{
+				//ix++;
+			//}
+			Point positon = Path[ix];
+			float Angle = MathUtils::getRad(this->getPosition(), position);
 
-			float Angle = MathUtils::getRad(this->getPosition(), Path[ix]);
-
-			this->beganToMove(Angle, this->getSpeed()/20.0f, position);
+			this->beganToMove(Angle, this->getSpeed()/50, position);
 
 			/* 手动更新攻击状态 */
 			this->updateNormalAttackState();
@@ -189,9 +187,6 @@ void AI::trace(cocos2d::Point position)
 void AI::runAway(cocos2d::Point position)
 {
 
-	//先停止原先的所有动作
-	//this->stopMoving();
-
 	if (!Path.empty())
 		Path.clear();
 
@@ -211,16 +206,18 @@ void AI::runAway(cocos2d::Point position)
 
 	if (PathFinding::getInstance()->AStarInArea(this->getPosition(), waypoint.position, Path))
 	{
-		for (int ix = 0, cnt = 0; ix <= Path.size() - 1 && cnt <= 10000; ix++, cnt++)
+		for (int ix = Path.size()-1, cnt = 0; ix >= 0 && cnt <= 10000; ix--, cnt++)
 		{
-			if (ix && this->getPosition() != Path[ix - 1])
-			{
-				ix--;
-			}
+			//if (ix!=Path.size()-1 && this->getPosition() != Path[ix + 1])
+			//{
+				//ix++;
+			//}
 
-			float Angle = MathUtils::getRad(this->getPosition(), Path[ix]);
+			Point positon = Path[ix];
 
-			this->beganToMove(Angle, this->getSpeed()/20.0f, position);
+			float Angle = MathUtils::getRad(this->getPosition()/50, positon);
+
+			this->beganToMove(Angle, this->getSpeed(), position);
 
 		}
 	}
