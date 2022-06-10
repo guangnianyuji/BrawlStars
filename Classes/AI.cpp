@@ -43,7 +43,7 @@ bool AI::init()
 	m_FindPathThread = nullptr;
 	this->scheduleUpdate();
 
-	schedule(schedule_selector(AI::wander), 0.50f);
+	schedule(schedule_selector(AI::wander),30.0/this->getSpeed());
 
 	return true;
 }
@@ -190,7 +190,7 @@ void AI::move(Point endPosition, float speed)
 		m_Body->runAction(AnimationUtils::createAnimation(m_Character.m_Name, m_Direction));
 	}
 
-	runAction(MoveTo::create(0.5f, endPosition));
+	runAction(MoveTo::create(30.0/this->getSpeed(), endPosition));
 
 	m_isMoving = true;
 }
@@ -212,7 +212,7 @@ void AI::trace(float delta)
 
 	/* 如果是刚开始追踪或者是目标离自己太远了，就重新计算路径 */
 	if (this->m_TargetPosition==Vec2(0,0) ||
-			this->getTarget()->getPosition().distance(m_TargetPosition) > 200.0f)
+			this->getTarget()->getPosition().distance(m_TargetPosition)>50.0f)
 	{
 		m_TargetPosition = this->getTarget()->getPosition();
 
@@ -264,8 +264,15 @@ void AI::runAway(float delta)
 {
 	if (m_State == WantToRunAway && stepForRunAway == 0)
 	{
-		if (!PathFinding::getInstance()->AStarInArea(this->getPosition(),
-			PathFinding::getInstance()->findWayPointInArea((this->getArea() + 1) % 9).position, Path))
+		int x = rand() % 500 + 1;
+
+		int y = rand() % 500 + 1;
+
+		Point endPosition = this->getPosition();
+		endPosition.x += x;
+		endPosition.y += y;
+
+		if (!PathFinding::getInstance()->AStarInArea(this->getPosition(), endPosition, Path))
 		{
 			NotifyUtil::getInstance()->postNotification("hahaha" + this->getFSM()->getMark(), (Ref*)"hahaha");
 		}
@@ -277,7 +284,7 @@ void AI::runAway(float delta)
 		move(Path[Path.size() - 1 - stepForRunAway], this->getSpeed());
 		stepForRunAway++;
 	}
-	if (stepForRunAway == Path.size() - 1)
+	if (stepForRunAway == Path.size())
 	{
 		stepForRunAway = 0;
 		NotifyUtil::getInstance()->postNotification("hahaha" + this->getFSM()->getMark(), (Ref*)"hahaha");
@@ -292,7 +299,8 @@ void AI::wander(float delta)
 
 		if (!PathFinding::getInstance()->AStarInArea(this->getPosition(),endPosition, Path))
 		{
-			
+
+			NotifyUtil::getInstance()->postNotification("hahaha" + this->getFSM()->getMark(), (Ref*)"hahaha");
 		}
 	}
 	if (m_State != WantToWander)
@@ -304,7 +312,7 @@ void AI::wander(float delta)
 		stepForWander++;
 	}
 	
-	if (stepForWander == Path.size() - 1)
+	if (stepForWander == Path.size())
 	{
 		stepForWander = 0;
 		NotifyUtil::getInstance()->postNotification("hahaha" + this->getFSM()->getMark(), (Ref*)"hahaha");
@@ -325,7 +333,7 @@ void AI::attackBox(float delta)
 
 		m_BoxPosition = this->getBox()->getPosition();
 
-		Point endPosition = m_BoxPosition - MathUtils::getVectorialSpeed(Angle, this->m_Character.m_Range);
+		Point endPosition = m_BoxPosition - MathUtils::getVectorialSpeed(Angle, m_Character.m_Range);
 
 
 		/* 找不到路径就切换状态 */
@@ -346,18 +354,32 @@ void AI::attackBox(float delta)
 		NotifyUtil::getInstance()->postNotification("hahaha" + this->getFSM()->getMark(), (Ref*)"hahaha");
 	}
 
-	if (stepForAttackBox != Path.size() && stepForAttackBox != 0)
+	if (stepForAttackBox >=0 && stepForAttackBox <Path.size())
 	{
 		move(Path[Path.size() - 1 - stepForAttackBox], this->getSpeed());
 		stepForAttackBox++;
+
+		if (this->getPosition().distance(m_BoxPosition) <= m_Character.m_Range)
+		{
+			this->updateNormalAttackState();
+			if (getNormalAttackState())
+			{
+				Angle = MathUtils::getRad(this->getPosition(), m_BoxPosition);
+				this->normalAttack(Angle);
+				if (!this->getACE_CD_State())
+					this->addCount();
+			}
+		}
 	}
 
 	/* 已经走到宝箱附近了 */
-	if (stepForAttackBox == Path.size() - 1)
+	if (stepForAttackBox == Path.size())
 	{
+
 		this->updateNormalAttackState();
 		if (getNormalAttackState())
 		{
+			Angle = MathUtils::getRad(this->getPosition(), m_BoxPosition);
 			this->normalAttack(Angle);
 			if (!this->getACE_CD_State())
 				this->addCount();

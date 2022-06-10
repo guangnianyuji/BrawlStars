@@ -85,7 +85,7 @@ void NotifyUtil::postNotification(const std::string& sMsgName, Hero* target)
 	{
 		std::vector<std::function<void(Hero*)>> funcList = m_funcMap1.at(sMsgName);
 
-		for (auto func : funcList)
+		for (auto& func : funcList)
 		{
 			func(target);
 		}
@@ -98,7 +98,7 @@ void NotifyUtil::postNotification(const std::string& sMsgName, cocos2d::Ref* dat
 	{
 		std::vector<std::function<void(cocos2d::Ref*)>> funcList = m_funcMap2.at(sMsgName);
 
-		for (auto func : funcList)
+		for (auto& func : funcList)
 		{
 			func(data);
 		}
@@ -111,7 +111,7 @@ void NotifyUtil::postNotification(const std::string& sMsgName, Box* box)
 	{
 		std::vector<std::function<void(Box*)>> funcList =m_funcMap3.at(sMsgName);
 
-		for (auto func : funcList)
+		for (auto& func : funcList)
 		{
 			func(box);
 		}
@@ -124,9 +124,7 @@ void NotifyUtil::removeObserver(const std::string& sMsgName, std::function<void(
 	{
 		std::vector<std::function<void(Hero*)>> funcList = m_funcMap1.at(sMsgName);
 
-		for (auto _func : funcList)
-		{
-		}
+		
 	}
 }
 

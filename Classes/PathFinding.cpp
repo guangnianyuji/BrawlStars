@@ -125,6 +125,12 @@ bool PathFinding::AStarInArea(cocos2d::Point startPosition, Point endPosition,st
 						nextPosition->position.x += deltax;
 						nextPosition->position.y += deltay;
 
+						if (nextPosition->position.x < 0 || nextPosition->position.x>60 ||
+							nextPosition->position.y < 0 || nextPosition->position.y>60)
+						{
+							continue;
+						}
+
 						if (InCloseList.find(nextPosition->position) != InCloseList.end()
 							|| isNotSafety(nextPosition->position))
 						{

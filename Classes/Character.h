@@ -19,10 +19,10 @@ public:
 	float m_BloodVolume = 0;
 
 	/* 角色的普攻伤害值 */
-	int m_NormalAttackDamage = 0;
+	float m_NormalAttackDamage = 0;
 
 	/* 角色的大招伤害值 */
-	int m_AceDamage = 0;
+	float m_AceDamage = 0;
 
 	/* 使用绝招所需要的普攻攒积次数 */
 	int m_Count = 0;
