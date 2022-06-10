@@ -11,7 +11,7 @@ Fei::Fei() : Character()
 	m_Name = "F";
 	m_Speed = 35.0f;
 	m_BloodVolume = 728.0f;
-	m_NormalAttackDamage = 80.0f;
+	m_NormalAttackDamage = 25.0f;
 	m_Range = 200;
 	m_IntervalTime = 0.5f;
 	m_Count = 20;

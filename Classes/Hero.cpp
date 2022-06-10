@@ -142,7 +142,7 @@ void Hero::normalAttack(const float Angle)
 
 		Water->setPhyBody();
 
-		Water->setPosition(nowPosition + MathUtils::getVectorialSpeed(Angle, m_Character.m_Range));
+		Water->setPosition(nowPosition);
 
 		Water->setAnchorPoint(Vec2(0.5, 0.5));
 
