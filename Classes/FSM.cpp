@@ -82,7 +82,7 @@ void FSM::newHeroInView(Hero* target)
 void FSM::newBoxInView(Box* box)
 {
 
-	//this->m_State->execute(m_AI, WantToAttackBox, box);
+	this->m_State->execute(m_AI, WantToAttackBox, box);
 }
 
 void FSM::nearDeath(cocos2d::Ref* data)
@@ -97,15 +97,7 @@ void FSM::hitTheEnemy(Hero* target)
 
 void FSM::injured(Hero* target)
 {
-	int ran = rand() % 10;
-	if (ran > 5)
-	{
-		this->m_State->execute(m_AI, WantToTrace,target);
-	}
-	else
-	{
-		this->m_State->execute(m_AI, WantToRunAway);
-	}
+	this->m_State->execute(m_AI, WantToTrace,target);
 }
 
 void FSM::nothingToDo(cocos2d::Ref* data)

@@ -88,7 +88,7 @@ bool FightScene::init()
 
 	this->schedule(schedule_selector(FightScene::updatePositionInformation), 0.5f);
 
-	this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+	//this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
 	schedule(schedule_selector(FightScene::updatePositionInformation), 0.5f);
 	scheduleUpdate();
@@ -271,7 +271,7 @@ void FightScene::updatePlayerMove( )
 		MoveAngle = m_FightControllerLayer->getMoveRockerAngle();
 		int TiledGid = m_WallLayer->getTileGIDAt(MathUtils::PositionToTiled
 		(Vec2(m_Player->getPosition()
-			+ MathUtils::getVectorialSpeed(MoveAngle, m_Player->getSpeed()/60)),
+			+ MathUtils::getVectorialSpeed(MoveAngle, m_Player->getSpeed()*2)),
 				m_TiledMap));
 		if (TiledGid)
 		{
@@ -392,7 +392,7 @@ void FightScene::updatePositionInformation(float delta)
 		Point position1 = m_Player->getPosition();
 		Point position2 = m_AIVec[ix]->getPosition();
 
-		if(position1.distance(position2)<=200)
+		if(position1.distance(position2)<=400)
 			NotifyUtil::getInstance()->postNotification("new Hero" + m_AIVec[ix]->getFSM()->getMark(), (Hero*)m_Player);
 		for (int jx = 0; jx <= ix; jx++)
 		{
@@ -402,7 +402,7 @@ void FightScene::updatePositionInformation(float delta)
 					continue;
 				Point position1 = m_AIVec[ix]->getPosition();
 				Point position2 = m_AIVec[jx]->getPosition();
-				if (position1.distance(position2) <= 200)
+				if (position1.distance(position2) <= 400.0f)
 				{
 					NotifyUtil::getInstance()->postNotification("new Hero" + m_AIVec[ix]->getFSM()->getMark(),(Hero*)m_AIVec[jx]);
 
@@ -419,7 +419,7 @@ void FightScene::updatePositionInformation(float delta)
 			Point position1 = m_BoxVec[ix]->getPosition();
 			Point position2 = m_AIVec[jx]->getPosition();
 
-			if (position1.distance(position2) <= 200)
+			if (position1.distance(position2) <= 500)
 			{
 				NotifyUtil::getInstance()->postNotification("new Box" + m_AIVec[jx]->getFSM()->getMark(), m_BoxVec[ix]);
 			}
@@ -509,15 +509,15 @@ bool FightScene::onContactBegin(cocos2d::PhysicsContact& contact)
 		{
 			if (weapon1->getOwner() != weapon2->getOwner())
 			{
-				if (weapon1)
+				if (weapon1&&weapon1->getKind()!="continue")
 					weapon1->removeFromParentAndCleanup(true);
-				if (weapon2)
+				if (weapon2&&weapon2->getKind()!="continue")
 					weapon2->removeFromParentAndCleanup(true);
 			}
 		}
 		if (weapon1 && wall)
 		{
-			if (weapon1)
+			if (weapon1&&weapon1->getKind()!="continue")
 				weapon1->removeFromParentAndCleanup(true);
 		}
 		if (ai && weapon1)
@@ -530,13 +530,12 @@ bool FightScene::onContactBegin(cocos2d::PhysicsContact& contact)
 				{
 					ai->beAttacked(weapon1->getDamage());
 
-				NotifyUtil::getInstance()->postNotification("being Attacked" + ai->getFSM()->getMark(), attacker);
+					NotifyUtil::getInstance()->postNotification("being Attacked" + ai->getFSM()->getMark(), attacker);
 				}
 				if (attacker)
 				{
 					attacker->attackSomething();
 				}
-				NotifyUtil::getInstance()->postNotification("being Attacked" + ai->getFSM()->getMark(), attacker);
 			}
 
 		}
@@ -571,7 +570,10 @@ bool FightScene::onContactBegin(cocos2d::PhysicsContact& contact)
 				attacker->beAttacked(-box->getofferBlood());
 				attacker->addNormalAttackDamage(box->getofferDamage());
 			}
-			weapon1->removeFromParentAndCleanup(true);
+			if (weapon1 && weapon1->getKind() != "continue")
+			{
+				weapon1->removeFromParentAndCleanup(true);
+			}
 		}
 	}
 	return true;

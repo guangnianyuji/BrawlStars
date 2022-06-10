@@ -71,7 +71,7 @@ void Hero::beganToMove(const float& Angle,const float Speed,Point EndPosition)
 		m_Body->stopAllActions();
 		m_Body->runAction(AnimationUtils::createAnimation(m_Character.m_Name, m_Direction));
 	}
-	runAction(MoveTo::create(0.2f, this->getPosition()+MathUtils::getVectorialSpeed(Angle, Speed /150)));
+	runAction(MoveTo::create(0.5f, this->getPosition()+MathUtils::getVectorialSpeed(Angle, Speed/10.0f)));
 
 	m_isMoving = true;
 
@@ -147,6 +147,8 @@ void Hero::normalAttack(const float Angle)
 		Water->setAnchorPoint(Vec2(0.5, 0.5));
 
 		Water->setName("Weapon");
+
+		Water->setKind("continue");
 
 		Water->setDamage(m_Character.m_NormalAttackDamage);
 
@@ -275,6 +277,12 @@ void Hero::normalAttack(const float Angle)
 		Light3->setName("Weapon");
 		Light4->setName("Weapon");
 
+		Light1->setKind("continue");
+		Light2->setKind("continue");
+		Light3->setKind("continue");
+		Light4->setKind("continue");
+
+
 		Map->addChild(Light1, 5);
 		Map->addChild(Light2, 5);
 		Map->addChild(Light3, 5);
@@ -375,7 +383,7 @@ void Hero::ACE(const float Angle)
 
 	else if (m_Character.m_Name == "L")
 	{
-		m_Speed = 4000;
+		m_Speed = 5.0;
 	}
 }
 

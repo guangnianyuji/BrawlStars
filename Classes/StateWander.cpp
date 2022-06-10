@@ -62,7 +62,7 @@ void StateWander::execute(AI* m_AI, EnumStateType state, Box* box)
 			m_AI->setState(state);
 			m_AI->setBox(box);
 			m_AI->getFSM()->changeState(new (std::nothrow) StateAttackBox());
-			m_AI->schedule(schedule_selector(AI::attackBox), 0.5f);
+			m_AI->schedule(schedule_selector(AI::attackBox), 1.0f);
 			break;
 		}
 	case WantToRunAway:
