@@ -9,7 +9,7 @@ bool Character::operator==(Character& aCharacter)
 Fei::Fei() : Character()
 {
 	m_Name = "F";
-	m_Speed = 2000;
+	m_Speed = 1000;
 	m_BloodVolume = 200.0f;
 	m_NormalAttackDamage = 20;
 	m_Range = 200;

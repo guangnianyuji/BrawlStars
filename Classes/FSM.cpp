@@ -60,6 +60,8 @@ void FSM::addObservers()
 
 	NotifyUtil::getInstance()->addObserver("hahaha" + m_AIMark, std::bind(&FSM::nothingToDo, this, std::placeholders::_1));
 
+	NotifyUtil::getInstance()->addObserver("touching The Smog" + m_AIMark, std::bind(&FSM::touchingTheSmog, this, std::placeholders::_1));
+
 }
 
 void FSM::newHeroInView(Hero* target)
@@ -77,22 +79,20 @@ void FSM::newHeroInView(Hero* target)
 	}
 }
 
-void FSM::newBoxInView(cocos2d::Point position)
+void FSM::newBoxInView(Box* box)
 {
 
-	this->m_State->execute(m_AI, WantToTrace, position);
+	//this->m_State->execute(m_AI, WantToAttackBox, box);
 }
 
 void FSM::nearDeath(cocos2d::Ref* data)
 {
-	this->m_State->execute(m_AI, WantToRunAway, this->getPosition());
+	this->m_State->execute(m_AI, WantToRunAway);
 }
 
 void FSM::hitTheEnemy(Hero* target)
 {
-
-	this->m_State->execute(m_AI, WantToTrace);
-
+	this->m_State->execute(m_AI, WantToTrace,target);
 }
 
 void FSM::injured(Hero* target)
@@ -104,13 +104,18 @@ void FSM::injured(Hero* target)
 	}
 	else
 	{
-		this->m_State->execute(m_AI, WantToRunAway,this->getPosition());
+		this->m_State->execute(m_AI, WantToRunAway);
 	}
 }
 
 void FSM::nothingToDo(cocos2d::Ref* data)
 {
 	this->m_State->execute(m_AI, WantToWander);
+}
+
+void FSM::touchingTheSmog(cocos2d::Ref* data)
+{
+	this->m_State->execute(m_AI, WantToRunAway);
 }
 
 

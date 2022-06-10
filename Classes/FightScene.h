@@ -39,8 +39,6 @@ private:
 	void addBox();
 
 
-
-
 	void update(float delta);
 
     //ÈÃµØÍ¼ËæÖ÷½Ç¹ö¶¯

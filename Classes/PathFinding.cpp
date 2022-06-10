@@ -116,7 +116,7 @@ bool PathFinding::AStarInArea(cocos2d::Point startPosition, Point endPosition,st
 			{
 				for (int deltay = -1; deltay <= 1; deltay++)
 				{
-					if ((deltax == 0 || deltay == 0)&&(deltax+deltay!=0))
+					if ((deltax != 0 || deltay != 0))
 					{
 						m_Node* nextPosition=new m_Node();
 						nextPosition->position = nowPosition->position;
@@ -161,11 +161,7 @@ bool PathFinding::AStarInArea(cocos2d::Point startPosition, Point endPosition,st
 	if (success)
 		return true;
 	else
-	{
-		/* 用于线程判断 */
-		Path.push_back(Vec2(0, 0));
 		return false;
-	}
 
 }
 

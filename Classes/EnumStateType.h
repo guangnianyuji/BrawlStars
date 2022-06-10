@@ -6,6 +6,7 @@ enum EnumStateType
 	WantToTrace,
 	WantToWander,
 	WantToRunAway,
+	WantToAttackBox,
 };
 
 

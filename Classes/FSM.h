@@ -30,7 +30,7 @@ private:
 	void newHeroInView(Hero*);
 	
 	/* 检测到新的宝箱进入视野,即同一区域 */
-	void newBoxInView(cocos2d::Point position);
+	void newBoxInView(Box*);
 
 	/* 处于濒死状态 */
 	void nearDeath(cocos2d::Ref* data);
@@ -42,6 +42,9 @@ private:
 	void injured(Hero*); 
 
 	void nothingToDo(cocos2d::Ref* data);
+
+	/* 被毒雾打到了 */
+	void touchingTheSmog(cocos2d::Ref* data);
 
 	/* 存放当前状态类 */
 	State* m_State;

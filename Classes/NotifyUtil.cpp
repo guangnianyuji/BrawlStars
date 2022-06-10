@@ -61,17 +61,17 @@ void NotifyUtil::addObserver(const std::string& sMsgName, std::function<void(coc
 	}
 }
 
-void NotifyUtil::addObserver(const std::string& sMsgName, std::function<void(cocos2d::Point)> func)
+void NotifyUtil::addObserver(const std::string& sMsgName, std::function<void(Box*)> func)
 {
-	if (m_funcMap3.find(sMsgName) != m_funcMap3.end())
+	if (m_funcMap3.find(sMsgName) !=m_funcMap3.end())
 	{
-		std::vector<std::function<void(cocos2d::Point)>>& funcList = m_funcMap3.at(sMsgName);
+		std::vector<std::function<void(Box*)>>& funcList =m_funcMap3.at(sMsgName);
 		funcList.push_back(func);
 
 	}
 	else
 	{
-		std::vector<std::function<void(cocos2d::Point)>> funcList;
+		std::vector<std::function<void(Box*)>> funcList;
 
 		funcList.push_back(func);
 
@@ -105,8 +105,17 @@ void NotifyUtil::postNotification(const std::string& sMsgName, cocos2d::Ref* dat
 	}
 }
 
-void NotifyUtil::postNotification(const std::string& sMsgName, cocos2d::Point)
+void NotifyUtil::postNotification(const std::string& sMsgName, Box* box)
 {
+	if (m_funcMap3.find(sMsgName) !=m_funcMap3.end())
+	{
+		std::vector<std::function<void(Box*)>> funcList =m_funcMap3.at(sMsgName);
+
+		for (auto func : funcList)
+		{
+			func(box);
+		}
+	}
 }
 
 void NotifyUtil::removeObserver(const std::string& sMsgName, std::function<void(Hero*)> func)

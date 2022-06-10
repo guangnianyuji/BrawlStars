@@ -53,6 +53,7 @@ list(APPEND GAME_SOURCE
      Classes/StateWander.cpp
      Classes/StateTrace.cpp
      Classes/StateRunAway.cpp
+     Classes/StateAttackBox.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AI.h
@@ -86,6 +87,7 @@ list(APPEND GAME_HEADER
      Classes/StateTrace.h
      Classes/StateRunAway.h
      Classes/EnumStateType.h
+     Classes/StateAttackBox.h
      )
 
 if(ANDROID)

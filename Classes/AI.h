@@ -2,6 +2,7 @@
 #define __AI_H__
 
 #include "Hero.h"
+#include "Box.h"
 #include "FSM.h"
 #include "StateWander.h"
 #include "PathFinding.h"
@@ -21,11 +22,11 @@ public:
 
     Hero* getTarget() const { return m_Target; }
 
-    Point getBoxPosition() const { return m_BoxPosition; }
+    Box* getBox() const { return m_Box; }
 
     void setTarget(Hero* target) { m_Target = target; }
 
-    void setBoxPosition(Point position) { m_BoxPosition = position; }
+    void setBox(Box* box) { m_Box = box; }
   
     //µÃµ½ÆÕÍ¨¹¥»÷×´Ì¬
     bool getNormalAttackState() const { return m_NormalAttackState; }
@@ -45,7 +46,7 @@ public:
     //¼ÇÂ¼ÆÕ¹¥´ÎÊý 
     void addCount() { m_Count++; }
 
-    void setState(EnumStateType state) { m_State = state; }
+    void setState(EnumStateType state);
 
     void move(Point endposition,float speed);
 
@@ -57,6 +58,9 @@ public:
 
     //É¢²½
     void wander(float delta);
+
+    //¹¥»÷±¦Ïä
+    void attackBox(float delta);
 
 
 private:
@@ -118,7 +122,9 @@ private:
     EnumStateType m_State;
     FSM* m_FSM;
     Hero* m_Target;
-    Point m_BoxPosition;
+    Point m_TargetPosition=Vec2(0,0);
+    Point m_BoxPosition = Vec2(0, 0);
+    Box* m_Box;
 
     std::vector<cocos2d::Point> Path;
 

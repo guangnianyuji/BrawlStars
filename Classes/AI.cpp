@@ -148,6 +148,16 @@ void AI::updateNormalAttackState()
 	}
 }
 
+void AI::setState(EnumStateType state)
+{
+	stepForAttackBox = 0;
+	stepForRunAway = 0;
+	stepForTrace = 0;
+	stepForWander = 0;
+
+	m_State = state;
+}
+
 void AI::move(Point endPosition, float speed)
 {
 	float Angle = MathUtils::getRad(this->getPosition(), endPosition);
@@ -185,22 +195,52 @@ void AI::move(Point endPosition, float speed)
 	m_isMoving = true;
 }
 
+/* AI开启追踪模式 */
 void AI::trace(float delta)
 {
-	if (this->m_State != WantToTrace)
+	
+	if (m_State != WantToTrace)
 		return;
+	/* 如果目标已经死亡，切换状态 */
+	if (this->getTarget()->isDead())
+	{
+		NotifyUtil::getInstance()->postNotification("hahaha" + this->getFSM()->getMark(), (Ref*)"hahaha");
 
+		/* 将目标的位置设置为原点，表示没有追踪目标 */
+		this->m_TargetPosition = Vec2(0, 0);
+	}
+
+	/* 如果是刚开始追踪或者是目标离自己太远了，就重新计算路径 */
+	if (this->m_TargetPosition==Vec2(0,0) ||
+			this->getTarget()->getPosition().distance(m_TargetPosition) > 200.0f)
+	{
+		m_TargetPosition = this->getTarget()->getPosition();
+
+		/* 注意重新计算步数 */
+		stepForTrace = 0;
+
+		/* 找不到路径就切换状态 */
+		if (!PathFinding::getInstance()->AStarInArea(this->getPosition(), this->getTarget()->getPosition(), Path))
+		{
+			NotifyUtil::getInstance()->postNotification("hahaha" + this->getFSM()->getMark(), (Ref*)"hahaha");
+		}
+
+	}
+
+	if (stepForTrace >= 0 && stepForTrace < Path.size())
+	{
+		move(Path[Path.size() - 1 - stepForTrace], this->getSpeed());
+		stepForTrace++;
+
+	}	
 	float Angle = MathUtils::getRad(this->getPosition(), m_Target->getPosition());
-
-	Point position = m_Target->getPosition() - MathUtils::getVectorialSpeed(Angle, m_Character.m_Range);
-
-	move( position,this->getSpeed());
 
 	this->updateNormalAttackState();
 	if (getNormalAttackState())
 	{
 		this->normalAttack(Angle);
-		this->addCount();
+		if (!this->getACE_CD_State())
+			this->addCount();
 	}
 
 	if (this->getACE_CD_State())
@@ -211,6 +251,13 @@ void AI::trace(float delta)
 			this->ACE(Angle);
 		}
 	}
+
+	if (stepForTrace == Path.size() - 1)
+	{
+		if(m_Target->getBlood()>this->getBlood())
+			NotifyUtil::getInstance()->postNotification("being Attacked" + this->getFSM()->getMark(), this->getTarget());
+	}
+
 }
 
 void AI::runAway(float delta)
@@ -225,9 +272,12 @@ void AI::runAway(float delta)
 	}
 	if (m_State != WantToRunAway)
 		return;
-	move(Path[Path.size() - 1-stepForRunAway], this->getSpeed());
-	stepForRunAway++;
-	if (stepForRunAway == Path.size() - 2)
+	if (stepForRunAway >= 0 && stepForRunAway < Path.size())
+	{
+		move(Path[Path.size() - 1 - stepForRunAway], this->getSpeed());
+		stepForRunAway++;
+	}
+	if (stepForRunAway == Path.size() - 1)
 	{
 		stepForRunAway = 0;
 		NotifyUtil::getInstance()->postNotification("hahaha" + this->getFSM()->getMark(), (Ref*)"hahaha");
@@ -247,12 +297,72 @@ void AI::wander(float delta)
 	}
 	if (m_State != WantToWander)
 		return;
-	move(Path[Path.size() - 1 - stepForWander], this->getSpeed());
-	stepForWander++;
-	if (stepForWander == Path.size() - 2)
+
+	if (stepForWander >= 0 && stepForWander < Path.size())
+	{
+		move(Path[Path.size() - 1 - stepForWander], this->getSpeed());
+		stepForWander++;
+	}
+	
+	if (stepForWander == Path.size() - 1)
 	{
 		stepForWander = 0;
 		NotifyUtil::getInstance()->postNotification("hahaha" + this->getFSM()->getMark(), (Ref*)"hahaha");
+	}
+}
+
+void AI::attackBox(float delta)
+{
+	if (m_State != WantToAttackBox)
+		return;
+
+	float Angle;
+
+	/* 刚刚开始攻击此宝箱 */
+	if (this->m_BoxPosition==Vec2(0,0))
+	{
+		Angle = Pi / (rand() % 6 + 1);
+
+		m_BoxPosition = this->getBox()->getPosition();
+
+		Point endPosition = m_BoxPosition - MathUtils::getVectorialSpeed(Angle, this->m_Character.m_Range);
+
+
+		/* 找不到路径就切换状态 */
+		if (!PathFinding::getInstance()->AStarInArea(this->getPosition(), endPosition, Path))
+		{
+			NotifyUtil::getInstance()->postNotification("hahaha" + this->getFSM()->getMark(), (Ref*)"hahaha");
+		}
+	}
+
+	/* 该宝箱已经改变位置，说明宝箱死亡了 */
+	if (m_BoxPosition != this->getBox()->getPosition())
+	{
+		stepForAttackBox = 0;
+
+		m_BoxPosition = Vec2(0, 0);
+
+		/* 切换状态 */
+		NotifyUtil::getInstance()->postNotification("hahaha" + this->getFSM()->getMark(), (Ref*)"hahaha");
+	}
+
+	if (stepForAttackBox != Path.size() && stepForAttackBox != 0)
+	{
+		move(Path[Path.size() - 1 - stepForAttackBox], this->getSpeed());
+		stepForAttackBox++;
+	}
+
+	/* 已经走到宝箱附近了 */
+	if (stepForAttackBox == Path.size() - 1)
+	{
+		this->updateNormalAttackState();
+		if (getNormalAttackState())
+		{
+			this->normalAttack(Angle);
+			if (!this->getACE_CD_State())
+				this->addCount();
+		}
+
 	}
 }
 

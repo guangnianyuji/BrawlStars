@@ -90,7 +90,7 @@ bool FightScene::init()
 
 	this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
-	schedule(schedule_selector(FightScene::updatePositionInformation), 1.5);
+	schedule(schedule_selector(FightScene::updatePositionInformation), 0.5f);
 	scheduleUpdate();
 	
 	return true;
@@ -355,6 +355,8 @@ void FightScene::updateToxicFogDamage()
 			if (m_ToxicFogMap[MathUtils::PositionToTiled(oneAI->getPosition(),m_TiledMap)])
 			{
 				oneAI->beAttacked(5);
+
+				NotifyUtil::getInstance()->postNotification("touching The Smog" + oneAI->getFSM()->getMark(), (Ref*)"aaa");
 			}
 		}
 	}
@@ -379,7 +381,6 @@ void FightScene::updateBox()
 
 			oneBox->setArea(nowArea);
 
-			NotifyUtil::getInstance()->postNotification("new box", MathUtils::PositionToTiled(oneBox->getPosition(), m_TiledMap));
 		}
 	}
 }
@@ -420,7 +421,7 @@ void FightScene::updatePositionInformation(float delta)
 
 			if (position1.distance(position2) <= 200)
 			{
-				NotifyUtil::getInstance()->postNotification("new Box" + m_AIVec[jx]->getFSM()->getMark(), m_BoxVec[ix]->getPosition());
+				NotifyUtil::getInstance()->postNotification("new Box" + m_AIVec[jx]->getFSM()->getMark(), m_BoxVec[ix]);
 			}
 		}
 	}
@@ -529,7 +530,7 @@ bool FightScene::onContactBegin(cocos2d::PhysicsContact& contact)
 				{
 					ai->beAttacked(weapon1->getDamage());
 
-					NotifyUtil::getInstance()->postNotification("being Attacked", attacker->getPosition());
+				NotifyUtil::getInstance()->postNotification("being Attacked" + ai->getFSM()->getMark(), attacker);
 				}
 				if (attacker)
 				{
