@@ -2,14 +2,20 @@
 #define __SCORESCENE_H__
 
 #include "BSScene\BaseScene.h"
+#include "BSScene\StartScene.h"
+#include "cocos2d.h"
 
 class ScoreScene :public BaseScene
 {
 public:
 	static ScoreScene* create(int rank);
 
-	bool virtual init() override;
+	
 private:
+     bool virtual init() override;
+
+	 int m_Rank;
+
 	
 };
 

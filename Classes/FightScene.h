@@ -11,6 +11,7 @@
 #include "MathUtils.h"
 #include "NotifyUtil.h"
 #include "PathFinding.h"
+#include "ScoreScene.h"
 #include  <typeinfo>
 
 using namespace cocos2d;
@@ -19,7 +20,7 @@ class FightScene:public BaseScene
 {
 public:
 	//创造场景
-	static FightScene* create(std::vector<Character>);
+	static FightScene* create(std::vector<Character>,std::string& map);
 
 private:	
 	//初始化场景

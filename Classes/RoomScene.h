@@ -19,9 +19,13 @@ private:
 	std::vector<MenuItemImage*> m_CharacterItemVec;
 
 	std::vector<MenuItemImage*> m_HeroItemVec;
+	Menu* m_HeroMenu;
+
+	std::vector<MenuItemImage*> m_MapItemVec;
+	Menu* m_MapMenu;
 
 	std::string m_TipString;
-	Label* m_TipLabel;
+	Label* m_TipLabel1;
 
 	Character m_SelectedCharacter;
 	Character m_TempCharacter;
@@ -29,11 +33,19 @@ private:
 	int m_SelectedFlag;
     int m_TempFlag;
 
+	int m_MapFlag;
+	int m_TempMapFlag;
+
+	Label* m_TipLabel2;
+
 	std::vector<Sprite*> m_HeroSpriteVec;
 
+
+
 	void update(float delta) override;
-	void updateTip();
+	void updateTip1();
 	void updateHero();
+	void updateTip2();
 };
 
 #endif __ROOMSCENE_H__

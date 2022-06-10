@@ -1,12 +1,12 @@
 #include "FightScene.h"
 
-FightScene* FightScene::create(std::vector<Character> CharacterVec)
+FightScene* FightScene::create(std::vector<Character> CharacterVec,std::string& map)
 {
 	FightScene* pRet = new(std::nothrow)FightScene();
 
 	Vec2 VisibleSize = Director::getInstance()->getVisibleSize();
 
-	pRet->m_TiledMap = TMXTiledMap::create("map2.tmx");
+	pRet->m_TiledMap = TMXTiledMap::create(map);
 
 	pRet->m_Player = Player::create(CharacterVec[0]);
 
@@ -268,7 +268,7 @@ void FightScene::updateSurvivor()
 	}
 	if (m_Player->isDead()||m_SurvivorNumber==1)
 	{
-		
+		Director::getInstance()->pushScene(ScoreScene::create(m_SurvivorNumber));
 	}
 }
 
