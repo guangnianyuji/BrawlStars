@@ -49,6 +49,7 @@ list(APPEND GAME_SOURCE
      Classes/FSM.cpp
      Classes/PathFinding.cpp
      Classes/NotifyUtil.cpp
+     Classes/ScoreScene.cpp
      Classes/State.cpp
      Classes/StateWander.cpp
      Classes/StateTrace.cpp
@@ -82,6 +83,7 @@ list(APPEND GAME_HEADER
      Classes/FSM.h
      Classes/PathFinding.h
      Classes/NotifyUtil.h
+     Classes/ScoreScene.h
      Classes/State.h
      Classes/StateWander.h
      Classes/StateTrace.h

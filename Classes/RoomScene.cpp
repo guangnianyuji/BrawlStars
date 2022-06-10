@@ -23,6 +23,7 @@ bool RoomScene::init()
 	{
 		return false;
 	}
+	this->drawBackGround(cocos2d::Sprite::create("scene_graph/background2.png"));
 
     m_TempFlag = 0;
 
@@ -177,6 +178,20 @@ bool RoomScene::init()
 			if (m_CharacterVec[0] == Nothing())
 			{
 				m_CharacterVec[0] = Fei();
+			}
+			//如果没有选择AI 角色。默认为羽
+			bool AIExistFlag = false;
+			for (int i=1;i<10;i++)
+			{
+				if (!(m_CharacterVec[i] == Nothing()))
+				{
+					AIExistFlag = true;
+					break;
+				}
+			}
+			if (!AIExistFlag)
+			{
+				m_CharacterVec[1] = Yu();
 			}
 			Director::getInstance()->pushScene(FightScene::create(m_CharacterVec));
 		});

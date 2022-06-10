@@ -52,6 +52,10 @@ bool FightScene::init()
 	}
 	Vec2 VisibleSize = Director::getInstance()->getVisibleSize();
 
+    m_TempSurvivorNumber=-1;//随意初始化无意义
+	m_SurvivorLabel = Label::create();
+	addChild(m_SurvivorLabel, 2);
+
 	PathFinding::getInstance()->getMap(m_TiledMap);
 
 	//加入地图
@@ -71,6 +75,8 @@ bool FightScene::init()
 	addBox();
 
 	initPauseButton();
+
+
 
 	//在场景中加入遥杆
 	m_FightControllerLayer = FightControllerLayer::create(m_Player->m_Character);
@@ -130,6 +136,24 @@ void FightScene::initPauseButton()
 			}
 
 		});
+}
+
+void FightScene::updateSurvivorLabel()
+{
+	if (m_TempSurvivorNumber == m_SurvivorNumber)
+	{
+		return;
+	}
+	m_TempSurvivorNumber = m_SurvivorNumber;
+
+	removeChild(m_SurvivorLabel);
+
+	Vec2 VisibleSize = Director::getInstance()->getVisibleSize();
+
+	auto m_SurvivorLabel = Label::createWithTTF("SURVIVOR NUMBER:"+Value(m_SurvivorNumber).asString(),
+		"fonts/Marker Felt.ttf", 30);
+	m_SurvivorLabel->setPosition(Vec2(VisibleSize.x * 7 / 8, VisibleSize.y * 9/ 10));
+	addChild(m_SurvivorLabel,2);
 }
 
 void FightScene::startToxic()
@@ -228,6 +252,24 @@ void FightScene::update(float delta)
 	updateBox();
 	updatePlayerAttack();
 	updatePlayerACE();
+	updateSurvivor();
+	updateSurvivorLabel();
+}
+
+void FightScene::updateSurvivor()
+{
+	m_SurvivorNumber = 1;
+	for (auto &AI : m_AIVec)
+	{
+		if (!AI->isDead())
+		{
+			m_SurvivorNumber++;
+		}
+	}
+	if (m_Player->isDead()||m_SurvivorNumber==1)
+	{
+		
+	}
 }
 
 void FightScene::updateViewPointByPlayer()
@@ -376,7 +418,7 @@ void FightScene::updateBox()
 			oneBox->setPosition(MathUtils::TiledToPosition(RandomTiledforBox(),m_TiledMap));
 			m_canPutBox[TiledPosition] = true;
 			oneBox->setisDead(false);
-
+		
 			int nowArea = PathFinding::getInstance()->findArea(oneBox->getPosition());
 
 			oneBox->setArea(nowArea);

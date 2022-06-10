@@ -307,9 +307,9 @@ void Hero::ACE(const float Angle)
 	if (m_Character.m_Name == "F")
 	{
 
-		auto Fire1 = Weapon::create(m_Character.m_Name + "/" + "Ace/FAce (1).png", this);
-		auto Fire2 = Weapon::create(m_Character.m_Name + "/" + "Ace/FAce (1).png", this);
-		auto Fire3 = Weapon::create(m_Character.m_Name + "/" + "Ace/FAce (1).png", this);
+		auto Fire1 = Weapon::create(m_Character.m_Name + "/" + "Ace/FAce(1).png", this);
+		auto Fire2 = Weapon::create(m_Character.m_Name + "/" + "Ace/FAce(1).png", this);
+		auto Fire3 = Weapon::create(m_Character.m_Name + "/" + "Ace/FAce(1).png", this);
 
 
 		Fire1->setPhyBody();
@@ -360,7 +360,7 @@ void Hero::ACE(const float Angle)
 
 	else if (m_Character.m_Name == "J")
 	{
-		Sprite* Smog = Sprite::create(m_Character.m_Name + "/" + "Ace/JAce (1).png");
+		Sprite* Smog = Sprite::create(m_Character.m_Name + "/" + "Ace/JAce(1).png");
 		Smog->setAnchorPoint(Vec2(0.5, 0.5));
 		this->addChild(Smog);
 		Animate* actionBurn = AnimationUtils::createACEAnimation(m_Character.m_Name, 10);

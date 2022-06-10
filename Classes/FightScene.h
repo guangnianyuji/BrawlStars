@@ -71,6 +71,12 @@ private:
 	//监听到两物体开始碰撞的回调函数
 	bool onContactBegin(cocos2d::PhysicsContact& contact);
 
+	//更新幸存者人数
+	void updateSurvivor();
+
+	//更新幸存者信息
+	void updateSurvivorLabel();
+
 
 	TMXTiledMap* m_TiledMap;
 	TMXLayer* m_WallLayer;
@@ -87,10 +93,15 @@ private:
 	Player* m_Player;
 
 	std::vector<AI*> m_AIVec;
+
 	std::vector<Box*> m_BoxVec;
-     std::map<Vec2, bool> m_canPutBox;
+    std::map<Vec2, bool> m_canPutBox;
 
 	EventListenerPhysicsContact* m_ContactListener;
+
+	Label* m_SurvivorLabel;
+	int m_SurvivorNumber;
+	int m_TempSurvivorNumber;
 	
 	//为宝箱产生随机位置
 	Vec2 RandomTiledforBox();
