@@ -58,7 +58,7 @@ public:
 	//得到速度的接口
 	float getSpeed() const {return m_Speed;}
 
-	float getBlood() const { return m_Blood->getRealTimeBlood(); }
+	float getBlood() const { if (this == nullptr) return 0.0f; else return m_Blood->getRealTimeBlood(); }
 
 	//为击毁宝箱增加速度
 	void addSpeed(float offerSpeed) { m_Speed += offerSpeed; }

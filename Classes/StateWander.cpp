@@ -25,7 +25,7 @@ void StateWander::execute(AI* m_AI, EnumStateType state, Hero* target)
 	case WantToTrace:
 		if (m_AI == nullptr || target == nullptr)
 			break;
-		if (m_AI->getBlood() >= target->getBlood())
+		if (m_AI->getBlood() +100.0f >= target->getBlood())
 		{
 			m_AI->unschedule(schedule_selector(AI::wander));
 			m_AI->setState(state);

@@ -67,16 +67,7 @@ void FSM::addObservers()
 void FSM::newHeroInView(Hero* target)
 {
 
-	int ran = rand() % 10+1;
-
-	if (ran >= 3)
-	{
-		this->m_State->execute(m_AI, WantToTrace, target);
-	}
-	else
-	{
-		this->m_State->execute(m_AI, WantToRunAway);
-	}
+	this->m_State->execute(m_AI, WantToTrace, target);
 }
 
 void FSM::newBoxInView(Box* box)
