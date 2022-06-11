@@ -52,7 +52,7 @@ private:
 	void updateToxicFog();
 
 	//更新毒雾伤害
-	void updateToxicFogDamage();
+	void updateToxicFogDamage(float delta);
 
 	//更新玩家的技能发射
 	void updatePlayerAttack();

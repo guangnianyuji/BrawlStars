@@ -8,8 +8,11 @@ void StateRunAway::execute(AI* m_AI, EnumStateType state)
 		m_AI->unschedule(schedule_selector(AI::runAway));
 		m_AI->setState(state);
 		m_AI->getFSM()->changeState(new (std::nothrow) StateWander());
-		m_AI->schedule(schedule_selector(AI::wander),0.5f);
+		m_AI->schedule(schedule_selector(AI::wander),30.0/m_AI->getSpeed());
 		break;
+	case WantToRunAway:
+		m_AI->setState(state);
+		m_AI->getFSM()->changeState(new (std::nothrow) StateWander());
 	default:
 		break;
 	}
@@ -24,7 +27,7 @@ void StateRunAway::execute(AI* m_AI, EnumStateType state, Hero* target)
 		m_AI->setState(state);
 		m_AI->setTarget(target);
 		m_AI->getFSM()->changeState(new (std::nothrow) StateTrace());
-		m_AI->schedule(schedule_selector(AI::trace), 0.5f);
+		m_AI->schedule(schedule_selector(AI::trace), 30.0/m_AI->getSpeed());
 	default:
 		break;
 	}
@@ -39,7 +42,7 @@ void StateRunAway::execute(AI* m_AI, EnumStateType state, Box* box)
 		m_AI->setState(state);
 		m_AI->setBox(box);
 		m_AI->getFSM()->changeState(new (std::nothrow) StateAttackBox());
-		m_AI->schedule(schedule_selector(AI::attackBox), 1.0f);
+		m_AI->schedule(schedule_selector(AI::attackBox), 30.0/m_AI->getSpeed());
 	default:
 		break;
 	}

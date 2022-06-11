@@ -105,6 +105,7 @@ bool BaseScene::init()
     return true;
 }
 
+
 void BaseScene::menuCallback(Ref* pSender)
 {
     auto menuLayer = this->getChildByName("bsmenuLayer");

@@ -154,11 +154,13 @@ void Hero::normalAttack(const float Angle)
 
 		Map->addChild(Water,5);
 
+		auto actionShoot = MoveTo::create(1.0f / 5, nowPosition + MathUtils::getVectorialSpeed(Angle - Pi / 6, m_Character.m_Range));
+
 		auto actionBurn = AnimationUtils::createNormalAttackAnimation(m_Character.m_Name,2);
 
 		auto actionRemove = RemoveSelf::create();
 
-		Water->runAction(Sequence::create(actionBurn, actionRemove, nullptr));
+		Water->runAction(Sequence::create((Spawn::create(actionShoot, actionBurn, nullptr)), actionRemove, nullptr));
 
 	}
 
@@ -227,48 +229,54 @@ void Hero::normalAttack(const float Angle)
 		float x = MathUtils::getVectorialSpeed(Angle, m_Character.m_Range).x;
 		float y = MathUtils::getVectorialSpeed(Angle, m_Character.m_Range).y;
 
+
+		Point endPosition1;
+		Point endPosition2;
+		Point endPosition3;
+		Point endPosition4;
+
 		if (fabs(x) < 100.0f)
 		{
 
-			Light1->setPosition(nowPosition.x + x - 75.0f,
+			endPosition1=Point(nowPosition.x + x - 75.0f,
 				nowPosition.y + y);
 
-			Light2->setPosition(nowPosition.x + x - 25.0f,
+			endPosition2=Point(nowPosition.x + x - 25.0f,
 				nowPosition.y + y);
 
-			Light3->setPosition(nowPosition.x + x + 25.0f,
+			endPosition3=Point(nowPosition.x + x + 25.0f,
 				nowPosition.y + y);
 
-			Light4->setPosition(nowPosition.x + x + 75.0f,
+			endPosition4=Point(nowPosition.x + x + 75.0f,
 				nowPosition.y + y);
 		}
 		else if (fabs(y) < 100.0f)
 		{
 
-			Light1->setPosition(nowPosition.x + x,
+			endPosition1=Point(nowPosition.x + x,
 				nowPosition.y + y - 75.0f);
 
-			Light2->setPosition(nowPosition.x + x,
+			endPosition2=Point(nowPosition.x + x,
 				nowPosition.y + y - 25.0f);
 
-			Light3->setPosition(nowPosition.x + x,
+			endPosition3=Point(nowPosition.x + x,
 				nowPosition.y + y + 25.0f);
 
-			Light4->setPosition(nowPosition.x + x,
+			endPosition4=Point(nowPosition.x + x,
 				nowPosition.y + y + 75.0f);
 		}
 		else
 		{
-			Light1->setPosition(nowPosition.x + x/4,
+			endPosition1=Point(nowPosition.x + x/4,
 				nowPosition.y + y);
 
-			Light2->setPosition(nowPosition.x + x/2,
+			endPosition2=Point(nowPosition.x + x/2,
 				nowPosition.y + y/4*3 );
 
-			Light3->setPosition(nowPosition.x + x/4*3,
+			endPosition3=Point(nowPosition.x + x/4*3,
 				nowPosition.y + y/2);
 
-			Light4->setPosition(nowPosition.x + x,
+			endPosition4=Point(nowPosition.x + x,
 				nowPosition.y + y/4 );
 		}
 
@@ -282,20 +290,34 @@ void Hero::normalAttack(const float Angle)
 		Light3->setKind("continue");
 		Light4->setKind("continue");
 
+		Light1->setPosition(nowPosition);
+		Light2->setPosition(nowPosition);
+		Light3->setPosition(nowPosition);
+		Light4->setPosition(nowPosition);
 
 		Map->addChild(Light1, 5);
 		Map->addChild(Light2, 5);
 		Map->addChild(Light3, 5);
 		Map->addChild(Light4, 5);
 
+		float Angle1 = MathUtils::getRad(nowPosition, endPosition1);
+		float Angle2 = MathUtils::getRad(nowPosition, endPosition2);
+		float Angle3 = MathUtils::getRad(nowPosition, endPosition3);
+		float Angle4 = MathUtils::getRad(nowPosition, endPosition4);
+
+		auto actionShoot1 = MoveTo::create(1.0f / 5, nowPosition + MathUtils::getVectorialSpeed(Angle1, m_Character.m_Range));
+		auto actionShoot2 = MoveTo::create(1.0f / 5, nowPosition + MathUtils::getVectorialSpeed(Angle2, m_Character.m_Range));
+		auto actionShoot3 = MoveTo::create(1.0f / 5, nowPosition + MathUtils::getVectorialSpeed(Angle3, m_Character.m_Range));
+		auto actionShoot4 = MoveTo::create(1.0f / 5, nowPosition + MathUtils::getVectorialSpeed(Angle4, m_Character.m_Range));
+
 		auto actionBling = AnimationUtils::createNormalAttackAnimation(m_Character.m_Name, 3);
 
 		auto actionRemove = RemoveSelf::create();
 
-		Light1->runAction(Sequence::create(actionBling , actionRemove, nullptr));
-		Light2->runAction(Sequence::create(actionBling->clone(), actionRemove->clone(), nullptr));
-		Light3->runAction(Sequence::create(actionBling->clone(), actionRemove->clone(), nullptr));
-		Light4->runAction(Sequence::create(actionBling->clone(), actionRemove->clone(), nullptr));
+		Light1->runAction(Sequence::create((Spawn::create(actionShoot1, actionBling, nullptr)), actionRemove, nullptr));
+		Light2->runAction(Sequence::create((Spawn::create(actionShoot2, actionBling->clone(), nullptr)), actionRemove->clone(), nullptr));
+		Light3->runAction(Sequence::create((Spawn::create(actionShoot3, actionBling->clone(), nullptr)), actionRemove->clone(), nullptr));
+		Light4->runAction(Sequence::create((Spawn::create(actionShoot4, actionBling->clone(), nullptr)), actionRemove->clone(), nullptr));
 
 	}
 
@@ -383,7 +405,7 @@ void Hero::ACE(const float Angle)
 
 	else if (m_Character.m_Name == "L")
 	{
-		m_Speed = 5.0;
+		m_Speed = 160;
 	}
 }
 

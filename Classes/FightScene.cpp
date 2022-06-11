@@ -92,11 +92,12 @@ bool FightScene::init()
 
 	startToxic();
 
-	this->schedule(schedule_selector(FightScene::updatePositionInformation), 0.5f);
+	this->schedule(schedule_selector(FightScene::updatePositionInformation), 0.1f);
 
 	//this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
 	schedule(schedule_selector(FightScene::updatePositionInformation), 0.5f);
+	schedule(schedule_selector(FightScene::updateToxicFogDamage), 1.5f);
 	scheduleUpdate();
 	
 	return true;
@@ -150,7 +151,7 @@ void FightScene::updateSurvivorLabel()
 
 	Vec2 VisibleSize = Director::getInstance()->getVisibleSize();
 
-	auto m_SurvivorLabel = Label::createWithTTF("SURVIVOR NUMBER:"+Value(m_SurvivorNumber).asString(),
+	m_SurvivorLabel = Label::createWithTTF("SURVIVOR NUMBER:"+Value(m_SurvivorNumber).asString(),
 		"fonts/Marker Felt.ttf", 30);
 	m_SurvivorLabel->setPosition(Vec2(VisibleSize.x * 7 / 8, VisibleSize.y * 9/ 10));
 	addChild(m_SurvivorLabel,2);
@@ -248,7 +249,6 @@ void FightScene::update(float delta)
 	updatePlayerMove();
 	updateViewPointByPlayer();
 	updateToxicFog();
-	updateToxicFogDamage();
 	updateBox();
 	updatePlayerAttack();
 	updatePlayerACE();
@@ -384,11 +384,11 @@ void FightScene::updateToxicFog()
 	
 };
 
-void FightScene::updateToxicFogDamage()
+void FightScene::updateToxicFogDamage(float delta)
 {
 	if(m_ToxicFogMap[MathUtils::PositionToTiled(m_Player->getPosition(),m_TiledMap)])
 	{
-		m_Player->beAttacked(5);
+		m_Player->beAttacked(20);
 	}
 	for (auto& oneAI : m_AIVec)
 	{
@@ -396,7 +396,7 @@ void FightScene::updateToxicFogDamage()
 		{
 			if (m_ToxicFogMap[MathUtils::PositionToTiled(oneAI->getPosition(),m_TiledMap)])
 			{
-				oneAI->beAttacked(5);
+				oneAI->beAttacked(20);
 
 				NotifyUtil::getInstance()->postNotification("touching The Smog" + oneAI->getFSM()->getMark(), (Ref*)"aaa");
 			}
@@ -434,7 +434,7 @@ void FightScene::updatePositionInformation(float delta)
 		Point position1 = m_Player->getPosition();
 		Point position2 = m_AIVec[ix]->getPosition();
 
-		if(position1.distance(position2)<=400)
+		if(position1.distance(position2)<=400.0f)
 			NotifyUtil::getInstance()->postNotification("new Hero" + m_AIVec[ix]->getFSM()->getMark(), (Hero*)m_Player);
 		for (int jx = 0; jx <= ix; jx++)
 		{
@@ -461,7 +461,7 @@ void FightScene::updatePositionInformation(float delta)
 			Point position1 = m_BoxVec[ix]->getPosition();
 			Point position2 = m_AIVec[jx]->getPosition();
 
-			if (position1.distance(position2) <= 500)
+			if (position1.distance(position2) <= 400.0f)
 			{
 				NotifyUtil::getInstance()->postNotification("new Box" + m_AIVec[jx]->getFSM()->getMark(), m_BoxVec[ix]);
 			}
@@ -572,11 +572,25 @@ bool FightScene::onContactBegin(cocos2d::PhysicsContact& contact)
 				{
 					ai->beAttacked(weapon1->getDamage());
 
-					NotifyUtil::getInstance()->postNotification("being Attacked" + ai->getFSM()->getMark(), attacker);
+					if (attacker!=nullptr&&ai!=nullptr)
+					{
+						if (ai->getBlood() < attacker->getBlood())
+						{
+							NotifyUtil::getInstance()->postNotification("being Attacked" + ai->getFSM()->getMark(), attacker);
+						}
+						else
+						{
+							NotifyUtil::getInstance()->postNotification("new Hero" + ai->getFSM()->getMark(), attacker);
+						}
+					}
+					
 				}
 				if (attacker)
 				{
 					attacker->attackSomething();
+
+					if(attacker->getName()=="AI")
+						NotifyUtil::getInstance()->postNotification("hit The Enemy" + ((AI*)attacker)->getFSM()->getMark(), player);
 				}
 			}
 

@@ -202,12 +202,14 @@ void AI::trace(float delta)
 	if (m_State != WantToTrace)
 		return;
 	/* 如果目标已经死亡，切换状态 */
-	if (this->getTarget()->isDead())
+	if (this==nullptr || this->getTarget()->isDead())
 	{
 		NotifyUtil::getInstance()->postNotification("hahaha" + this->getFSM()->getMark(), (Ref*)"hahaha");
 
 		/* 将目标的位置设置为原点，表示没有追踪目标 */
 		this->m_TargetPosition = Vec2(0, 0);
+
+		return;
 	}
 
 	/* 如果是刚开始追踪或者是目标离自己太远了，就重新计算路径 */
@@ -223,6 +225,8 @@ void AI::trace(float delta)
 		if (!PathFinding::getInstance()->AStarInArea(this->getPosition(), this->getTarget()->getPosition(), Path))
 		{
 			NotifyUtil::getInstance()->postNotification("hahaha" + this->getFSM()->getMark(), (Ref*)"hahaha");
+
+			return;
 		}
 
 	}
@@ -252,10 +256,15 @@ void AI::trace(float delta)
 		}
 	}
 
-	if (stepForTrace == Path.size() - 1)
+	if (stepForTrace == Path.size())
 	{
+		if (m_Target == nullptr || this == nullptr)
+			return;
+
 		if(m_Target->getBlood()>this->getBlood())
 			NotifyUtil::getInstance()->postNotification("being Attacked" + this->getFSM()->getMark(), this->getTarget());
+
+
 	}
 
 }
@@ -264,17 +273,18 @@ void AI::runAway(float delta)
 {
 	if (m_State == WantToRunAway && stepForRunAway == 0)
 	{
-		int x = rand() % 500 + 1;
+		int x = rand() % 5 + 1;
 
-		int y = rand() % 500 + 1;
+		int y = rand() % 5 + 1;
 
-		Point endPosition = this->getPosition();
-		endPosition.x += x;
-		endPosition.y += y;
+
+		Point endPosition = MathUtils::TiledToPosition(Point(30 + x, 30 + y), (TMXTiledMap*)this->getParent());
 
 		if (!PathFinding::getInstance()->AStarInArea(this->getPosition(), endPosition, Path))
 		{
 			NotifyUtil::getInstance()->postNotification("hahaha" + this->getFSM()->getMark(), (Ref*)"hahaha");
+
+			return;
 		}
 	}
 	if (m_State != WantToRunAway)
@@ -295,12 +305,19 @@ void AI::wander(float delta)
 {
 	if (m_State == WantToWander && stepForWander == 0)
 	{
-		Point endPosition = MathUtils::TiledToPosition(Point(30, 30), (TMXTiledMap*)this->getParent());
+		int x = rand() % 20 + 1;
+
+		int y = rand() % 20 + 1;
+
+
+		Point endPosition = MathUtils::TiledToPosition(Point(30 + x, 30 + y), (TMXTiledMap*)this->getParent());
 
 		if (!PathFinding::getInstance()->AStarInArea(this->getPosition(),endPosition, Path))
 		{
 
 			NotifyUtil::getInstance()->postNotification("hahaha" + this->getFSM()->getMark(), (Ref*)"hahaha");
+
+			return;
 		}
 	}
 	if (m_State != WantToWander)
@@ -322,15 +339,17 @@ void AI::wander(float delta)
 void AI::attackBox(float delta)
 {
 	if (m_State != WantToAttackBox)
+	{
+		NotifyUtil::getInstance()->postNotification("hahaha" + this->getFSM()->getMark(), (Ref*)"hahaha");
+
 		return;
+	}
 
 	float Angle;
 
 	/* 刚刚开始攻击此宝箱 */
 	if (this->m_BoxPosition==Vec2(0,0))
 	{
-		Angle = Pi / (rand() % 6 + 1);
-
 		m_BoxPosition = this->getBox()->getPosition();
 
 		Point endPosition = m_BoxPosition;
@@ -340,6 +359,8 @@ void AI::attackBox(float delta)
 		if (!PathFinding::getInstance()->AStarInArea(this->getPosition(), endPosition, Path))
 		{
 			NotifyUtil::getInstance()->postNotification("hahaha" + this->getFSM()->getMark(), (Ref*)"hahaha");
+
+			return;
 		}
 	}
 
@@ -352,6 +373,8 @@ void AI::attackBox(float delta)
 
 		/* 切换状态 */
 		NotifyUtil::getInstance()->postNotification("hahaha" + this->getFSM()->getMark(), (Ref*)"hahaha");
+
+		return;
 	}
 
 	if (stepForAttackBox >=0 && stepForAttackBox <Path.size())
@@ -359,17 +382,17 @@ void AI::attackBox(float delta)
 		move(Path[Path.size() - 1 - stepForAttackBox], this->getSpeed());
 		stepForAttackBox++;
 
-		//if (this->getPosition().distance(m_BoxPosition) <= m_Character.m_Range)
-		//{
-		//	this->updateNormalAttackState();                                  
-		//	if (getNormalAttackState())
-		//	{
-		//		Angle = MathUtils::getRad(this->getPosition(), m_BoxPosition);
-		//		this->normalAttack(Angle);
-		//		if (!this->getACE_CD_State())
-		//			this->addCount();
-		//	}
-		//}
+		if (this->getPosition().distance(m_BoxPosition) <= m_Character.m_Range)
+		{
+			this->updateNormalAttackState();                                  
+			if (getNormalAttackState())
+			{
+				Angle = MathUtils::getRad(this->getPosition(), m_BoxPosition);
+				this->normalAttack(Angle);
+				if (!this->getACE_CD_State())
+					this->addCount();
+			}
+		}
 	}
 
 	/* 已经走到宝箱附近了 */

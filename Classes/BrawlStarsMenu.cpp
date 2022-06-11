@@ -4,6 +4,13 @@
 USING_NS_CC;
 
 
+bool BrawlStarsMenu:: whetherToPlaybgMusic = true;
+
+bool BrawlStarsMenu:: isbgMusicPlaying = false;
+
+int BrawlStarsMenu::  bgMusicVolume = 100;
+
+
 cocos2d::Layer* BrawlStarsMenu::createLayer()
 {
 	return BrawlStarsMenu::create();
@@ -58,7 +65,7 @@ void BrawlStarsMenu::playbgMusic()
 {
 	if (whetherToPlaybgMusic && !isbgMusicPlaying)
 	{
-		bgMusicID= experimental::AudioEngine::play2d("music/bgMusic.mp3",-1);
+		bgMusicID= experimental::AudioEngine::play2d("music/bgMusic.mp3",true);
 
 		isbgMusicPlaying = true;
 	}
@@ -172,7 +179,7 @@ void BrawlStarsMenu::initBackgroundMusicButton()
 			}
 			else
 			{
-				bgMusicID = experimental::AudioEngine::play2d("music/bgMusic.mp3");
+				bgMusicID = experimental::AudioEngine::play2d("music/bgMusic.mp3",true);
 				experimental::AudioEngine::setVolume(bgMusicID, (float)bgMusicVolume / 100);
 				whetherToPlaybgMusic = true;
 				isbgMusicPlaying = true;
@@ -353,6 +360,19 @@ bool BrawlStarsMenu::init()
 
 	
 	return true;
+}
+
+void BrawlStarsMenu::onEnter()
+{
+	Layer::onEnter();
+
+	musicSlider->setPercent(bgMusicVolume);
+
+	if (!whetherToPlaybgMusic)
+		musicButton->setSelectedState(true);
+	else musicButton->setSelectedState(false);
+
+
 }
 
 

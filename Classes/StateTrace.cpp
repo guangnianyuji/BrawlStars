@@ -8,7 +8,7 @@ void StateTrace::execute(AI* m_AI, EnumStateType state)
 		m_AI->unschedule(schedule_selector(AI::trace));
 		m_AI->setState(state);
 		m_AI->getFSM()->changeState(new (std::nothrow) StateWander());
-		m_AI->schedule(schedule_selector(AI::wander), 0.5f);
+		m_AI->schedule(schedule_selector(AI::wander), 30.0/m_AI->getSpeed());
 		break;
 	default:
 		break;
@@ -20,6 +20,9 @@ void StateTrace::execute(AI* m_AI, EnumStateType state, Hero* target)
 	switch (state)
 	{
 	case WantToTrace:
+
+		if (m_AI == nullptr || target == nullptr)
+			break;
 		if (target == m_AI->getTarget())
 		{
 
@@ -41,6 +44,9 @@ void StateTrace::execute(AI* m_AI, EnumStateType state, Box* box)
 	switch (state)
 	{
 	case WantToAttackBox:
+		if (m_AI == nullptr)
+			break;
+
 		if (m_AI->getTarget()->getBlood() <= m_AI->getBlood() * 0.5)
 		{
 			break;
@@ -51,7 +57,7 @@ void StateTrace::execute(AI* m_AI, EnumStateType state, Box* box)
 			m_AI->setState(state);
 			m_AI->setBox(box);
 			m_AI->getFSM()->changeState(new (std::nothrow) StateAttackBox());
-			m_AI->schedule(schedule_selector(AI::attackBox), 1.0f);
+			m_AI->schedule(schedule_selector(AI::attackBox), 30.0/m_AI->getSpeed());
 		}
 		break;
 	default:

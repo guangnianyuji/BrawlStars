@@ -67,7 +67,7 @@ void FSM::addObservers()
 void FSM::newHeroInView(Hero* target)
 {
 
-	int ran = rand() % 10;
+	int ran = rand() % 10+1;
 
 	if (ran >= 3)
 	{
@@ -97,7 +97,9 @@ void FSM::hitTheEnemy(Hero* target)
 
 void FSM::injured(Hero* target)
 {
-	this->m_State->execute(m_AI, WantToTrace,target);
+
+	this->m_State->execute(m_AI, WantToTrace, target);
+
 }
 
 void FSM::nothingToDo(cocos2d::Ref* data)
