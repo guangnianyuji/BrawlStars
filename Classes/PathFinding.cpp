@@ -32,7 +32,7 @@ void PathFinding::getMap(TMXTiledMap* map)
 	
 	int index = 1;
 
-	/* 加入航点 */
+	/* 加入航点 
 	while (index<=20)
 	{
 		auto PlaceValueMap = ObjectGroup->getObject("Waypoint" + Value(index).asString());
@@ -44,7 +44,7 @@ void PathFinding::getMap(TMXTiledMap* map)
 		addWayPoints(waypoint);
 
 		index++;
-	}
+	}*/
 }
 
 bool PathFinding::AStarInArea(cocos2d::Point startPosition, Point endPosition,std::vector<Point>& Path)

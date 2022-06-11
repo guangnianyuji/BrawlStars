@@ -26,7 +26,7 @@ bool StartScene::init()
 
     Vec2 visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
 
-    this->drawBackGround(cocos2d::Sprite::create("scene_graph/background.jpg"));
+    this->drawBackGround(cocos2d::Sprite::create("scene_graph/background1.png"));
 
     //SocketManager::getInstance()->start();
 

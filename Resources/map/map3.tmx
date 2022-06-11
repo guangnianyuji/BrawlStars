@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.2.3468" orientation="orthogonal" renderorder="right-down" width="60" height="60" tilewidth="64" tileheight="64" infinite="0" nextlayerid="4" nextobjectid="13">
+ <tileset firstgid="1" name="1" tilewidth="64" tileheight="64" tilecount="48" columns="8">
+  <image source="1.png" width="512" height="384"/>
+ </tileset>
+ <layer id="1" name="floor" width="60" height="60">
+  <data encoding="base64" compression="zlib">
+   eJztmDESxCAMA/2NFPn/N6+5ipncBbAsGbtQx4BWNhOTy8yuVqtF0/0V20eUJzXe2/Q8ITPMxrrjOSPrqu+MfbzLq9ADt81n37z+XlC8O74Q+5oAX1XesfdV+68ar7cnRcaTeGfPy8w7c29Qd4xRX+9slHlR/tQ5mjcXL+r7/XY+YPJ6nq3Ki6o1a/5beWN6eGTVbZd31XMG3hNUjbfFlfKbfcb3qtgcEbwoLxG87NzH7CvwrvpZWa/EHNEPGZk9ZseZM9j5eL0N2ByZMssg5vzAyFfl30SEB/adrcbLypbtpTmbsxrnP/+Z3+VPLLtrMuipXifVc+TyrmfGfDx4Eb3hvafXfqj/coi92L2lmDPSG6JXkdy/ON6KXYvmjdMHlbBlJg==
+  </data>
+ </layer>
+ <layer id="2" name="wall" width="60" height="60">
+  <data encoding="base64" compression="zlib">
+   eJztlVkKwzAMRHOFHKD3v2YptBBCLWsWOc4y4J9UluZFirouy7Le7NxFD+88yswjOrcVvPt67Hfk4N3XUHlVT5ncqienX/e8/fPGqJp3G9vzeyXeXr3eb0wccjfzDJnBTLwjBys3b7b3iLcjebP5HDM7wzwjdaI7mZ3w8OaF8CpS5rnKx7/nFXVc+7wVH9WcbZ6jO9n4qOYoXlZI7ivwKjozL1ML+YZm5m3VY+f5iDlFetCKuxpvLw7hmImX7THr+ci925vBzFFqVqrXp1G825qI58w+QDyqvMg7mIE3e/eMvEfsiq0eXk++O/Aq/WV3Via/cjfrNYphc7By8bL9y+ZS5JoN1qPC65z1Xm6XKnIiNdfdsyimlYepPUothhbv63taOUb7R5TZmz+9Nqf3DZ1RLV51l0X13EI8obtwhCc2r5vX5UuNVTwyvOh/HHJHqZmR0t9qXrbW2XnVdxXxslLeOZOb5XZ6q+J1enh4tfk5mvenLO8VWD8ayTuzIt4rqoI36rcyL47ZcvNGPpzfh3pPVaZmxU5A7lXMLjuHDLcSHz1DuGdVphe9e2eSa0+M8OfOd7fzBq+aWsc=
+  </data>
+ </layer>
+ <objectgroup id="3" name="objects">
+  <object id="1" name="PlayerBirthPlace" x="1832" y="3632">
+   <point/>
+  </object>
+  <object id="2" name="AI1BirthPlace" x="760" y="3352">
+   <point/>
+  </object>
+  <object id="3" name="AI2BirthPlace" x="256" y="1704">
+   <point/>
+  </object>
+  <object id="4" name="AI3BirthPlace" x="288" y="224">
+   <point/>
+  </object>
+  <object id="5" name="AI5BirthPlace" x="2152" y="336">
+   <point/>
+  </object>
+  <object id="6" name="AI4BirthPlace" x="984" y="848">
+   <point/>
+  </object>
+  <object id="7" name="AI6BirthPlace" x="3656" y="488">
+   <point/>
+  </object>
+  <object id="9" name="AI7BirthPlace" x="3352" y="1800">
+   <point/>
+  </object>
+  <object id="10" name="AI8BirthPlace" x="3632" y="2592">
+   <point/>
+  </object>
+  <object id="11" name="AI9BirthPlace" x="3464" y="3632">
+   <point/>
+  </object>
+  <object id="12" x="976" y="4136">
+   <point/>
+  </object>
+ </objectgroup>
+</map>

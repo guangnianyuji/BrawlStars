@@ -3,6 +3,7 @@
 #include "FightScene.h"
 #include "RoomScene.h"
 #include "Character.h"
+#include "ScoreScene.h"
 
 
 // #define USE_AUDIO_ENGINE 1
@@ -99,12 +100,14 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     register_all_packages();
 
-  auto scene = StartScene::create();
+  //auto scene = StartScene::create();
 
     // create a scene. it's an autorelease object
+    auto scene = RoomScene::create();
  //auto scene = FightScene::create(Jide());
 
-   //auto scene = StartScene::create();
+
+ // auto scene = ScoreScene::create(1);
 
     director->runWithScene(scene);
 

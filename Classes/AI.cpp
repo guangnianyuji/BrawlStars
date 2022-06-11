@@ -359,17 +359,17 @@ void AI::attackBox(float delta)
 		move(Path[Path.size() - 1 - stepForAttackBox], this->getSpeed());
 		stepForAttackBox++;
 
-		if (this->getPosition().distance(m_BoxPosition) <= m_Character.m_Range)
-		{
-			this->updateNormalAttackState();
-			if (getNormalAttackState())
-			{
-				Angle = MathUtils::getRad(this->getPosition(), m_BoxPosition);
-				this->normalAttack(Angle);
-				if (!this->getACE_CD_State())
-					this->addCount();
-			}
-		}
+		//if (this->getPosition().distance(m_BoxPosition) <= m_Character.m_Range)
+		//{
+		//	this->updateNormalAttackState();                                  
+		//	if (getNormalAttackState())
+		//	{
+		//		Angle = MathUtils::getRad(this->getPosition(), m_BoxPosition);
+		//		this->normalAttack(Angle);
+		//		if (!this->getACE_CD_State())
+		//			this->addCount();
+		//	}
+		//}
 	}
 
 	/* 已经走到宝箱附近了 */

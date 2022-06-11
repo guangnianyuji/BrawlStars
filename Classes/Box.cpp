@@ -44,6 +44,8 @@ bool Box::init()
 		return false;
 	}
 
+	m_isDead = false;
+
 	setPhyBody();
 
 	m_Blood->setBloodVolume(650);
@@ -77,6 +79,5 @@ void Box::beAttacked(const float& Damage)
 
 void Box::Death()
 {
-	m_isDead = true;
-	m_Blood->setBloodVolume(650);
+	m_Blood->setRealTimeBlood(650);
 }
