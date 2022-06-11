@@ -333,7 +333,7 @@ void AI::attackBox(float delta)
 
 		m_BoxPosition = this->getBox()->getPosition();
 
-		Point endPosition = m_BoxPosition - MathUtils::getVectorialSpeed(Angle, m_Character.m_Range);
+		Point endPosition = m_BoxPosition;
 
 
 		/* 找不到路径就切换状态 */
