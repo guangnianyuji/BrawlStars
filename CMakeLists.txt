@@ -23,73 +23,79 @@ endif()
 
 # add cross-platforms source files and header files 
 list(APPEND GAME_SOURCE
-     Classes/AI.cpp
-     Classes/AnimationUtils.cpp
+   
      Classes/AppDelegate.cpp
-     Classes/BSScene/StartScene.cpp
-     Classes/BSScene/BaseScene.cpp
-     Classes/Box.cpp
-     Classes/BrawlStarsMenu.cpp
-     Classes/ODSocket/ODSocket.cpp
-     Classes/Network/SocketManager.cpp
-     Classes/Network/SocketDataManager.cpp
      Classes/Character.cpp
-     Classes/Entity.cpp 
-     Classes/FightControllerLayer.cpp
-     Classes/AttackLayer.cpp
-     Classes/ProgressView.cpp
-     Classes/TimeCounter.cpp
-     Classes/FightScene.cpp
-     Classes/Hero.cpp
-     Classes/MathUtils.cpp
-     Classes/PauseScene.cpp
-     Classes/Player.cpp 
-     Classes/RoomScene.cpp
      Classes/Weapon.cpp
      Classes/FSM.cpp
-     Classes/PathFinding.cpp
-     Classes/NotifyUtil.cpp
-     Classes/ScoreScene.cpp
-     Classes/State.cpp
-     Classes/StateWander.cpp
-     Classes/StateTrace.cpp
-     Classes/StateRunAway.cpp
-     Classes/StateAttackBox.cpp
+   
+     Classes/BSLayer/FightControllerLayer.cpp
+     Classes/BSLayer/BrawlStarsMenu.cpp
+   
+     Classes/BSScene/FightScene.cpp
+     Classes/BSScene/StartScene.cpp
+     Classes/BSScene/BaseScene.cpp
+     Classes/BSScene/PauseScene.cpp
+     Classes/BSScene/ScoreScene.cpp
+     Classes/BSScene/RoomScene.cpp
+
+     Classes/Entity/Hero/Hero.cpp
+     Classes/Entity/Hero/Player.cpp 
+     Classes/Entity/Hero/AI.cpp
+     Classes/Entity//Box.cpp
+     Classes/Entity/Entity.cpp
+    
+     Classes/State/State.cpp
+     Classes/State/StateWander.cpp
+     Classes/State/StateTrace.cpp
+     Classes/State/StateRunAway.cpp
+     Classes/State/StateAttackBox.cpp
+
+     Classes/Util/AnimationUtils.cpp
+     Classes/Util/ProgressView.cpp
+     Classes/Util/TimeCounter.cpp
+     Classes/Util/PathFinding.cpp
+     Classes/Util/NotifyUtil.cpp
+     Classes/Util/MathUtils.cpp
      )
 list(APPEND GAME_HEADER
-     Classes/AI.h
-     Classes/AnimationUtils.h
+
      Classes/AppDelegate.h
-     Classes/BSScene/StartScene.h
-     Classes/BSScene/BaseScene.h
-     Classes/Box.h
-     Classes/BrawlStarsMenu.h
-     Classes/ODSocket/ODSocket.h
-     Classes/Network/SocketManager.h
-     Classes/Network/SocketDataManager.h
      Classes/Character.h
-     Classes/Entity.h
-     Classes/FightControllerLayer.h
-     Classes/AttackLayer.h
-     Classes/ProgressView.h
-     Classes/TimeCounter.h
-     Classes/FightScene.h
-     Classes/Hero.h
-     Classes/MathUtils.h
-     Classes/Player.h
-     Classes/PauseScene.h
-     Classes/RoomScene.h
      Classes/Weapon.h
      Classes/FSM.h
-     Classes/PathFinding.h
-     Classes/NotifyUtil.h
-     Classes/ScoreScene.h
-     Classes/State.h
-     Classes/StateWander.h
-     Classes/StateTrace.h
-     Classes/StateRunAway.h
-     Classes/EnumStateType.h
-     Classes/StateAttackBox.h
+   
+     Classes/BSLayer/FightControllerLayer.h
+     Classes/BSLayer/BrawlStarsMenu.h
+   
+     Classes/BSScene/FightScene.h
+     Classes/BSScene/StartScene.h
+     Classes/BSScene/BaseScene.h
+     Classes/BSScene/PauseScene.h
+     Classes/BSScene/ScoreScene.h
+     Classes/BSScene/RoomScene.h
+
+     Classes/Entity/Hero/Hero.h
+     Classes/Entity/Hero/Player.h
+     Classes/Entity/Hero/AI.h
+     Classes/Entity//Box.h
+     Classes/Entity/Entity.h
+    
+     Classes/State/State.h
+     Classes/State/StateWander.h
+     Classes/State/StateTrace.h
+     Classes/State/StateRunAway.h
+     Classes/State/StateAttackBox.h
+     Classes/State/EnumStateType.h
+
+     Classes/Util/AnimationUtils.h
+     Classes/Util/ProgressView.h
+     Classes/Util/TimeCounter.h
+     Classes/Util/PathFinding.h
+     Classes/Util/NotifyUtil.h
+     Classes/Util/MathUtils.h
+
+
      )
 
 if(ANDROID)

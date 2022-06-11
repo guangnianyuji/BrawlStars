@@ -43,6 +43,29 @@ bool StartScene::init()
 	RoomButton->setPosition(Vec2(visibleSize.x/2, visibleSize.y / 6));
 	addChild(RoomButton);
 
+    addTitle();
+
 
     return true;
+}
+
+void StartScene::addTitle()
+{
+    auto titleLabel = Label::createWithTTF("Brawl Stars", "fonts/Marker Felt.ttf", 120);
+
+    titleLabel->setAnchorPoint(Vec2(0, 0));
+
+    Size visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
+    Point origin = cocos2d::Director::getInstance()->getVisibleOrigin();
+
+
+    float x = origin.x + visibleSize.width / 32 * 16;
+    float y = origin.y + visibleSize.height / 16 * 10;
+
+    titleLabel->setPosition(cocos2d::Vec2(x, y));
+
+    titleLabel->setAnchorPoint(Vec2(0.5, 0.5));
+
+    this->addChild(titleLabel);
+
 }

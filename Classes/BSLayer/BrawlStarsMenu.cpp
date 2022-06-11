@@ -145,7 +145,7 @@ void BrawlStarsMenu::initBackgroundMusicButton()
 		musicButton->setScale(0.6);
 		musicButton->setAnchorPoint(Vec2(0, 0));
 		auto musicLabel = Label::createWithTTF("music", "fonts/Marker Felt.ttf", 55);
-		musicLabel->setAnchorPoint(Vec2(-1.5, 0));
+		musicLabel->setAnchorPoint(Vec2(0, 1));
 
 
 		musicButton->addChild(musicLabel);
@@ -213,7 +213,7 @@ void BrawlStarsMenu::initSoundEffectsButton()
 
 		auto soundEffectsLabel = Label::createWithTTF("sound effects", "fonts/Marker Felt.ttf", 55);
 
-		soundEffectsLabel->setAnchorPoint(Vec2(-0.5, 0));
+		soundEffectsLabel->setAnchorPoint(Vec2(0, 1));
 
 
 		soundEffectsButton->addChild(soundEffectsLabel);

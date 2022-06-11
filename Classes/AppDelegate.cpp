@@ -103,7 +103,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
   //auto scene = StartScene::create();
 
     // create a scene. it's an autorelease object
-    auto scene = RoomScene::create();
+    auto scene = StartScene::create();
  //auto scene = FightScene::create(Jide());
 
 

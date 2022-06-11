@@ -12,7 +12,7 @@ public:
 
 	virtual bool init() override;
 
-	
+	void addTitle();
 };
 
 #endif
