@@ -73,7 +73,7 @@ void FSM::newHeroInView(Hero* target)
 void FSM::newBoxInView(Box* box)
 {
 
-	this->m_State->execute(m_AI, WantToAttackBox, box);
+	//this->m_State->execute(m_AI, WantToAttackBox, box);
 }
 
 void FSM::nearDeath(cocos2d::Ref* data)

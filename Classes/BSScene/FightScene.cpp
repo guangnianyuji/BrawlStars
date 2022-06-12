@@ -469,7 +469,7 @@ void FightScene::updatePositionInformation(float delta)
 
 			if (position1.distance(position2) <= 400.0f)
 			{
-				NotifyUtil::getInstance()->postNotification("new Box" + m_AIVec[jx]->getFSM()->getMark(), m_BoxVec[ix]);
+				//NotifyUtil::getInstance()->postNotification("new Box" + m_AIVec[jx]->getFSM()->getMark(), m_BoxVec[ix]);
 			}
 		}
 	}
