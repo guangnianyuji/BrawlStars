@@ -2,7 +2,7 @@
 #define __CHARACTER_H__
 
 #include "cocos2d.h"
-#include "AnimationUtils.h"
+#include "Util/AnimationUtils.h"
 
 USING_NS_CC;
 

@@ -1,4 +1,4 @@
-#include "Hero.h"
+#include "Entity/Hero/Hero.h"
 
 bool Hero::init()
 {

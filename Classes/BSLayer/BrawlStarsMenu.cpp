@@ -1,4 +1,4 @@
-#include "BrawlStarsMenu.h"
+#include "BSLayer/BrawlStarsMenu.h"
 #include "AudioEngine.h"
 
 USING_NS_CC;

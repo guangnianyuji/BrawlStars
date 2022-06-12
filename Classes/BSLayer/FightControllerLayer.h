@@ -4,7 +4,7 @@
 #include "cocos2d.h"
 #include "Math.h"
 #include "Character.h"
-#include "TimeCounter.h"
+#include "Util/TimeCounter.h"
 
 using namespace cocos2d;
 

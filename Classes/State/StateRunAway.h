@@ -1,9 +1,9 @@
 #ifndef __STATE_RUN_AWAY__
 #define __STATE_RUN_AWAY__
 
-#include "StateTrace.h"
-#include "StateWander.h"
-#include "StateAttackBox.h"
+#include "State/StateTrace.h"
+#include "State/StateWander.h"
+#include "State/StateAttackBox.h"
 
 class StateRunAway:public State
 {

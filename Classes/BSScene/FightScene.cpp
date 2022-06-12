@@ -1,4 +1,4 @@
-#include "FightScene.h"
+#include "BSScene/FightScene.h"
 
 FightScene* FightScene::create(std::vector<Character> CharacterVec,std::string& map)
 {
@@ -261,6 +261,9 @@ void FightScene::updateSurvivor()
 	m_SurvivorNumber = 1;
 	for (auto &AI : m_AIVec)
 	{
+		if (AI == nullptr)
+			continue;
+
 		if (!AI->isDead())
 		{
 			m_SurvivorNumber++;
@@ -388,7 +391,7 @@ void FightScene::updateToxicFogDamage(float delta)
 {
 	if(m_ToxicFogMap[MathUtils::PositionToTiled(m_Player->getPosition(),m_TiledMap)])
 	{
-		m_Player->beAttacked(20);
+		m_Player->beAttacked(50);
 	}
 	for (auto& oneAI : m_AIVec)
 	{
@@ -396,7 +399,7 @@ void FightScene::updateToxicFogDamage(float delta)
 		{
 			if (m_ToxicFogMap[MathUtils::PositionToTiled(oneAI->getPosition(),m_TiledMap)])
 			{
-				oneAI->beAttacked(20);
+				oneAI->beAttacked(50);
 
 				NotifyUtil::getInstance()->postNotification("touching The Smog" + oneAI->getFSM()->getMark(), (Ref*)"aaa");
 			}
@@ -434,12 +437,15 @@ void FightScene::updatePositionInformation(float delta)
 		Point position1 = m_Player->getPosition();
 		Point position2 = m_AIVec[ix]->getPosition();
 
-		if(position1.distance(position2)<=400.0f)
+		if(position1.distance(position2)<=650.0f)
 			NotifyUtil::getInstance()->postNotification("new Hero" + m_AIVec[ix]->getFSM()->getMark(), (Hero*)m_Player);
 		for (int jx = 0; jx <= ix; jx++)
 		{
 			if (ix != jx)
 			{
+				if (m_AIVec[ix] == nullptr || m_AIVec[jx] == nullptr)
+					continue;
+
 				if (m_AIVec[ix]->isDead() || m_AIVec[jx]->isDead())
 					continue;
 				Point position1 = m_AIVec[ix]->getPosition();
@@ -471,7 +477,7 @@ void FightScene::updatePositionInformation(float delta)
 
 void FightScene::updatePlayerAttack()
 {
-	if (m_Player->isDead())
+	if ( m_Player==nullptr || m_Player->isDead())
 		return;
 
 	if (m_FightControllerLayer->getNormalAttackState())
@@ -487,7 +493,7 @@ void FightScene::updatePlayerAttack()
 
 void FightScene::updatePlayerACE()
 {
-	if (m_Player->isDead())
+	if (m_Player==nullptr || m_Player->isDead())
 		return;
 
 	if (m_FightControllerLayer->getACEState())

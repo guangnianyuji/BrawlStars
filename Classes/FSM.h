@@ -2,8 +2,8 @@
 #define __FSM__
 
 #include"cocos2d.h"
-#include "NotifyUtil.h"
-#include "State.h"
+#include "Util/NotifyUtil.h"
+#include "State/State.h"
 
 class AI;
 

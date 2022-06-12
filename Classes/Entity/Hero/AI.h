@@ -1,11 +1,11 @@
 #ifndef __AI_H__
 #define __AI_H__
 
-#include "Hero.h"
-#include "Box.h"
+#include "Entity/Hero/Hero.h"
+#include "Entity/Box.h"
 #include "FSM.h"
-#include "StateWander.h"
-#include "PathFinding.h"
+#include "State/StateWander.h"
+#include "Util/PathFinding.h"
 
 class AI:public Hero
 {

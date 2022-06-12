@@ -1,4 +1,4 @@
-#include "StartScene.h"
+#include "BSScene/StartScene.h"
 
 
 cocos2d::Scene* StartScene::create()

@@ -2,7 +2,7 @@
 #define __ENTITY_H__
 
 #include "cocos2d.h"
-#include "ProgressView.h"
+#include "Util/ProgressView.h"
 
 USING_NS_CC;
 

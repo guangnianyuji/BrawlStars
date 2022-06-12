@@ -2,7 +2,7 @@
 #define __PATH_FINDING__
 
 #include "cocos2d.h"
-#include "MathUtils.h"
+#include "Util/MathUtils.h"
 
 struct m_Node
 {

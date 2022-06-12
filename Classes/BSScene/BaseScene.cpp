@@ -1,5 +1,5 @@
 
-#include "BaseScene.h"
+#include "BSScene/BaseScene.h"
 #include "AudioEngine.h"
 
 USING_NS_CC;

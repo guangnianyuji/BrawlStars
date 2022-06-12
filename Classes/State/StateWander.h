@@ -1,10 +1,10 @@
 #ifndef __STATE_WANDER__
 #define __STATE_WANDER__
 
-#include "AI.h"
-#include "StateRunAway.h"
-#include "StateTrace.h"
-#include "StateAttackBox.h"
+#include "Entity/Hero/AI.h"
+#include "State/StateRunAway.h"
+#include "State/StateTrace.h"
+#include "State/StateAttackBox.h"
 #include "cocos2d.h"
 
 class StateWander:public State

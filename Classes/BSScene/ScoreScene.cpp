@@ -1,4 +1,4 @@
-#include "ScoreScene.h"
+#include "BSScene/ScoreScene.h"
 
 ScoreScene* ScoreScene::create(int rank)
 {

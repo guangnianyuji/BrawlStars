@@ -5,7 +5,7 @@
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
 #include "AudioEngine.h"
-#include "BrawlStarsMenu.h"
+#include "BSLayer/BrawlStarsMenu.h"
 
 
 

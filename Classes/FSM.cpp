@@ -88,8 +88,16 @@ void FSM::hitTheEnemy(Hero* target)
 
 void FSM::injured(Hero* target)
 {
+	int ran = rand() % 10 + 1;
 
-	this->m_State->execute(m_AI, WantToTrace, target);
+	if (ran >= 5)
+	{
+		this->m_State->execute(m_AI, WantToTrace, target);
+	}
+	else
+	{
+		this->m_State->execute(m_AI, WantToRunAway);
+	}
 
 }
 

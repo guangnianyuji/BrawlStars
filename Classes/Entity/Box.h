@@ -1,7 +1,7 @@
 #ifndef __BOX_H__
 #define __BOX_H__
 
-#include "Entity.h"
+#include "Entity/Entity.h"
 
 class Box :public Entity
 {

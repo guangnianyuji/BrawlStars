@@ -1,4 +1,4 @@
-#include "AI.h"
+#include "Entity/Hero/AI.h"
 
 AI* AI::create(Character character)
 {

@@ -2,7 +2,7 @@
 #define __STATE__
 
 #include "cocos2d.h"
-#include "EnumStateType.h"
+#include "State/EnumStateType.h"
 
 class AI;
 class Hero;

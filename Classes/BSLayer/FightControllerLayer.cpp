@@ -1,5 +1,5 @@
-#include "FightControllerLayer.h"
-#include "MathUtils.h"
+#include "BSLayer/FightControllerLayer.h"
+#include "Util/MathUtils.h"
 
 FightControllerLayer* FightControllerLayer::create(Character PlayerCharacter)
 {

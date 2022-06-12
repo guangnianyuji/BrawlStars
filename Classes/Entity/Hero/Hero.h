@@ -2,14 +2,14 @@
 #define __HERO_H__
 
 #include "cocos2d.h"
-#include "Entity.h"
-#include "MathUtils.h"
+#include "Entity/Entity.h"
+#include "Util/MathUtils.h"
 #include "Character.h"
-#include "ProgressView.h"
+#include "Util/ProgressView.h"
 #include "Weapon.h"
-#include "TimeCounter.h"
-#include "PathFinding.h"
-#include "NotifyUtil.h"
+#include "Util/TimeCounter.h"
+#include "Util/PathFinding.h"
+#include "Util/NotifyUtil.h"
 
 using namespace cocos2d;
 

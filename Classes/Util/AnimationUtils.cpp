@@ -1,4 +1,4 @@
-#include "AnimationUtils.h"
+#include "Util/AnimationUtils.h"
 #include "cocos2d.h"
 
 using namespace cocos2d;

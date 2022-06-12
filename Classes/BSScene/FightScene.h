@@ -2,16 +2,16 @@
 #define  __FIGHTSCENE_H__
 
 #include "cocos2d.h"
-#include "Player.h"
-#include "AI.h"
-#include "Box.h"
-#include "FightControllerLayer.h"
-#include "TimeCounter.h"
-#include "PauseScene.h"
-#include "MathUtils.h"
-#include "NotifyUtil.h"
-#include "PathFinding.h"
-#include "ScoreScene.h"
+#include "Entity/Hero/Player.h"
+#include "Entity/Hero/AI.h"
+#include "Entity/Box.h"
+#include "BSLayer/FightControllerLayer.h"
+#include "Util/TimeCounter.h"
+#include "BSScene/PauseScene.h"
+#include "Util/MathUtils.h"
+#include "Util/NotifyUtil.h"
+#include "Util/PathFinding.h"
+#include "BSScene/ScoreScene.h"
 #include  <typeinfo>
 
 using namespace cocos2d;

@@ -1,4 +1,4 @@
-#include "PauseScene.h"
+#include "BSScene/PauseScene.h"
 
 PauseScene* PauseScene::create(cocos2d::RenderTexture* renderTexture)
 {

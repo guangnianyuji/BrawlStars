@@ -2,9 +2,9 @@
 #define __STATE_TRACE__
 
 #include"StateRunAway.h"
-#include "StateWander.h"
-#include "StateAttackBox.h"
-#include "AI.h"
+#include "State/StateWander.h"
+#include "State/StateAttackBox.h"
+#include "Entity/Hero/AI.h"
 
 class StateTrace:public State
 {
