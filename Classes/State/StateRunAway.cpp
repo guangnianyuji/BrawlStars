@@ -11,8 +11,6 @@ void StateRunAway::execute(AI* m_AI, EnumStateType state)
 		m_AI->schedule(schedule_selector(AI::wander),30.0/m_AI->getSpeed());
 		break;
 	case WantToRunAway:
-		m_AI->setState(state);
-		m_AI->getFSM()->changeState(new (std::nothrow) StateWander());
 	default:
 		break;
 	}

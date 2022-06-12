@@ -242,7 +242,7 @@ void AI::trace(float delta)
 	float Angle = MathUtils::getRad(this->getPosition(), m_Target->getPosition());
 
 
-	if (this->getPosition().distance(m_Target->getPosition()) < m_Character.m_Range)
+	if (this->getPosition().distance(m_Target->getPosition()) < m_Character.m_Range/5)
 	{
 		this->updateNormalAttackState();
 		if (getNormalAttackState())

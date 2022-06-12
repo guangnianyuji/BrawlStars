@@ -9,7 +9,7 @@ bool Character::operator==(Character& aCharacter)
 Fei::Fei() : Character()
 {
 	m_Name = "F";
-	m_Speed = 35.0f;
+	m_Speed = 25.0f;
 	m_BloodVolume = 3640.0f;
 	m_NormalAttackDamage = 75.0f;
 	m_Range = 200;
@@ -22,7 +22,7 @@ Fei::Fei() : Character()
 Yu::Yu() : Character()
 {
 	m_Name = "Y";
-	m_Speed = 30.0f;
+	m_Speed = 20.0f;
 	m_BloodVolume = 3780.0f;
 	m_NormalAttackDamage = 200.0f;
 	m_Range = 150;
@@ -35,7 +35,7 @@ Yu::Yu() : Character()
 Jide::Jide() : Character()
 {
 	m_Name = "J";
-	m_Speed = 42.0f;
+	m_Speed = 32.0f;
 	m_BloodVolume = 3360.0f;
 	m_NormalAttackDamage = 122.0f;
 	m_Range = 500;
@@ -48,7 +48,7 @@ Jide::Jide() : Character()
 Lin::Lin() : Character()
 {
 	m_Name = "L";
-	m_Speed = 40.0f;
+	m_Speed = 30.0f;
 	m_BloodVolume = 4200.0f;
 	m_NormalAttackDamage = 65.0f;
 	m_Range = 50;

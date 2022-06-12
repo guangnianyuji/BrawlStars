@@ -180,21 +180,15 @@ void Hero::normalAttack(const float Angle)
 
 		Map->addChild(Bat, 5);
 
-		ccBezierConfig bezier;
-
-		bezier.controlPoint_1 = Point(nowPosition.x + 100, nowPosition.y);
-
-		bezier.controlPoint_2 = Point(nowPosition.x + 200, nowPosition.y + 250);
-
-		bezier.endPosition = nowPosition + MathUtils::getVectorialSpeed(Angle, m_Character.m_Range);
+		Point endPosition = nowPosition + MathUtils::getVectorialSpeed(Angle, m_Character.m_Range);
 
 		auto actionFly = AnimationUtils::createNormalAttackAnimation(m_Character.m_Name, 2);
 
 		auto actionRemove = RemoveSelf::create();
 
-		BezierTo* bezierTo = BezierTo::create(1.0f, bezier);
+		auto actionShoot = MoveTo::create(1.0f, endPosition);
 
-		Bat->runAction(Sequence::create((Spawn::create(actionFly, bezierTo, nullptr)), actionRemove, nullptr));
+		Bat->runAction(Sequence::create((Spawn::create(actionShoot, actionFly, nullptr)), actionRemove, nullptr));
 
 
 	}
