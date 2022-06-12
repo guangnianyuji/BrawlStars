@@ -48,7 +48,7 @@ bool Box::init()
 
 	setPhyBody();
 
-	m_Blood->setBloodVolume(650);
+	m_Blood->setBloodVolume(1400);
 
 	this->addChild(m_Body);
 
@@ -79,5 +79,5 @@ void Box::beAttacked(const float& Damage)
 
 void Box::Death()
 {
-	m_Blood->setRealTimeBlood(650);
+	m_Blood->setRealTimeBlood(1400);
 }

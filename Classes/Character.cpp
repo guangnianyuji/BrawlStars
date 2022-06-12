@@ -10,7 +10,7 @@ Fei::Fei() : Character()
 {
 	m_Name = "F";
 	m_Speed = 35.0f;
-	m_BloodVolume = 7280.0f;
+	m_BloodVolume = 3640.0f;
 	m_NormalAttackDamage = 75.0f;
 	m_Range = 200;
 	m_IntervalTime = 0.5f;
@@ -23,7 +23,7 @@ Yu::Yu() : Character()
 {
 	m_Name = "Y";
 	m_Speed = 30.0f;
-	m_BloodVolume = 7560.0f;
+	m_BloodVolume = 3780.0f;
 	m_NormalAttackDamage = 200.0f;
 	m_Range = 150;
 	m_IntervalTime = 0.60f;
@@ -36,7 +36,7 @@ Jide::Jide() : Character()
 {
 	m_Name = "J";
 	m_Speed = 42.0f;
-	m_BloodVolume = 6720.0f;
+	m_BloodVolume = 3360.0f;
 	m_NormalAttackDamage = 122.0f;
 	m_Range = 500;
 	m_IntervalTime = 0.3f;
@@ -49,7 +49,7 @@ Lin::Lin() : Character()
 {
 	m_Name = "L";
 	m_Speed = 40.0f;
-	m_BloodVolume = 8400.0f;
+	m_BloodVolume = 4200.0f;
 	m_NormalAttackDamage = 65.0f;
 	m_Range = 50;
 	m_IntervalTime = 0.70f;

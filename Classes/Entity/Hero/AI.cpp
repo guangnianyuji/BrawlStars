@@ -104,7 +104,7 @@ void AI::update(float delta)
 //
 //void AI::findPathAsync()
 //{
-//	//PathFinding::getInstance()->AStarInArea(this->startPosition, this->endPosition, this->Path);
+//	PathFinding::getInstance()->AStarInArea(this->startPosition, this->endPosition, this->Path);
 //}
 //
 //void AI::asynsUpdate(float delta)
@@ -237,24 +237,32 @@ void AI::trace(float delta)
 		stepForTrace++;
 
 	}	
+
+
 	float Angle = MathUtils::getRad(this->getPosition(), m_Target->getPosition());
 
-	this->updateNormalAttackState();
-	if (getNormalAttackState())
-	{
-		this->normalAttack(Angle);
-		if (!this->getACE_CD_State())
-			this->addCount();
-	}
 
-	if (this->getACE_CD_State())
+	if (this->getPosition().distance(m_Target->getPosition()) < m_Character.m_Range)
 	{
-		this->updateACEState();
-		if (this->getACEState())
+		this->updateNormalAttackState();
+		if (getNormalAttackState())
 		{
-			this->ACE(Angle);
+			this->normalAttack(Angle);
+			if (!this->getACE_CD_State())
+				this->addCount();
+		}
+
+		if (this->getACE_CD_State())
+		{
+			this->updateACEState();
+			if (this->getACEState())
+			{
+				this->ACE(Angle);
+			}
 		}
 	}
+
+	
 
 	if (stepForTrace == Path.size())
 	{
@@ -382,17 +390,6 @@ void AI::attackBox(float delta)
 		move(Path[Path.size() - 1 - stepForAttackBox], this->getSpeed());
 		stepForAttackBox++;
 
-		if (this->getPosition().distance(m_BoxPosition) <= m_Character.m_Range)
-		{
-			this->updateNormalAttackState();                                  
-			if (getNormalAttackState())
-			{
-				Angle = MathUtils::getRad(this->getPosition(), m_BoxPosition);
-				this->normalAttack(Angle);
-				if (!this->getACE_CD_State())
-					this->addCount();
-			}
-		}
 	}
 
 	/* 已经走到宝箱附近了 */

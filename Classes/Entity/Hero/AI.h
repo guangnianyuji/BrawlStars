@@ -81,7 +81,7 @@ private:
 
     void update(float delta);
 
-    /*void findPath();
+ /*   void findPath();
 
     void findPathAsync();
 

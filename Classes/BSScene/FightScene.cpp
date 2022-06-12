@@ -248,7 +248,7 @@ void FightScene::update(float delta)
 {
 	updatePlayerMove();
 	updateViewPointByPlayer();
-	updateToxicFog();
+	updateToxicFog(delta);
 	updateBox();
 	updatePlayerAttack();
 	updatePlayerACE();
@@ -331,9 +331,9 @@ void FightScene::updatePlayerMove( )
 }
 
 
-void FightScene::updateToxicFog()
+void FightScene::updateToxicFog(float delta)
 {
-	m_TempToxicFogLevel = m_ToxicFogTimeCounter->getTime()/30;
+	m_TempToxicFogLevel = m_ToxicFogTimeCounter->getTime()/15;
 	if (m_TempToxicFogLevel == m_ToxicFogLevel)
 	{
 		return;
@@ -437,7 +437,7 @@ void FightScene::updatePositionInformation(float delta)
 		Point position1 = m_Player->getPosition();
 		Point position2 = m_AIVec[ix]->getPosition();
 
-		if(position1.distance(position2)<=650.0f)
+		if(position1.distance(position2)<=700.0f)
 			NotifyUtil::getInstance()->postNotification("new Hero" + m_AIVec[ix]->getFSM()->getMark(), (Hero*)m_Player);
 		for (int jx = 0; jx <= ix; jx++)
 		{
@@ -450,7 +450,7 @@ void FightScene::updatePositionInformation(float delta)
 					continue;
 				Point position1 = m_AIVec[ix]->getPosition();
 				Point position2 = m_AIVec[jx]->getPosition();
-				if (position1.distance(position2) <= 400.0f)
+				if (position1.distance(position2) <= 300.0f)
 				{
 					NotifyUtil::getInstance()->postNotification("new Hero" + m_AIVec[ix]->getFSM()->getMark(),(Hero*)m_AIVec[jx]);
 

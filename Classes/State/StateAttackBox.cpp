@@ -28,7 +28,7 @@ void StateAttackBox::execute(AI* m_AI, EnumStateType state, Hero* target)
 	case WantToTrace:
 		if (m_AI == nullptr || target == nullptr)
 			break;
-		if (m_AI->getBlood() >= target->getBlood())
+		if (m_AI->getBlood()*0.8 >= target->getBlood())
 		{
 			m_AI->unschedule(schedule_selector(AI::attackBox));
 			m_AI->setState(state);
@@ -37,7 +37,7 @@ void StateAttackBox::execute(AI* m_AI, EnumStateType state, Hero* target)
 			m_AI->schedule(schedule_selector(AI::trace), 30.0/m_AI->getSpeed());
 			break;
 		}
-		else
+		else if(m_AI->getBlood()*1.5<=target->getBlood())
 		{
 			state = WantToRunAway;
 		}

@@ -49,7 +49,7 @@ private:
 	void updatePlayerMove();
 
     //更新毒雾
-	void updateToxicFog();
+	void updateToxicFog(float delta);
 
 	//更新毒雾伤害
 	void updateToxicFogDamage(float delta);
